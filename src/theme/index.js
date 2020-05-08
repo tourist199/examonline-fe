@@ -3,6 +3,7 @@ import { ThemeProvider } from 'styled-components'
 
 import * as Images from './images'
 import * as Colors from './colors'
+import * as Dimensions from './dimensions'
 
 class Theme extends Component {
   state = {
@@ -34,6 +35,7 @@ class Theme extends Component {
 
 export {
   Images,
+  Dimensions,
   Colors
 }
 

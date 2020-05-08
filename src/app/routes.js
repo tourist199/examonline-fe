@@ -11,6 +11,9 @@ import SideBar from './side-bar'
 const Login = lazy(() => import('@/pages/account/login'))
 const Home = lazy(() => import('@/pages/home'))
 const Settings = lazy(() => import('@/pages/settings'))
+const ThongTinCaNhan = lazy(() => import('@/pages/thongtincanhan'))
+const LichThi = lazy(() => import('@/pages/lichthi'))
+const LichSuThi = lazy(() => import('@/pages/lichsuthi'))
 const NotFound = lazy(() => import('@/pages/not-found'))
 
 const VerticalBox = styled.div`
@@ -45,6 +48,10 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/" component={this._renderLazyComponent(Home)} />
             <Route exact path="/settings" component={this._renderLazyComponent(Settings)} />
+            <Route exact path="/thongtincanhan" component={this._renderLazyComponent(ThongTinCaNhan)} />
+            <Route exact path="/lichthi" component={this._renderLazyComponent(LichThi)} />
+            <Route exact path="/lichsuthi" component={this._renderLazyComponent(LichSuThi)} />
+
             <Redirect to="/not-found" />
           </Switch>
         </Suspense>

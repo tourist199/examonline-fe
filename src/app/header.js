@@ -8,10 +8,11 @@ import styled from 'styled-components'
 import Storage from '@/utils/storage'
 import { actions } from '@/store/actions'
 import { Images } from '@/theme'
+import { Dimensions } from '@/theme'
 
 const HeaderContainer = styled.header`
   width: 100%;
-  height: 60px;
+  height: height: ${Dimensions.HEADER_HEIGHT}px;
   color: white;
   display: flex;
   background-color: ${({ theme }) => theme.primary};
@@ -155,7 +156,7 @@ class Header extends Component {
                   src="https://image-us.eva.vn/upload/2-2019/images/2019-04-24/ra-mv-moi-chipu-thi-dep-that-nhung-fan-chi-chu-y-den-chiec-luoc-chai-chay-f1e397547b12924ccb03-1556124078-242-width1000height1000.jpg"
                   alt=""
                 />
-                <p className="name">Hoanght</p>
+                <p className="name">Lê Tùng Khánh</p>
                 <Icon type="down" />
               </div>
             </Popover>

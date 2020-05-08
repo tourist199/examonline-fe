@@ -58,6 +58,18 @@ const MENU_ITEMS = [{
 }, {
   link: '/settings',
   name: 'Settings'
+}, {
+  link: '/thongtincanhan',
+  name: 'Thông Tin Cá Nhân'
+}, {
+  link: '/lichthi',
+  name: 'Lịch Thi'
+}, {
+  link: '/lichsuthi',
+  name: 'Lịch Sử Thi'
+}, {
+  link: '/dangxuat',
+  name: 'Đăng Xuất'
 }]
 
 @withRouter
