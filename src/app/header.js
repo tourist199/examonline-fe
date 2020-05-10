@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Icon, Popover } from 'antd'
+import { Popover } from 'antd'
+import { DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { push } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import styled from 'styled-components'
@@ -12,7 +13,7 @@ import { Dimensions } from '@/theme'
 
 const HeaderContainer = styled.header`
   width: 100%;
-  height: height: ${Dimensions.HEADER_HEIGHT}px;
+  height: ${Dimensions.HEADER_HEIGHT}px;
   color: white;
   display: flex;
   background-color: ${({ theme }) => theme.primary};
@@ -136,11 +137,10 @@ class Header extends Component {
       <HeaderContainer>
         <div className="content">
           <div className="left-box">
-            <Icon
+            <MenuOutlined
               onClick={toggleSideBar}
               className="menu-button"
-              type="menu"
-            />
+              type="menu" />
             <p className="title">React JS Boilerplate</p>
           </div>
           <div className="right-box">
@@ -157,7 +157,7 @@ class Header extends Component {
                   alt=""
                 />
                 <p className="name">Lê Tùng Khánh</p>
-                <Icon type="down" />
+                <DownOutlined />
               </div>
             </Popover>
             <div className="flags">
