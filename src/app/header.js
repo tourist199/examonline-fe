@@ -53,6 +53,7 @@ const HeaderContainer = styled.header`
         font-size: 18px;
         font-weight: 500;
         letter-spacing: 1px;
+        margin-bottom: 0        
       }
     }
 

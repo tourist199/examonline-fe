@@ -6,6 +6,8 @@ import Store from '@/store'
 import Theme from '@/theme'
 import Init from './init'
 import Routes from './routes'
+import 'antd/dist/antd.css'
+
 
 const App = () => (
   <Store>
