@@ -14,6 +14,12 @@ const Settings = lazy(() => import('@/pages/settings'))
 const ThongTinCaNhan = lazy(() => import('@/pages/thongtincanhan'))
 const LichThi = lazy(() => import('@/pages/lichthi'))
 const LichSuThi = lazy(() => import('@/pages/lichsuthi'))
+const QuanLyDe = lazy(() => import('@/pages/quanlyde'))
+const QuanLySinhVien = lazy(() => import('@/pages/quanlysinhvien'))
+const XemDanhSach = lazy(() => import('@/pages/xemdanhsach'))
+const TaoDeThi = lazy(() => import('@/pages/taodethi'))
+const TaoKyThi = lazy(() => import('@/pages/taokythi'))
+const ThongTinCaNhanGiaoVien = lazy(() => import('@/pages/thongtincanhangiaovien'))
 const NotFound = lazy(() => import('@/pages/not-found'))
 
 const VerticalBox = styled.div`
@@ -51,6 +57,12 @@ class Routes extends Component {
             <Route exact path="/thongtincanhan" component={this._renderLazyComponent(ThongTinCaNhan)} />
             <Route exact path="/lichthi" component={this._renderLazyComponent(LichThi)} />
             <Route exact path="/lichsuthi" component={this._renderLazyComponent(LichSuThi)} />
+            <Route exact path="/quanlyde" component={this._renderLazyComponent(QuanLyDe)} />
+            <Route exact path="/quanlysinhvien" component={this._renderLazyComponent(QuanLySinhVien)} />
+            <Route exact path="/xemdanhsach" component={this._renderLazyComponent(XemDanhSach)} />
+            <Route exact path="/taodethi" component={this._renderLazyComponent(TaoDeThi)} />
+            <Route exact path="/taokythi" component={this._renderLazyComponent(TaoKyThi)} />
+            <Route exact path="/thongtincanhangiaovien" component={this._renderLazyComponent(ThongTinCaNhanGiaoVien)} />
 
             <Redirect to="/not-found" />
           </Switch>

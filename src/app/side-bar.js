@@ -140,20 +140,29 @@ class SideBar extends Component {
           <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/lichsuthi') }}>
             Lịch sử thi
           </Menu.Item>
+          <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlyde') }}>
+            Admin Quản lý đề
+          </Menu.Item>
+          <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlysinhvien') }}>
+            Admin Quản lý sinh viên
+          </Menu.Item>
 
           <SubMenu icon={<MailOutlined />} title="Quản lý đề thi">
-            <Menu.Item onClick={() => { historyPush('/thongtincanhan') }}>Tạo đề thi</Menu.Item>
-            <Menu.Item onClick={() => { historyPush('/thongtincanhan') }}>Xem danh sách</Menu.Item>
+            <Menu.Item onClick={() => { historyPush('/taodethi') }}>Tạo đề thi</Menu.Item>
+            <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Xem danh sách</Menu.Item>
           </SubMenu>
           <SubMenu
 
             icon={<AppstoreOutlined />}
             title="Kỳ thi"
           >
-            <Menu.Item >Tạo Kỳ thi</Menu.Item>
+            <Menu.Item onClick={() => { historyPush('/taokythi') }} >Tạo Kỳ thi</Menu.Item>
             <Menu.Item >Xem danh sách</Menu.Item>
           </SubMenu>
         </Menu>
+        {/* <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/thongtincanhangiaovien') }}>
+            Thông tin cá nhân giáo viên
+          </Menu.Item> */}
       </div >
     );
   }
