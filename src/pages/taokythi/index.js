@@ -13,12 +13,11 @@ import Container from '@/components/container'
 import Table from '@/components/table'
 import { Dimensions } from '@/theme'
 
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
-  padding: 30px;
-  margin: 20px;
 
   .new-roles {
     display: flex;
@@ -30,12 +29,14 @@ const Content = styled.div`
     }
   }
 
-  .combobox-roles {
+  .combobox {
+    padding-bottom: 30px;
+    display: flex;
+  }
+  .combobox-sinhvien {
+    display: flex;
     padding-bottom: 30px;
     
-    .combobox-role {
-      width: 225px;
-    }
   }
     
   .table-box {
@@ -51,9 +52,14 @@ const Content = styled.div`
   }
 `
 const { Option } = Select
+const children = [];
+for (let i = 10; i < 36; i++) {
+  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+}
+
 let dataSource = []
 
-lodash.range(5).forEach(() => {
+lodash.range(2).forEach(() => {
   dataSource.push({
     MaHocVien: 'MH1',
     TenHocVien: 'Test',
@@ -104,6 +110,7 @@ class TaoKyThi extends Component {
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
+        <h1 style={{marginBottom: '20px'}}> Tạo kỳ thi </h1>
         <div className="new-roles">
           <Field
             form={form}
@@ -141,6 +148,33 @@ class TaoKyThi extends Component {
           >
             Cancel
           </Button>
+        </div>
+        <div className="combobox">
+          <h3>Chọn bộ đề</h3>
+          <Select
+            showSearch
+            style={{ width: 270, paddingLeft: 65}}
+            placeholder="Select a person"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            <Option value="one">one</Option>
+            <Option value="two">two</Option>
+            <Option value="three">three</Option>
+          </Select>
+        </div>
+        <div className="combobox-sinhvien">
+        <h3>Sinh viên</h3>
+          <Select
+            mode="multiple"
+            style={{ width: 288, paddingLeft: 85}}
+            placeholder="Please select"
+            defaultValue={['a10', 'c12']}
+          >
+            {children}
+          </Select>
         </div>
       </div>
       <div className="table-box">
