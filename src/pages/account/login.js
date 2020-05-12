@@ -75,11 +75,13 @@ class Login extends Component {
   _onSubmit = (values) => {
     const { login, history } = this.props
     login(values, (success, data) => {
+      console.log(data);
+      
       if (success) {
         Storage.set('ACCESS_TOKEN', data.token)
         Storage.set('TYPE', data.type)
+        Storage.set('NAME', data.name)
         Request.setAccessToken(data.token)
-
         history.push('/')
       }
     })

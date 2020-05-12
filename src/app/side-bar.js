@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withRouter, Link, Redirect } from 'react-router-dom'
 import { withLocalize } from 'react-localize-redux'
 import { push } from 'connected-react-router'
+import Storage from '@/utils/storage'
 
 import { Menu, Button } from "antd";
 import {
@@ -67,25 +68,6 @@ import { Colors } from '@/theme'
 //   }
 // `
 
-const MENU_ITEMS = [{
-  link: '/',
-  name: 'Home'
-}, {
-  link: '/settings',
-  name: 'Settings'
-}, {
-  link: '/thongtincanhan',
-  name: 'Thông Tin Cá Nhân'
-}, {
-  link: '/lichthi',
-  name: 'Lịch Thi'
-}, {
-  link: '/lichsuthi',
-  name: 'Lịch Sử Thi'
-}, {
-  link: '/dangxuat',
-  name: 'Đăng Xuất'
-}]
 
 @withRouter
 @withLocalize
@@ -100,69 +82,67 @@ class SideBar extends Component {
   render() {
 
     const { uiStore, historyPush } = this.props
-
-    // return (
-    //   <Box className={uiStore.isSideBarOpen ? 'open' : ''}>
-    //     <div className="surfing-box">
-    //       <div className="menu">
-    //         {MENU_ITEMS.map((item, index) => (
-    //           <NavLink
-    //             exact
-    //             key={index}
-    //             to={item.link}
-    //             className="menu-item"
-    //           >
-    //             {item.name}
-    //           </NavLink>
-    //         ))}
-    //       </div>
-    //     </div>
-    //   </Box>
-    // )
+    const userType = Storage.get('TYPE', 'STUDENT')
 
     return (
       <div style={!uiStore.isSideBarOpen ? { width: 300 } : null}>
-        <Menu
-          // defaultSelectedKeys={["1"]}
-          // defaultOpenKeys={["sub1"]}
-          mode="inline"
-          theme="light"
-          inlineCollapsed={uiStore.isSideBarOpen}
-        >
-          <Menu.Item icon={<PieChartOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
 
-          <Menu.Item icon={<DesktopOutlined />} onClick={() => { historyPush('/lichthi') }} >
-            Lịch thi
-          </Menu.Item>
-          <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/thongtincanhan') }}>
-            Thông tin cá nhân
-          </Menu.Item>
-          <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/lichsuthi') }}>
-            Lịch sử thi
-          </Menu.Item>
-          <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlyde') }}>
-            Admin Quản lý đề
-          </Menu.Item>
-          <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlysinhvien') }}>
-            Admin Quản lý sinh viên
-          </Menu.Item>
-
-          <SubMenu icon={<MailOutlined />} title="Quản lý đề thi">
-            <Menu.Item onClick={() => { historyPush('/taodethi') }}>Tạo đề thi</Menu.Item>
-            <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Xem danh sách</Menu.Item>
-          </SubMenu>
-          <SubMenu
-
-            icon={<AppstoreOutlined />}
-            title="Kỳ thi"
+        {userType == 'STUDENT' ? (
+          <Menu
+            mode="inline"
+            theme="light"
+            inlineCollapsed={uiStore.isSideBarOpen}
           >
-            <Menu.Item onClick={() => { historyPush('/taokythi') }} >Tạo Kỳ thi</Menu.Item>
-            <Menu.Item >Xem danh sách</Menu.Item>
-          </SubMenu>
-        </Menu>
-        {/* <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/thongtincanhangiaovien') }}>
-            Thông tin cá nhân giáo viên
-          </Menu.Item> */}
+            <Menu.Item icon={<PieChartOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
+            <Menu.Item icon={<DesktopOutlined />} onClick={() => { historyPush('/lichthi') }} >Lịch thi </Menu.Item>
+            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/thongtincanhan') }}>
+              Thông tin cá nhân
+              </Menu.Item>
+            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/lichsuthi') }}>
+              Lịch sử thi
+              </Menu.Item>
+          </Menu>
+        ) : null}
+
+        {userType == 'ADMIN' ? (
+          <Menu
+            mode="inline"
+            theme="light"
+            inlineCollapsed={uiStore.isSideBarOpen}
+          >
+            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlyde') }}>
+              Admin Quản lý đề
+              </Menu.Item>
+
+            <SubMenu icon={<MailOutlined />} title="Quản lý sinh viên">
+              <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlysinhvien') }}>
+                Tạo sinh viên
+            </Menu.Item>
+              <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Danh sách sinh viên</Menu.Item>
+            </SubMenu>
+          </Menu>
+        ) : null}
+
+        {userType == 'TEACHER' ? (
+          <Menu
+            mode="inline"
+            theme="light"
+            inlineCollapsed={uiStore.isSideBarOpen}
+          >
+            <SubMenu icon={<MailOutlined />} title="Quản lý đề thi">
+              <Menu.Item onClick={() => { historyPush('/taodethi') }}>Tạo đề thi</Menu.Item>
+              <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Xem danh sách</Menu.Item>
+            </SubMenu>
+            <SubMenu
+              icon={<AppstoreOutlined />}
+              title="Kỳ thi"
+            >
+              <Menu.Item onClick={() => { historyPush('/taokythi') }} >Tạo Kỳ thi</Menu.Item>
+              <Menu.Item >Xem danh sách</Menu.Item>
+            </SubMenu>
+          </Menu>
+        ) : null}
+
       </div >
     );
   }

@@ -133,7 +133,7 @@ class Header extends Component {
 
   render() {
     const { languages, setActiveLanguage, toggleSideBar } = this.props
-
+    const name = Storage.get('NAME','Name')
     return (
       <HeaderContainer>
         <div className="content">
@@ -142,7 +142,7 @@ class Header extends Component {
               onClick={toggleSideBar}
               className="menu-button"
               type="menu" />
-            <p className="title">React JS Boilerplate</p>
+            <p className="title">Exam Online</p>
           </div>
           <div className="right-box">
             <Popover
@@ -154,10 +154,10 @@ class Header extends Component {
               <div className="user-box">
                 <img
                   className="avatar"
-                  src="https://image-us.eva.vn/upload/2-2019/images/2019-04-24/ra-mv-moi-chipu-thi-dep-that-nhung-fan-chi-chu-y-den-chiec-luoc-chai-chay-f1e397547b12924ccb03-1556124078-242-width1000height1000.jpg"
+                  src="./../resources/images/avt.jpg"
                   alt=""
                 />
-                <p className="name">Lê Tùng Khánh</p>
+                <p className="name">{name}</p>
                 <DownOutlined />
               </div>
             </Popover>
