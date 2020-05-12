@@ -4,6 +4,7 @@ export default [
 
   // API
   'LOGIN',
+  'REGISTER',
 
   // Store
   'CLEAR_STORE'
