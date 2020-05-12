@@ -4,6 +4,9 @@ import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
+import { connect } from 'react-redux'
+import { actions } from '@/store/actions'
+import moment from 'moment'
 
 import Input from '@/components/input'
 import Field from '@/components/field'
@@ -57,7 +60,7 @@ lodash.range(5).forEach(() => {
     gender: 'Nam',
     birthday: '2017/2/2',
     address: 'Quảng Nam',
-    phoneNumber : '0969919088',
+    phoneNumber: '0969919088',
     createAt: '2/3/2020',
     action: <Button> Xóa </Button>
   })
@@ -67,7 +70,7 @@ const columns = [
   {
     title: '#',
     dataIndex: 'STT',
-    render: (text, record, index) => <span>{index+1}</span>,
+    render: (text, record, index) => <span>{index + 1}</span>,
   },
   {
     title: 'Email',
@@ -116,10 +119,35 @@ const columns = [
   }
 ]
 
+@connect((state) => ({ //fix xoa sau
+  accountStore: state.account
+}), {
+  getUsers: actions.getUsers
+})
 class ListUser extends Component {
 
-  render() {
+  componentDidMount() {
+    this.props.getUsers()
+  }
 
+  render() {
+    const { listUser } = this.props.accountStore
+    dataSource = []
+    listUser.forEach(item => {
+      dataSource.push({
+        email: item.email,
+        name: item.name,
+        cardId: item.cardId,
+        gender: item.gender,
+        birthday: item.birthday && moment(item.birthday).format('L'),
+        address: item.address,
+        phoneNumber: item.phoneNumber,
+        createAt: item.createAt && moment(item.createAt).format('L'),
+        action: <Button> Xóa </Button>
+      })
+    })
+    console.log(listUser);
+    
     return (
       <Page>
         <Container>
