@@ -9,5 +9,5 @@ export function register(payload) {
 }
 
 export function getUsers() {
-  return MainApi.get('/users/')
+  return MainApi.get('/users/1')
 }

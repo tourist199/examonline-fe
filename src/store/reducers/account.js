@@ -3,7 +3,8 @@ import { TYPES } from '@/store/actions'
 const INIT_STATE = {
   loaded: [],
   submitting: null,
-  error: null
+  error: null,
+  listUser: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -19,6 +20,23 @@ export default (state = INIT_STATE, action) => {
         submitting: null
       }
     case TYPES.LOGIN_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        error: action.error
+      }
+    case TYPES.GET_USERS_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_USERS_SUCCESS:
+      return {
+        ...state,
+        submitting: null,
+        listUser: action.data
+      }
+    case TYPES.GET_USERS_FAILURE:
       return {
         ...state,
         submitting: null,
