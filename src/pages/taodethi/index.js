@@ -149,6 +149,51 @@ class TaoKyThi extends Component {
             Cancel
           </Button>
         </div>
+        <div>
+          <Button type="primary">1</Button>
+          <Button >2</Button>
+          <Button >+</Button>
+        </div>
+        <Field
+            form={form}
+            inline
+            size="middle"
+            name="newrole"
+            label="Câu hỏi 1"
+            component={Input}
+          />
+        <Field
+          form={form}
+          inline
+          size="middle"
+          name="newrole"
+          label="Nội dung"
+          component={Input}
+        />
+        <div>
+          <Button type="primary">1</Button>
+          <Button >2</Button>
+          <Button >+</Button>
+          <Field
+            form={form}
+            inline
+            size="middle"
+            name="newrole"
+            component={Input}
+        />
+        </div>
+        <div>
+          <Button type="primary">1</Button>
+          <Button >2</Button>
+          <Button >+</Button>
+          <Field
+            form={form}
+            inline
+            size="middle"
+            name="newrole"
+            component={Input}
+        />
+        </div>
       </div>
     </Form>
   )
@@ -171,11 +216,6 @@ class TaoKyThi extends Component {
               onSubmit={this._onSubmit}
               component={this._renderForm}
             />
-            <div>
-              <Button type="primary">1</Button>
-              <Button type="primary">2</Button>
-              <Button type="primary">+</Button>
-            </div>
           </Content>
         </Container>
       </Page>

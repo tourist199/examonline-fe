@@ -19,11 +19,11 @@ const Content = styled.div`
   flex-direction: column;
   height: 500px;
 
-  .new-roles {
+  .create-exam {
     display: flex;
     padding-bottom: 30px;
 
-    .add-role {
+    .create-button {
       margin-left: 50px;
       margin-right: 50px;
     }
@@ -61,48 +61,47 @@ let dataSource = []
 
 lodash.range(2).forEach(() => {
   dataSource.push({
-    MaHocVien: 'MH1',
-    TenHocVien: 'Test',
-    NgaySinh: '26/06/2019',
-    GioiTinh: 'Nam',
-    DiaChi: 'Huế'
+    email: 'ltk@teacher.com',
+    name: 'Test',
+    birthday: '26/06/2019',
+    gender: 'Nam',
+    address: 'Huế'
   })
 })
 
 const columns = [
   {
-    title: 'Mã học viên',
-    dataIndex: 'MaHocVien',
-    key: 'MaHocVien'
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email'
   },
   {
     title: 'Tên học viên',
-    dataIndex: 'TenHocVien',
-    key: 'TenHocVien'
+    dataIndex: 'name',
+    key: 'name'
   },
   {
     title: 'Ngày sinh',
-    dataIndex: 'NgaySinh',
-    key: 'NgaySinh'
+    dataIndex: 'birthday',
+    key: 'birthday'
   },
   {
     title: 'Giới tính',
-    dataIndex: 'GioiTinh',
-    key: 'GioiTinh'
+    dataIndex: 'gender',
+    key: 'gender'
   },
   {
     title: 'Đia chỉ',
-    dataIndex: 'DiaChi',
-    key: 'DiaChi'
+    dataIndex: 'address',
+    key: 'address'
   }
 ]
 
 const validationSchema = object().shape({
-  role: string().required(),
-  newrole: string().required()
+  create: string().required()
 })
 
-class TaoKyThi extends Component {
+class CreateExam extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
@@ -110,18 +109,18 @@ class TaoKyThi extends Component {
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
-        <h1 style={{marginBottom: '20px'}}> Tạo kỳ thi </h1>
-        <div className="new-roles">
+        <h1> Tạo kỳ thi </h1>
+        <div className="create-exam">
           <Field
             form={form}
             inline
             size="middle"
-            name="newrole"
+            name="create"
             label="Tạo kỳ thi"
             component={Input}
           />
           <Button
-            className="add-role"
+            className="create-button"
             size="middle"
             htmlType="submit"
             type="primary"
@@ -130,17 +129,17 @@ class TaoKyThi extends Component {
             Create
           </Button>
         </div>
-        <div className="new-roles">
+        <div className="create-exam">
           <Field
             form={form}
             inline
             size="middle"
-            name="newrole"
+            name="create"
             label="Mô tả kỳ thi"
             component={Input}
           />
           <Button
-            className="add-role"
+            className="create-button"
             size="middle"
             htmlType="submit"
             type="primary"
@@ -177,24 +176,12 @@ class TaoKyThi extends Component {
           </Select>
         </div>
       </div>
-      <div className="table-box">
-        <Table
-          rowKey={(row, index) => index}
-          dataSource={dataSource}
-          columns={columns}
-          scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
-        />
-        <div className="pagination-box">
-          <Pagination defaultCurrent={1} total={50} />
-        </div>
-      </div>
     </Form>
   )
 
   render() {
     const initialValues = {
-      role: '',
-      newrole: ''
+      create: ''
     }
 
     return (
@@ -209,6 +196,17 @@ class TaoKyThi extends Component {
               onSubmit={this._onSubmit}
               component={this._renderForm}
             />
+            <div className="table-box">
+              <Table
+                rowKey={(row, index) => index}
+                dataSource={dataSource}
+                columns={columns}
+                scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
+              />
+              <div className="pagination-box">
+                <Pagination defaultCurrent={1} total={50} />
+              </div>
+            </div>
           </Content>
         </Container>
       </Page>
@@ -216,4 +214,4 @@ class TaoKyThi extends Component {
   }
 }
 
-export default TaoKyThi
+export default CreateExam

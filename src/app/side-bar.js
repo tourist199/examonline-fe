@@ -137,7 +137,7 @@ class SideBar extends Component {
               icon={<AppstoreOutlined />}
               title="Kỳ thi"
             >
-              <Menu.Item onClick={() => { historyPush('/taokythi') }} >Tạo Kỳ thi</Menu.Item>
+              <Menu.Item onClick={() => { historyPush('/create-exam') }} >Tạo Kỳ thi</Menu.Item>
               <Menu.Item >Xem danh sách</Menu.Item>
             </SubMenu>
           </Menu>

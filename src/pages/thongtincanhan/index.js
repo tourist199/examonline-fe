@@ -22,7 +22,7 @@ const Content = styled.div`
   .thongtinhocvien {
     padding-left: 60px;
   }
-  .capnhat {
+  .update-button {
     display: flex;
     justify-content: flex-end;
   }
@@ -30,14 +30,13 @@ const Content = styled.div`
 `
 
 const validationSchema = object().shape({
-  mahocvien: string().required(),
-  tenhocvien: string().required(),
-  gioitinh: string().required(),
-  noisinh: string().required(),
-  choohientai: string().required(),
-  sodienthoai: string().required(),
-  CMND: string().required(),
-  Email: string().required(),
+  email: string().required(),
+  name: string().required(),
+  gender: string().required(),
+  date: string().required(),
+  address: string().required(),
+  phoneNumber: string().required(),
+  cardID: string().required(),
   truongDH_CD: string().required()
 })
 
@@ -55,19 +54,17 @@ class ThongTinCaNhan extends Component {
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="mahv"
             size="middle"
-            name="mahocvien"
-            label="Mã học viên"
+            name="email"
+            label="Email"
             component={Input}
           />
           <Field
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="tenhv"
             size="middle"
-            name="tenhocvien"
+            name="name"
             label="Tên học viên"
             component={Input}
           />
@@ -75,9 +72,7 @@ class ThongTinCaNhan extends Component {
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="gioitinh"
             size="middle"
-            name="gioitinh"
             label="Giới tính"
             component={Input}
           />
@@ -85,9 +80,8 @@ class ThongTinCaNhan extends Component {
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="noisinh"
             size="middle"
-            name="noisinh"
+            name="date"
             label="Nơi sinh"
             component={Input}
           />
@@ -97,7 +91,6 @@ class ThongTinCaNhan extends Component {
             inline
             className="coht"
             size="middle"
-            name="choohientai"
             label="Chỗ ở hiện tại"
             component={Input}
           />
@@ -107,7 +100,6 @@ class ThongTinCaNhan extends Component {
             inline
             className="sdt"
             size="middle"
-            name="sodienthoai"
             label="Số điện thoại"
             component={Input}
           />
@@ -115,28 +107,17 @@ class ThongTinCaNhan extends Component {
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="cmnd"
             size="middle"
-            name="CMND"
+            name="cardID"
             label="CMND"
             component={Input}
           />
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            className="email"
-            size="middle"
-            name="Email"
-            label="Email"
-            component={Input}
-          />
+
           
           <Field
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="truong"
             size="middle"
             name="truongDH_CD"
             label="Trường ĐH/CĐ"
@@ -146,14 +127,14 @@ class ThongTinCaNhan extends Component {
         </div>
       </div>
       <div className="table-box">
-        <div className="capnhat">
+        <div className="update-button">
           <Button
             size="middle"
             htmlType="submit"
             type="primary"
             onClick={handleSubmit}
           >
-            Cập nhật
+            Update
           </Button>
         </div>
       </div>
@@ -162,13 +143,13 @@ class ThongTinCaNhan extends Component {
 
   render() {
     const initialValues = {
-      mahocvien: '',
-      tenhocvien: '',
-      gioitinh: '',
-      noisinh: '',
-      choohientai: '',
-      sodienthoai: '',
-      CMND: '',
+      email: '',
+      name: '',
+      gender: '',
+      date: '',
+      address: '',
+      phoneNumber: '',
+      cardID: '',
       Email: '',
       truongDH_CD: ''
     }
