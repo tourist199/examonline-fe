@@ -11,8 +11,8 @@ import SideBar from './side-bar'
 const Login = lazy(() => import('@/pages/account/login'))
 const Home = lazy(() => import('@/pages/home'))
 const Settings = lazy(() => import('@/pages/settings'))
-const ThongTinCaNhan = lazy(() => import('@/pages/thongtincanhan'))
-const LichThi = lazy(() => import('@/pages/lichthi'))
+const StudentInformation = lazy(() => import('@/pages/StudentInformation'))
+const TestSchedule = lazy(() => import('@/pages/TestSchedule'))
 const LichSuThi = lazy(() => import('@/pages/lichsuthi'))
 const QuanLyDe = lazy(() => import('@/pages/quanlyde'))
 const NewUser = lazy(() => import('@/pages/NewUser'))
@@ -55,8 +55,8 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/" component={this._renderLazyComponent(Home)} />
             <Route exact path="/settings" component={this._renderLazyComponent(Settings)} />
-            <Route exact path="/thongtincanhan" component={this._renderLazyComponent(ThongTinCaNhan)} />
-            <Route exact path="/lichthi" component={this._renderLazyComponent(LichThi)} />
+            <Route exact path="/student-information" component={this._renderLazyComponent(StudentInformation)} />
+            <Route exact path="/test-schedule" component={this._renderLazyComponent(TestSchedule)} />
             <Route exact path="/lichsuthi" component={this._renderLazyComponent(LichSuThi)} />
             <Route exact path="/quanlyde" component={this._renderLazyComponent(QuanLyDe)} />
             <Route exact path="/new-user" component={this._renderLazyComponent(NewUser)} />

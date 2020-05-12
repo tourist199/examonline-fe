@@ -53,45 +53,45 @@ lodash.range(3).forEach(() => {
   dataSource.push({
     key: '1',
     STT: '1',
-    TenKyThi: 'Trắc nghiệm',
-    NgayBatDau: '22/12/1999',
-    NgàyKetThuc: '23/12/1999',
-    TrangThai: 'Đang diễn ra',
-    ThamGia: <Button> Vào thi</Button>
+    examName: 'Trắc nghiệm',
+    startDay: '22/12/1999',
+    endDay: '23/12/1999',
+    status: 'Đang diễn ra',
+    join: <Button> Vào thi</Button>
   })
 })
 
 const columns = [
   {
-    title: 'STT',
+    title: '#',
     dataIndex: 'STT',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
+    key: '#'
   },
   {
     title: 'Tên Kỳ Thi',
-    dataIndex: 'TenKyThi',
-    key: 'TenKyThi'
+    dataIndex: 'examName',
+    key: 'examName'
   },
   {
     title: 'Ngày bắt đầu',
-    dataIndex: 'NgayBatDau',
-    key: 'NgayBatDau'
+    dataIndex: 'startDay',
+    key: 'startDay'
   },
   {
     title: 'Ngày Kết thúc',
-    dataIndex: 'NgàyKetThuc',
-    key: 'NgàyKetThuc'
+    dataIndex: 'endDay',
+    key: 'endDay'
   },
   {
     title: 'Trạng thái',
-    dataIndex: 'TrangThai',
-    key: 'TrangThai'
+    dataIndex: 'status',
+    key: 'status'
   },
   {
     title: 'Tham gia',
-    dataIndex: 'ThamGia',
-    key: 'ThamGia'
+    dataIndex: 'join',
+    key: 'join'
   },
 ]
 
@@ -101,38 +101,38 @@ lodash.range(3).forEach(() => {
   dataSource_1.push({
     key: '1',
     STT: '1',
-    TenKyThi: 'Trắc nghiệm',
-    NgayBatDau: '22/12/1999',
-    NgàyKetThuc: '23/12/1999'
+    ExamName: 'Trắc nghiệm',
+    startDay: '22/12/1999',
+    endD: '23/12/1999'
   })
 })
 
 const columns_1 = [
   {
-    title: 'STT',
+    title: '#',
     dataIndex: 'STT',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
+    key: '#'
   },
   {
     title: 'Tên Kỳ Thi',
-    dataIndex: 'TenKyThi',
-    key: 'TenKyThi'
+    dataIndex: 'ExamName',
+    key: 'ExamName'
   },
   {
     title: 'Ngày bắt đầu',
-    dataIndex: 'NgayBatDau',
-    key: 'NgayBatDau'
+    dataIndex: 'startDay',
+    key: 'startDay'
   },
   {
     title: 'Ngày Kết thúc',
-    dataIndex: 'NgàyKetThuc',
-    key: 'NgàyKetThuc'
+    dataIndex: 'endD',
+    key: 'endD'
   }
 ]
 
 
-class Roles extends Component {
+class TestSchedule extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
@@ -184,4 +184,4 @@ class Roles extends Component {
   }
 }
 
-export default Roles
+export default TestSchedule

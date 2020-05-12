@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
 import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
-import { Avatar } from 'antd'
+import { object, string, date } from 'yup'
+import moment from 'moment';
 
+import { Avatar, Select, DatePicker } from 'antd' 
 import Input from '@/components/input'
 import Field from '@/components/field'
 import Button from '@/components/button'
 import Page from '@/components/page'
-import Select from '@/components/select'
 import Container from '@/components/container'
 import Table from '@/components/table'
 import { Dimensions } from '@/theme'
@@ -28,19 +28,24 @@ const Content = styled.div`
   }
 
 `
+const { Option } = Select
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY']
 
 const validationSchema = object().shape({
   email: string().required(),
   name: string().required(),
-  gender: string().required(),
-  date: string().required(),
+  gender: string().ensure(),
+  birthday: date().nullable(),
   address: string().required(),
   phoneNumber: string().required(),
   cardID: string().required(),
-  truongDH_CD: string().required()
 })
 
 class ThongTinCaNhan extends Component {
+  state = {
+    gender: 'female',
+    birthday: moment('2015/1/1')
+  }
   _onSubmit = (values) => {
     console.log(values)
   }
@@ -69,27 +74,30 @@ class ThongTinCaNhan extends Component {
             component={Input}
           />
           <Field
-            style={{marginBottom: '10px', width: '250px'}}
+            style={{ width: '250' }}
             form={form}
             inline
-            size="middle"
             label="Giới tính"
-            component={Input}
+            component={() => (
+              <Select style={{ width: 250 }}>
+                <Option value="male">Nam</Option>
+                <Option value="female">Nữ</Option>
+              </Select>
+            )}
+          />
+          <Field
+            style={{ width: '250' }}
+            form={form}
+            inline
+            name="birthday"
+            label="Ngày sinh"
+            component={() => <DatePicker style={{ width: 250 }} format={dateFormatList} />}
           />
           <Field
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            size="middle"
-            name="date"
-            label="Nơi sinh"
-            component={Input}
-          />
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            className="coht"
+            name="address"
             size="middle"
             label="Chỗ ở hiện tại"
             component={Input}
@@ -98,7 +106,7 @@ class ThongTinCaNhan extends Component {
             style={{marginBottom: '10px', width: '250px'}}
             form={form}
             inline
-            className="sdt"
+            name="phoneNumber"
             size="middle"
             label="Số điện thoại"
             component={Input}
@@ -110,17 +118,6 @@ class ThongTinCaNhan extends Component {
             size="middle"
             name="cardID"
             label="CMND"
-            component={Input}
-          />
-
-          
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            size="middle"
-            name="truongDH_CD"
-            label="Trường ĐH/CĐ"
             component={Input}
           />
           
@@ -146,12 +143,10 @@ class ThongTinCaNhan extends Component {
       email: '',
       name: '',
       gender: '',
-      date: '',
+      birthday: '',
       address: '',
       phoneNumber: '',
       cardID: '',
-      Email: '',
-      truongDH_CD: ''
     }
 
     return (

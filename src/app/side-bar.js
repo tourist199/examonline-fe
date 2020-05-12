@@ -94,8 +94,8 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
             <Menu.Item icon={<PieChartOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
-            <Menu.Item icon={<DesktopOutlined />} onClick={() => { historyPush('/lichthi') }} >Lịch thi </Menu.Item>
-            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/thongtincanhan') }}>
+            <Menu.Item icon={<DesktopOutlined />} onClick={() => { historyPush('/test-schedule') }} >Lịch thi </Menu.Item>
+            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/student-information') }}>
               Thông tin cá nhân
               </Menu.Item>
             <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/lichsuthi') }}>
