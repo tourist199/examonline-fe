@@ -115,7 +115,7 @@ class SideBar extends Component {
               </Menu.Item>
 
             <SubMenu icon={<MailOutlined />} title="Quản lý sinh viên">
-              <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlysinhvien') }}>
+              <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/new-user') }}>
                 Tạo sinh viên
             </Menu.Item>
               <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Danh sách sinh viên</Menu.Item>
