@@ -16,6 +16,7 @@ const LichThi = lazy(() => import('@/pages/lichthi'))
 const LichSuThi = lazy(() => import('@/pages/lichsuthi'))
 const QuanLyDe = lazy(() => import('@/pages/quanlyde'))
 const NewUser = lazy(() => import('@/pages/NewUser'))
+const ListUser = lazy(() => import('@/pages/ListUser'))
 const XemDanhSach = lazy(() => import('@/pages/xemdanhsach'))
 const TaoDeThi = lazy(() => import('@/pages/taodethi'))
 const TaoKyThi = lazy(() => import('@/pages/taokythi'))
@@ -59,6 +60,7 @@ class Routes extends Component {
             <Route exact path="/lichsuthi" component={this._renderLazyComponent(LichSuThi)} />
             <Route exact path="/quanlyde" component={this._renderLazyComponent(QuanLyDe)} />
             <Route exact path="/new-user" component={this._renderLazyComponent(NewUser)} />
+            <Route exact path="/list-user" component={this._renderLazyComponent(ListUser)} />
             <Route exact path="/xemdanhsach" component={this._renderLazyComponent(XemDanhSach)} />
             <Route exact path="/taodethi" component={this._renderLazyComponent(TaoDeThi)} />
             <Route exact path="/taokythi" component={this._renderLazyComponent(TaoKyThi)} />

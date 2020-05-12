@@ -5,6 +5,7 @@ export default [
   // API
   'LOGIN',
   'REGISTER',
+  'GET_USERS',
 
   // Store
   'CLEAR_STORE'

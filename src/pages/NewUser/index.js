@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string, date } from 'yup'
 import moment from 'moment';
@@ -13,6 +12,8 @@ import Button from '@/components/button'
 import Page from '@/components/page'
 import { DatePicker } from 'antd';
 import { Select } from 'antd';
+import Notification from '@/components/notification'
+
 
 import Container from '@/components/container'
 import { Dimensions } from '@/theme'
@@ -24,9 +25,6 @@ const Content = styled.div`
   flex-direction: column;
   height: 500px;
   padding: 10px;
-  .new-user {
-    padding-left: 60px;
-  }
   .capnhat {
     display: flex;
     justify-content: flex-end;
@@ -62,16 +60,21 @@ class CreateNewUser extends Component {
   }
   _onSubmit = (values) => {
     let user = { ...values, type: this.state.type, gender: this.state.gender, birthday: this.state.birthday }
-    this.props.register(user)
+    this.props.register(user, (success, data) => {
+      console.log(success, data);
+
+      if (success)
+        Notification.success('Đăng ký thành công')
+    })
   }
 
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
-        <h1 style={{ marginBottom: '20px' }}> Tạo người dùng mới </h1>
+        <h1 > Tạo người dùng mới </h1>
         <div className="new-user">
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="email"
@@ -79,7 +82,7 @@ class CreateNewUser extends Component {
             component={Input}
           />
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="password"
@@ -88,7 +91,7 @@ class CreateNewUser extends Component {
             component={Input}
           />
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="name"
@@ -96,12 +99,12 @@ class CreateNewUser extends Component {
             component={Input}
           />
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             label="Giới tính"
             component={() => (
-              <Select value={this.state.gender} onChange={(gender) => this.setState({ gender })} style={{ width: 250 }}>
+              <Select value={this.state.gender} onChange={(gender) => this.setState({ gender })} style={{ width: 330 }}>
                 <Option value="male">Nam</Option>
                 <Option value="female">Nữ</Option>
               </Select>
@@ -109,15 +112,15 @@ class CreateNewUser extends Component {
           />
 
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="birthday"
             label="Ngày sinh"
-            component={() => <DatePicker value={this.state.birthday} style={{ width: 250 }} format={dateFormatList} onChange={(birthday => this.setState({ birthday }))} />}
+            component={() => <DatePicker value={this.state.birthday} style={{ width: 330 }} format={dateFormatList} onChange={(birthday => this.setState({ birthday }))} />}
           />
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="address"
@@ -125,7 +128,7 @@ class CreateNewUser extends Component {
             component={Input}
           />
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="phoneNumber"
@@ -133,7 +136,7 @@ class CreateNewUser extends Component {
             component={Input}
           />
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="cardId"
@@ -142,13 +145,13 @@ class CreateNewUser extends Component {
           />
 
           <Field
-            style={{ width: '250px' }}
+            style={{ width: '330px' }}
             form={form}
             inline
             name="type"
             label="Loại người dùng"
             component={() => (
-              <Select value={this.state.type} onChange={(type) => this.setState({ type })} style={{ width: 250 }}>
+              <Select value={this.state.type} onChange={(type) => this.setState({ type })} style={{ width: 330 }}>
                 <Option value="STUDENT">Học viên</Option>
                 <Option value="TEACHER">Giáo viên</Option>
                 <Option value="ADMIN">Admin</Option>

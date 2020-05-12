@@ -1,5 +1,5 @@
 {
-  "API_URL": "http://localhost:3000",
+  "API_URL": "https://node-exam-online.herokuapp.com",
   "PUBLIC_PATH": "/",
   "BASE_NAME": "/"
 }
