@@ -27,8 +27,8 @@ export default function sagaHelper({ api, successMessage, errorHandler }) {
         throw result
       }
     } catch (e) {
-      const error = yield Misc.getErrorJsonBody(e)
-      console.log(error);
+      const resMSG = yield Misc.getErrorJsonBody(e)
+      const error = resMSG.result
       
       yield put({ type: failureType, error })
 

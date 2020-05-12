@@ -3,11 +3,7 @@ import { TYPES } from '@/store/actions'
 const INIT_STATE = {
   loaded: [],
   submitting: null,
-  error: null,
-
-  userCode: null,
-  permissions: [],
-  roleName: null
+  error: null
 }
 
 export default (state = INIT_STATE, action) => {

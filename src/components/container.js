@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Div = styled.div`
-  padding: 20px 20px 20px 20px;
+  padding: 40px 20px 20px 60px;
   width: 100%;
 `
 
