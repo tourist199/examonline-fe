@@ -61,7 +61,7 @@ const StyledContainer = styled(Container)`
 `
 
 const validationSchema = object().shape({
-  userCode: string().required(),
+  email: string().required(),
   password: string().required()
 })
 
@@ -77,6 +77,7 @@ class Login extends Component {
     login(values, (success, data) => {
       if (success) {
         Storage.set('ACCESS_TOKEN', data.token)
+        Storage.set('TYPE', data.type)
         Request.setAccessToken(data.token)
 
         history.push('/')
@@ -98,8 +99,8 @@ class Login extends Component {
         <div className="field-group">
           <Field
             form={form}
-            name="userCode"
-            label="User name"
+            name="email"
+            label="Email"
             component={Input}
           />
           <Field
@@ -127,7 +128,7 @@ class Login extends Component {
 
   render() {
     const initialValues = {
-      userCode: '',
+      email: '',
       password: ''
     }
 

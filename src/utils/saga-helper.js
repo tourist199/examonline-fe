@@ -28,6 +28,8 @@ export default function sagaHelper({ api, successMessage, errorHandler }) {
       }
     } catch (e) {
       const error = yield Misc.getErrorJsonBody(e)
+      console.log(error);
+      
       yield put({ type: failureType, error })
 
       const localize = yield select((state) => state.localize)

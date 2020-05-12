@@ -1,15 +1,8 @@
-// import { MainApi } from './endpoint'
-import mockData from '@/utils/mock-api'
+import { MainApi } from './endpoint'
 
-export function login(/* payload */) {
-  // return MainApi.post('/login', payload)
-
-  return mockData({
-    data: {
-      success: true,
-      result: {
-        token: 'SH6643HDHJSGFJSD73475674856'
-      }
-    }
-  })
+export function login(payload) {
+  console.log(payload);
+  
+  
+  return MainApi.post('/users/login', payload)
 }
