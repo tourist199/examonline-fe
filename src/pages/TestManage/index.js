@@ -49,47 +49,47 @@ const Content = styled.div`
 `
 let dataSource = []
 
-lodash.range(5).forEach(() => {
+lodash.range(4).forEach(() => {
   dataSource.push({
     key: '1',
     STT: '1',
-    TenBoDe: 'Trắc nghiệm',
-    NgayTao: '22/12/1999',
-    TrangThai: 'Đã duyệt',
-    Action: <Button> EDIT </Button>
+    nameExam: 'Trắc nghiệm',
+    date: '22/12/1999',
+    teacher: 'Lê Tùng Khánh',
+    action: <Button> Xem </Button>
   })
 })
 
 const columns = [
   {
-    title: 'STT',
+    title: '#',
     dataIndex: 'STT',
     render: (text, record, index) => <span>{index + 1}</span>,
     key: 'STT'
   },
   {
     title: 'Tên bộ đề',
-    dataIndex: 'TenBoDe',
-    key: 'TenBoDe'
+    dataIndex: 'nameExam',
+    key: 'nameExam'
   },
   {
     title: 'Ngày tạo',
-    dataIndex: 'NgayTao',
-    key: 'NgayTao'
+    dataIndex: 'date',
+    key: 'date'
   },
   {
-    title: 'Trạng thái',
-    dataIndex: 'TrangThai',
-    key: 'TrangThai'
+    title: 'Giáo viên',
+    dataIndex: 'teacher',
+    key: 'teacher'
   },
   {
     title: 'Action',
-    dataIndex: 'Action',
-    key: 'Action'
+    dataIndex: 'action',
+    key: 'action'
   },
 ]
 
-class Roles extends Component {
+class TestManage extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
@@ -97,7 +97,7 @@ class Roles extends Component {
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
-        <h1> Danh sách đề thi </h1>
+        <h1> Quản lý đề thi </h1>
       </div>
       <div className="table-box">
         <Table
@@ -119,9 +119,7 @@ class Roles extends Component {
       <Page>
         <Container>
           <Content>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}  
+            <Formik 
               onSubmit={this._onSubmit}
               component={this._renderForm}
             />
@@ -132,4 +130,4 @@ class Roles extends Component {
   }
 }
 
-export default Roles
+export default TestManage

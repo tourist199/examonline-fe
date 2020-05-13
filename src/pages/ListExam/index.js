@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
-import { Pagination, Checkbox } from 'antd'
 
+import { Pagination } from 'antd'
 import Input from '@/components/input'
 import Field from '@/components/field'
 import Button from '@/components/button'
@@ -33,30 +33,17 @@ const Content = styled.div`
       padding: 0 20px;
     }
   }
-  .table-box1 {
-    height: 200px;
-    margin: 20px;
-    
-    
-    .pagination-box {
-      height: 100px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 0 20px;
-    }
-  }
 `
 let dataSource = []
 
-lodash.range(4).forEach(() => {
+lodash.range(5).forEach(() => {
   dataSource.push({
     key: '1',
     STT: '1',
-    TenBoDe: 'Trắc nghiệm',
-    NgayTao: '22/12/1999',
-    GiaoVien: 'Lê Tùng Khánh',
-    Action: <Button> Xem </Button>
+    nameExam: 'Trắc nghiệm',
+    testExam: 'Code js',
+    time: '22/12/1998',
+    Action: <div> <Button> EDIT </Button> <Button> DELETE </Button></div>
   })
 })
 
@@ -68,19 +55,19 @@ const columns = [
     key: 'STT'
   },
   {
-    title: 'Tên bộ đề',
-    dataIndex: 'TenBoDe',
-    key: 'TenBoDe'
+    title: 'Tên đề thi',
+    dataIndex: 'nameExam',
+    key: 'nameExam'
   },
   {
-    title: 'Ngày tạo',
-    dataIndex: 'NgayTao',
-    key: 'NgayTao'
+    title: 'Bộ đề thi',
+    dataIndex: 'testExam',
+    key: 'testExam'
   },
   {
-    title: 'Giáo viên',
-    dataIndex: 'GiaoVien',
-    key: 'GiaoVien'
+    title: 'Thời gian',
+    dataIndex: 'time',
+    key: 'time'
   },
   {
     title: 'Action',
@@ -89,7 +76,7 @@ const columns = [
   },
 ]
 
-class Roles extends Component {
+class ListExam extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
@@ -97,7 +84,7 @@ class Roles extends Component {
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
-        <h1> Quản lý đề thi </h1>
+        <h1> Danh sách đề thi </h1>
       </div>
       <div className="table-box">
         <Table
@@ -132,4 +119,4 @@ class Roles extends Component {
   }
 }
 
-export default Roles
+export default ListExam

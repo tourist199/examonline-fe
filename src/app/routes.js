@@ -13,14 +13,14 @@ const Home = lazy(() => import('@/pages/home'))
 const Settings = lazy(() => import('@/pages/settings'))
 const StudentInformation = lazy(() => import('@/pages/StudentInformation'))
 const TestSchedule = lazy(() => import('@/pages/TestSchedule'))
-const LichSuThi = lazy(() => import('@/pages/lichsuthi'))
-const QuanLyDe = lazy(() => import('@/pages/quanlyde'))
+const HistoryExam = lazy(() => import('@/pages/HistoryExam'))
+const TestManage = lazy(() => import('@/pages/TestManage'))
 const NewUser = lazy(() => import('@/pages/NewUser'))
 const ListUser = lazy(() => import('@/pages/ListUser'))
-const XemDanhSach = lazy(() => import('@/pages/xemdanhsach'))
+const ListTest = lazy(() => import('@/pages/ListTest'))
 const NewTest = lazy(() => import('@/pages/NewTest'))
 const CreateExam = lazy(() => import('@/pages/CreateExam'))
-const ThongTinCaNhanGiaoVien = lazy(() => import('@/pages/thongtincanhangiaovien'))
+const ListExam = lazy(() => import('@/pages/ListExam'))
 const NotFound = lazy(() => import('@/pages/not-found'))
 
 const VerticalBox = styled.div`
@@ -57,14 +57,14 @@ class Routes extends Component {
             <Route exact path="/settings" component={this._renderLazyComponent(Settings)} />
             <Route exact path="/student-information" component={this._renderLazyComponent(StudentInformation)} />
             <Route exact path="/test-schedule" component={this._renderLazyComponent(TestSchedule)} />
-            <Route exact path="/lichsuthi" component={this._renderLazyComponent(LichSuThi)} />
-            <Route exact path="/quanlyde" component={this._renderLazyComponent(QuanLyDe)} />
+            <Route exact path="/history-exam" component={this._renderLazyComponent(HistoryExam)} />
+            <Route exact path="/test-manage" component={this._renderLazyComponent(TestManage)} />
             <Route exact path="/new-user" component={this._renderLazyComponent(NewUser)} />
             <Route exact path="/list-user" component={this._renderLazyComponent(ListUser)} />
-            <Route exact path="/xemdanhsach" component={this._renderLazyComponent(XemDanhSach)} />
+            <Route exact path="/list-test" component={this._renderLazyComponent(ListTest)} />
             <Route exact path="/new-test" component={this._renderLazyComponent(NewTest)} />
             <Route exact path="/create-exam" component={this._renderLazyComponent(CreateExam)} />
-            <Route exact path="/thongtincanhangiaovien" component={this._renderLazyComponent(ThongTinCaNhanGiaoVien)} />
+            <Route exact path="/list-exam" component={this._renderLazyComponent(ListExam)} />
 
             <Redirect to="/not-found" />
           </Switch>

@@ -53,9 +53,9 @@ lodash.range(5).forEach(() => {
   dataSource.push({
     key: '1',
     STT: '1',
-    TenBoDe: 'Trắc nghiệm',
-    NgayTao: '22/12/1999',
-    TrangThai: 'Đã duyệt',
+    nameExam: 'Trắc nghiệm',
+    date: '22/12/1999',
+    status: 'Đã duyệt',
     Action: <Button> EDIT </Button>
   })
 })
@@ -69,18 +69,18 @@ const columns = [
   },
   {
     title: 'Tên bộ đề',
-    dataIndex: 'TenBoDe',
-    key: 'TenBoDe'
+    dataIndex: 'nameExam',
+    key: 'nameExam'
   },
   {
     title: 'Ngày tạo',
-    dataIndex: 'NgayTao',
-    key: 'NgayTao'
+    dataIndex: 'date',
+    key: 'date'
   },
   {
     title: 'Trạng thái',
-    dataIndex: 'TrangThai',
-    key: 'TrangThai'
+    dataIndex: 'status',
+    key: 'status'
   },
   {
     title: 'Action',
@@ -89,7 +89,7 @@ const columns = [
   },
 ]
 
-class Roles extends Component {
+class ListTest extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
@@ -120,8 +120,6 @@ class Roles extends Component {
         <Container>
           <Content>
             <Formik
-              validateOnChange={false}
-              validateOnBlur={false}  
               onSubmit={this._onSubmit}
               component={this._renderForm}
             />
@@ -132,4 +130,4 @@ class Roles extends Component {
   }
 }
 
-export default Roles
+export default ListTest

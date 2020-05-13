@@ -8,13 +8,13 @@ const Content = styled.div`
 
 `
 
-export default class LichSuThi extends Component {
+export default class HistoryExam extends Component {
   render() {
     return (
       <Page>
         <Container>
           <Content>
-            <h1>Líchj Sữu sda</h1>
+            <h1>Xin Chào</h1>
           </Content>
         </Container>
       </Page>

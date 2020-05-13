@@ -9,12 +9,16 @@ import Storage from '@/utils/storage'
 import { Menu, Button } from "antd";
 import {
   AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined
+  HomeOutlined,
+  ScheduleOutlined,
+  HistoryOutlined,
+  UserAddOutlined,
+  UnorderedListOutlined,
+  FileAddOutlined,
+  UserOutlined,
+  SolutionOutlined,
+  FileProtectOutlined,
+  TeamOutlined
 } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
@@ -93,12 +97,12 @@ class SideBar extends Component {
             theme="light"
             inlineCollapsed={uiStore.isSideBarOpen}
           >
-            <Menu.Item icon={<PieChartOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
-            <Menu.Item icon={<DesktopOutlined />} onClick={() => { historyPush('/test-schedule') }} >Lịch thi </Menu.Item>
-            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/student-information') }}>
+            <Menu.Item icon={<HomeOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
+            <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/test-schedule') }} >Lịch thi </Menu.Item>
+            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
               Thông tin cá nhân
               </Menu.Item>
-            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/lichsuthi') }}>
+            <Menu.Item icon={<HistoryOutlined />} onClick={() => { historyPush('/history-exam') }}>
               Lịch sử thi
               </Menu.Item>
           </Menu>
@@ -110,15 +114,15 @@ class SideBar extends Component {
             theme="light"
             inlineCollapsed={uiStore.isSideBarOpen}
           >
-            <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/quanlyde') }}>
+            <Menu.Item icon={<FileProtectOutlined />} onClick={() => { historyPush('/test-manage') }}>
               Admin Quản lý đề
               </Menu.Item>
 
-            <SubMenu icon={<MailOutlined />} title="Quản lý sinh viên">
-              <Menu.Item icon={<ContainerOutlined />} onClick={() => { historyPush('/new-user') }}>
+            <SubMenu icon={<SolutionOutlined />} title="Quản lý sinh viên">
+              <Menu.Item icon={<UserAddOutlined />} onClick={() => { historyPush('/new-user') }}>
                 Tạo sinh viên
             </Menu.Item>
-              <Menu.Item onClick={() => { historyPush('/list-user') }}>Danh sách người dùng</Menu.Item>
+              <Menu.Item icon={<TeamOutlined />} onClick={() => { historyPush('/list-user') }}>Danh sách người dùng</Menu.Item>
             </SubMenu>
           </Menu>
         ) : null}
@@ -129,16 +133,16 @@ class SideBar extends Component {
             theme="light"
             inlineCollapsed={uiStore.isSideBarOpen}
           >
-            <SubMenu icon={<MailOutlined />} title="Quản lý đề thi">
-              <Menu.Item onClick={() => { historyPush('/new-test') }}>Tạo đề thi</Menu.Item>
-              <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Xem danh sách</Menu.Item>
+            <SubMenu icon={<FileProtectOutlined />} title="Quản lý đề thi">
+              <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/new-test') }}>Tạo đề thi</Menu.Item>
+              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-test') }}>Xem danh sách</Menu.Item>
             </SubMenu>
             <SubMenu
               icon={<AppstoreOutlined />}
               title="Kỳ thi"
             >
-              <Menu.Item onClick={() => { historyPush('/create-exam') }} >Tạo Kỳ thi</Menu.Item>
-              <Menu.Item >Xem danh sách</Menu.Item>
+              <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/create-exam') }} >Tạo Kỳ thi</Menu.Item>
+              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-exam') }}  >Xem danh sách</Menu.Item>
             </SubMenu>
           </Menu>
         ) : null}

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
 import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
-import { Pagination, Checkbox, Select } from 'antd'
+import { object, string, date } from 'yup'
+import moment from 'moment'
 
+import { Pagination, Checkbox, Select, TimePicker } from 'antd'
 import Input from '@/components/input'
 import Field from '@/components/field'
 import Button from '@/components/button'
@@ -29,14 +30,17 @@ const Content = styled.div`
     }
   }
 
-  .combobox {
+  .combobox-exam {
     padding-bottom: 30px;
     display: flex;
   }
-  .combobox-sinhvien {
+  .combobox-student {
     display: flex;
     padding-bottom: 30px;
-    
+  }
+  .time-exam {
+    display: flex;
+    padding-bottom: 30px;
   }
     
   .table-box {
@@ -51,6 +55,8 @@ const Content = styled.div`
     }
   }
 `
+const { RangePicker } = TimePicker
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY']
 const { Option } = Select
 const children = [];
 for (let i = 10; i < 36; i++) {
@@ -148,7 +154,7 @@ class CreateExam extends Component {
             Cancel
           </Button>
         </div>
-        <div className="combobox">
+        <div className="combobox-exam">
           <h3>Chọn bộ đề</h3>
           <Select
             showSearch
@@ -164,7 +170,12 @@ class CreateExam extends Component {
             <Option value="three">three</Option>
           </Select>
         </div>
-        <div className="combobox-sinhvien">
+        <div className="time-exam">
+          <h3>Thời gian thi</h3>
+          
+          <RangePicker style={{marginLeft: 60, width: 205 }}/>
+        </div>
+        <div className="combobox-student">
         <h3>Sinh viên</h3>
           <Select
             mode="multiple"
