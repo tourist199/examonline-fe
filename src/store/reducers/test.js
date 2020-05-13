@@ -25,25 +25,7 @@ export default (state = INIT_STATE, action) => {
         submitting: null,
         error: action.error
       }
-    case TYPES.GET_USERS_REQUEST:
-      return {
-        ...state,
-        submitting: action.type
-      }
-    case TYPES.GET_USERS_SUCCESS:
-      console.log(action.data);
-      
-      return {
-        ...state,
-        submitting: null,
-        listUser: action.data.listUser
-      }
-    case TYPES.GET_USERS_FAILURE:
-      return {
-        ...state,
-        submitting: null,
-        error: action.error
-      }
+    
     default:
       return state
   }

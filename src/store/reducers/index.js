@@ -5,12 +5,14 @@ import { localizeReducer } from 'react-localize-redux'
 import { TYPES } from '@/store/actions'
 import ui from './ui'
 import account from './account'
+import test from './test'
 
 const appReducer = (history) => combineReducers({
   router: connectRouter(history),
   localize: localizeReducer,
   ui,
-  account
+  account,
+  test
 })
 
 export default (history) => (state, action) => {

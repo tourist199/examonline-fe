@@ -83,6 +83,7 @@ class Login extends Component {
         Storage.set('ACCESS_TOKEN', data.token)
         Storage.set('TYPE', data.type)
         Storage.set('NAME', data.name)
+        Storage.set('ID', data._id)
         Request.setAccessToken(data.token)
         history.push('/')
       }

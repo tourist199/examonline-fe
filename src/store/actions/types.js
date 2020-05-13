@@ -8,6 +8,8 @@ export default [
   'GET_USERS',
   'DELETE_USER',
 
+  'INSERT_TEST',
+
   // Store
   'CLEAR_STORE'
 ]
