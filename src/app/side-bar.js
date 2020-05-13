@@ -85,7 +85,7 @@ class SideBar extends Component {
     const userType = Storage.get('TYPE', 'STUDENT')
 
     return (
-      <div style={!uiStore.isSideBarOpen ? { width: 300 } : null}>
+      <div style={!uiStore.isSideBarOpen ? { width: 250 } : null}>
 
         {userType == 'STUDENT' ? (
           <Menu
@@ -130,7 +130,7 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
             <SubMenu icon={<MailOutlined />} title="Quản lý đề thi">
-              <Menu.Item onClick={() => { historyPush('/taodethi') }}>Tạo đề thi</Menu.Item>
+              <Menu.Item onClick={() => { historyPush('/new-test') }}>Tạo đề thi</Menu.Item>
               <Menu.Item onClick={() => { historyPush('/xemdanhsach') }}>Xem danh sách</Menu.Item>
             </SubMenu>
             <SubMenu

@@ -18,7 +18,7 @@ const QuanLyDe = lazy(() => import('@/pages/quanlyde'))
 const NewUser = lazy(() => import('@/pages/NewUser'))
 const ListUser = lazy(() => import('@/pages/ListUser'))
 const XemDanhSach = lazy(() => import('@/pages/xemdanhsach'))
-const TaoDeThi = lazy(() => import('@/pages/taodethi'))
+const NewTest = lazy(() => import('@/pages/NewTest'))
 const CreateExam = lazy(() => import('@/pages/CreateExam'))
 const ThongTinCaNhanGiaoVien = lazy(() => import('@/pages/thongtincanhangiaovien'))
 const NotFound = lazy(() => import('@/pages/not-found'))
@@ -62,7 +62,7 @@ class Routes extends Component {
             <Route exact path="/new-user" component={this._renderLazyComponent(NewUser)} />
             <Route exact path="/list-user" component={this._renderLazyComponent(ListUser)} />
             <Route exact path="/xemdanhsach" component={this._renderLazyComponent(XemDanhSach)} />
-            <Route exact path="/taodethi" component={this._renderLazyComponent(TaoDeThi)} />
+            <Route exact path="/new-test" component={this._renderLazyComponent(NewTest)} />
             <Route exact path="/create-exam" component={this._renderLazyComponent(CreateExam)} />
             <Route exact path="/thongtincanhangiaovien" component={this._renderLazyComponent(ThongTinCaNhanGiaoVien)} />
 

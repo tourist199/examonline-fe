@@ -1,7 +1,7 @@
 import { TYPES } from '@/store/actions'
 
 const INIT_STATE = {
-  isSideBarOpen: true
+  isSideBarOpen: false
 }
 
 export default (state = INIT_STATE, action) => {

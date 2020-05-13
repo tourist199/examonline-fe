@@ -6,6 +6,7 @@ export default [
   'LOGIN',
   'REGISTER',
   'GET_USERS',
+  'DELETE_USER',
 
   // Store
   'CLEAR_STORE'

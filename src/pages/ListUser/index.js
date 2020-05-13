@@ -16,6 +16,8 @@ import Select from '@/components/select'
 import Container from '@/components/container'
 import Table from '@/components/table'
 import { Dimensions } from '@/theme'
+import Notification from '@/components/notification'
+
 
 const Content = styled.div`
   display: flex;
@@ -51,20 +53,6 @@ const Content = styled.div`
   }
 `
 let dataSource = []
-
-lodash.range(5).forEach(() => {
-  dataSource.push({
-    email: 'ltk1909@gmail.com',
-    name: 'Lê Tùng Khánh',
-    cardId: '206017036',
-    gender: 'Nam',
-    birthday: '2017/2/2',
-    address: 'Quảng Nam',
-    phoneNumber: '0969919088',
-    createAt: '2/3/2020',
-    action: <Button> Xóa </Button>
-  })
-})
 
 const columns = [
   {
@@ -113,16 +101,22 @@ const columns = [
     key: 'createAt'
   },
   {
+    title: 'Loại tài khoản',
+    dataIndex: 'type',
+    key: 'type'
+  },
+  {
     title: 'Action',
     dataIndex: 'action',
     key: 'action'
   }
 ]
 
-@connect((state) => ({ //fix xoa sau
+@connect((state) => ({
   accountStore: state.account
 }), {
-  getUsers: actions.getUsers
+  getUsers: actions.getUsers,
+  deleteUser: actions.deleteUser
 })
 class ListUser extends Component {
 
@@ -132,6 +126,7 @@ class ListUser extends Component {
 
   render() {
     const { listUser } = this.props.accountStore
+    const { deleteUser, getUsers } = this.props
     dataSource = []
     listUser.forEach(item => {
       dataSource.push({
@@ -143,11 +138,18 @@ class ListUser extends Component {
         address: item.address,
         phoneNumber: item.phoneNumber,
         createAt: item.createAt && moment(item.createAt).format('L'),
-        action: <Button> Xóa </Button>
+        type: item.type,
+        action: <Button onClick={() => {
+          deleteUser(item._id, (success, data) => {
+            if (success)
+              getUsers()
+              Notification.success('Deleted user')
+          })
+        }}> Xóa </Button>
       })
     })
-    console.log(listUser);
-    
+
+
     return (
       <Page>
         <Container>
