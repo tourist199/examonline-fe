@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import Storage from '@/utils/storage'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import Input from '@/components/input'
 import Button from '@/components/button'
@@ -39,18 +39,21 @@ class NewTest extends Component {
       {
         title: '',
         answers: ['', ''],
+        description: '',
         result: null
       },
       {
         title: '',
         answers: ['', ''],
+        description: '',
         result: null
       },
       {
         title: '',
         answers: ['', ''],
+        description: '',
         result: null
-      }
+      },
     ],
     questionIndex: 0
   }
@@ -87,6 +90,18 @@ class NewTest extends Component {
             }}
           />
         </div>
+        <div>
+          <span className='description'>Mo ta:</span>
+          <Input
+            name='description'
+            value={questionItem.description}
+            onChange={(e) => {
+              let listQuestion = this.state.listQuestion
+              listQuestion[this.state.questionIndex].description = e.target.value
+              this.setState({ listQuestion })
+            }}
+          />
+        </div>
         <div className='answer-box'>
           {
             questionItem.answers.map((item, index) => (
@@ -97,7 +112,15 @@ class NewTest extends Component {
                   onClick={() => {
                     let listQuestion = this.state.listQuestion
                     listQuestion[this.state.questionIndex].answers.splice(index, 1)
+                    if (listQuestion[this.state.questionIndex].result > index) {
+                      listQuestion[this.state.questionIndex].result = listQuestion[this.state.questionIndex].result - 1
+                    }
+                    else if (listQuestion[this.state.questionIndex].result == index) {
+                      listQuestion[this.state.questionIndex].result = null
+                    }
+
                     this.setState({ listQuestion })
+
                   }}
                 />
                 <Button
@@ -139,12 +162,24 @@ class NewTest extends Component {
     )
   }
 
-  _onNewTest = () => {
+  _onSaveTest = () => {
     let data = {
       title: this.state.title,
       description: this.state.description,
       createAt: moment(),
-      status: 'CHUADUYET',
+      status: 'DRAFT',
+      createdBy: Storage.get('ID'),
+      listQuestion: this.state.listQuestion
+    }
+    this.props.insertTest(data)
+  }
+
+  _onSubmitTest = () => {
+    let data = {
+      title: this.state.title,
+      description: this.state.description,
+      createAt: moment(),
+      status: 'DRAFT',
       createdBy: Storage.get('ID'),
       listQuestion: this.state.listQuestion
     }
@@ -170,8 +205,11 @@ class NewTest extends Component {
                 <Button type="primary" shape='round' icon={<PlusCircleOutlined />}>
                   CANCEL
                 </Button>
-                <Button onClick={this._onNewTest} type="primary" shape='round' icon={<PlusCircleOutlined />}>
-                  NEW
+                <Button onClick={this._onSaveTest} type="primary" shape='round' icon={<PlusCircleOutlined />}>
+                  Lưu nháp
+                </Button>
+                <Button onClick={this._onSubmitTest} type="primary" shape='round' icon={<PlusCircleOutlined />}>
+                  Đề xuất duyệt
                 </Button>
               </div>
               <div>

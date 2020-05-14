@@ -73,12 +73,8 @@ const validationSchema = object().shape({
 
 class Login extends Component {
   _onSubmit = (values) => {
-    console.log(values);
-    
     const { login, history } = this.props
     login(values, (success, data) => {
-      console.log(data);
-      
       if (success) {
         Storage.set('ACCESS_TOKEN', data.token)
         Storage.set('TYPE', data.type)

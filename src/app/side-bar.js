@@ -118,9 +118,9 @@ class SideBar extends Component {
               Admin Quản lý đề
               </Menu.Item>
 
-            <SubMenu icon={<SolutionOutlined />} title="Quản lý sinh viên">
+            <SubMenu icon={<SolutionOutlined />} title="Quản lý người dùng">
               <Menu.Item icon={<UserAddOutlined />} onClick={() => { historyPush('/new-user') }}>
-                Tạo sinh viên
+                Tạo người dùng
             </Menu.Item>
               <Menu.Item icon={<TeamOutlined />} onClick={() => { historyPush('/list-user') }}>Danh sách người dùng</Menu.Item>
             </SubMenu>

@@ -54,7 +54,7 @@ const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 class CreateNewUser extends Component {
   state = {
-    gender: 'female',
+    gender: 'male',
     type: 'STUDENT',
     birthday: moment('2015/1/1')
   }

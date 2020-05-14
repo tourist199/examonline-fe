@@ -9,17 +9,21 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case TYPES.LOGIN_REQUEST:
+    case TYPES.INSERT_TEST_REQUEST:
+      console.log(action);
+      
       return {
         ...state,
         submitting: action.type
       }
-    case TYPES.LOGIN_SUCCESS:
+    case TYPES.INSERT_TEST_SUCCESS:
+      console.log(action);
       return {
         ...state,
         submitting: null
       }
-    case TYPES.LOGIN_FAILURE:
+    case TYPES.INSERT_TEST_FAILURE:
+      console.log(action);
       return {
         ...state,
         submitting: null,
