@@ -9,6 +9,7 @@ export default [
   'DELETE_USER',
 
   'INSERT_TEST',
+  'GET_TESTS_BY_TEACHER',
 
   // Store
   'CLEAR_STORE'
