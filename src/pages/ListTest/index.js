@@ -4,6 +4,7 @@ import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
+import {connect} from 'react-redux'
 
 import Input from '@/components/input'
 import Field from '@/components/field'
@@ -13,6 +14,7 @@ import Select from '@/components/select'
 import Container from '@/components/container'
 import Table from '@/components/table'
 import { Dimensions } from '@/theme'
+import { actions } from '@/store/actions'
 
 const Content = styled.div`
   display: flex;
@@ -89,10 +91,20 @@ const columns = [
   },
 ]
 
+@connect((state) => ({
+  accountStore: state.account
+}), {
+  getTests: actions.getTestsByTeacher,
+  deleteUser: actions.deleteUser
+})
 class ListTest extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
+  componentDidMount() {
+    this.props.getTests(1)
+  }
+  
 
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
