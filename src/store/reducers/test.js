@@ -34,14 +34,12 @@ export default (state = INIT_STATE, action) => {
         submitting: action.type
       }
     case TYPES.GET_TESTS_BY_TEACHER_SUCCESS:
-      console.log(action);
-      
       return {
         ...state,
-        submitting: null
+        submitting: null,
+        listTest: action.data.result
       }
     case TYPES.GET_TESTS_BY_TEACHER_FAILURE:
-      console.log(action);
       return {
         ...state,
         submitting: null,

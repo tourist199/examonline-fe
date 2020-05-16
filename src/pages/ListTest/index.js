@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
 import {connect} from 'react-redux'
+import moment from 'moment'
 
 import Input from '@/components/input'
 import Field from '@/components/field'
@@ -51,17 +52,6 @@ const Content = styled.div`
 `
 let dataSource = []
 
-lodash.range(5).forEach(() => {
-  dataSource.push({
-    key: '1',
-    STT: '1',
-    nameExam: 'Trắc nghiệm',
-    date: '22/12/1999',
-    status: 'Đã duyệt',
-    Action: <Button> EDIT </Button>
-  })
-})
-
 const columns = [
   {
     title: 'STT',
@@ -92,10 +82,9 @@ const columns = [
 ]
 
 @connect((state) => ({
-  accountStore: state.account
+  testStore: state.test
 }), {
-  getTests: actions.getTestsByTeacher,
-  deleteUser: actions.deleteUser
+  getTests: actions.getTestsByTeacher
 })
 class ListTest extends Component {
   _onSubmit = (values) => {
@@ -126,7 +115,22 @@ class ListTest extends Component {
   )
 
   render() {
+    let listTest = this.props.testStore.listTest
+console.log(listTest);
 
+    if (listTest) {
+      dataSource = []
+      listTest.forEach((item, index) => {
+        dataSource.push({
+          key: index,
+          nameExam: item.title,
+          date: moment(item.createAt).format('llll'),
+          status: item.status,
+          Action: <Button> EDIT </Button>
+        })
+      })
+    }
+    
     return (
       <Page>
         <Container>

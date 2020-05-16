@@ -5,5 +5,5 @@ export function insertTest(payload) {
 }
 
 export function getTestsByTeacher(page) {
-    return MainApi.get('/getTestsByTeacher/'+ page)
+    return MainApi.get('/tests/getTestsByTeacher/'+ page)
 }
