@@ -10,10 +10,14 @@ import Input from '@/components/input'
 import Field from '@/components/field'
 import Button from '@/components/button'
 import Page from '@/components/page'
-import { DatePicker } from 'antd';
+import { DatePicker,Descriptions,Divider } from 'antd';
 import { Select } from 'antd';
 import Notification from '@/components/notification'
-
+//upload
+import { Row, Col } from 'antd';
+import { Upload, message } from 'antd';
+import { LoadingOutlined,UploadOutlined, PlusOutlined } from '@ant-design/icons';
+//
 
 import Container from '@/components/container'
 import { Dimensions } from '@/theme'
@@ -29,8 +33,29 @@ const Content = styled.div`
     display: flex;
     justify-content: flex-end;
   }
-
+  .ant-upload{
+    border-radius: 50%;
+  }
 `
+//upload
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
+//
 
 const validationSchema = object().shape({
   email: string().required(),
@@ -43,7 +68,53 @@ const validationSchema = object().shape({
   cardId: string().required(),
   type: string().ensure()
 })
+// upload
+class Avatar extends React.Component {
+  state = {
+    loading: false,
+  };
 
+  handleChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        }),
+      );
+    }
+  };
+
+  render() {
+    const uploadButton = (
+      <div> 
+        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { imageUrl } = this.state;
+    return (
+      <Upload 
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        beforeUpload={beforeUpload}
+        onChange={this.handleChange}
+      >
+        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100px',height:"104px",borderRadius:"50%"}} /> : uploadButton}
+      </Upload>
+    );
+  }
+}
+
+//
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 @connect((state) => ({ //fix xoa sau
@@ -67,11 +138,11 @@ class CreateNewUser extends Component {
         Notification.success('Đăng ký thành công')
     })
   }
-
   _renderForm = ({ handleSubmit, ...form }) => (
-    <Form className="form">
+    <Form className="form" style={{marginTop:"-40px"}}>
       <div className="field-group">
-        <h1 > Tạo người dùng mới </h1>
+        <h1 style={{textAlign: "center"}}> Tạo người dùng mới </h1>
+        <Divider style={{borderColor:"#808080"}} />
         <div className="new-user">
           <Field
             style={{ width: '330px' }}
@@ -97,7 +168,7 @@ class CreateNewUser extends Component {
             name="name"
             label="Tên học viên"
             component={Input}
-          />
+          /> 
           <Field
             style={{ width: '330px' }}
             form={form}
@@ -110,7 +181,6 @@ class CreateNewUser extends Component {
               </Select>
             )}
           />
-
           <Field
             style={{ width: '330px' }}
             form={form}
@@ -143,7 +213,6 @@ class CreateNewUser extends Component {
             label="CMND"
             component={Input}
           />
-
           <Field
             style={{ width: '330px' }}
             form={form}
@@ -161,9 +230,9 @@ class CreateNewUser extends Component {
 
 
         </div>
-      </div>
+      </div><Divider style={{borderColor:"#808080"}} />
       <div className="table-box">
-        <div className="capnhat">
+        <div className="capnhat" style={{paddingBottom:"20px"}}>
           <Button
             type="primary"
             htmlType="submit"
@@ -187,19 +256,25 @@ class CreateNewUser extends Component {
       phoneNumber: '',
       cardId: ''
     }
-
     return (
       <Page>
         <Container>
           <Content>
-            <Formik
+          <Row>
+              <Col span={15}><Formik className="form-tt"
               validateOnChange={false}
               validateOnBlur={false}
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={this._onSubmit}
               component={this._renderForm}
-            />
+            /></Col>
+             <Col span={6} offset={3}>
+                <div style={{marginTop: "60px"}}>
+              <Avatar />
+              <p >Upload Avatar here....!</p>
+            </div></Col>
+          </Row>
           </Content>
         </Container>
       </Page>
