@@ -27,19 +27,20 @@ export default (state = INIT_STATE, action) => {
         // error: action.error
       }
     case TYPES.GET_EXAMS_BY_TEACHER_REQUEST:
+      console.log(action, 'request');
       return {
         ...state,
         submitting: action.type
       }
     case TYPES.GET_EXAMS_BY_TEACHER_SUCCESS:
-      // console.log(action);
+      console.log(action);
       
       return {
         ...state,
         submitting: null
       }
     case TYPES.GET_EXAMS_BY_TEACHER_FAILURE:
-      // console.log(action);
+      console.log(action);
       return {
         ...state,
         submitting: null,

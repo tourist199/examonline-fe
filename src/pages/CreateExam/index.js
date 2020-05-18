@@ -7,7 +7,7 @@ import moment from 'moment'
 import { actions } from '@/store/actions'
 import { connect } from 'react-redux'
 import Notification from '@/components/notification'
-
+import Storage from '@/utils/storage'
 
 import { Pagination, Checkbox, Select, DatePicker } from 'antd'
 import Input from '@/components/input'
@@ -133,10 +133,10 @@ class CreateExam extends Component {
   }
 
   _onSubmit = (values) => {
-    let {testId, timeStart, timeEnd, listStudent} = this.state
-    console.log({...values, testId, timeStart, timeEnd, listStudent})
-    this.props.insertExam({...values, testId, timeStart, timeEnd, listStudent}, (success, data) => {
-      if(success)
+    let { testId, timeStart, timeEnd, listStudent } = this.state
+    console.log({ ...values, testId, timeStart, timeEnd, listStudent })
+    this.props.insertExam({ ...values, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ACESS_TOKEN') }, (success, data) => {
+      if (success)
         Notification.success('Create Exam Success')
     })
   }
