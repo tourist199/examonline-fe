@@ -5,6 +5,7 @@ const INIT_STATE = {
   submitting: null,
   error: null,
   listUser: [],
+  total: 0,
   listStudent: []
 }
 
@@ -37,7 +38,8 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         submitting: null,
-        listUser: action.data.listUser
+        listUser: action.data.listUser,
+        total: action.data.total
       }
     case TYPES.GET_USERS_FAILURE:
       return {

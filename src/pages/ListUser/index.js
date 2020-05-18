@@ -5,7 +5,7 @@ import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
 import { connect } from 'react-redux'
-import { actions } from '@/store/actions'
+import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'
 
 import Input from '@/components/input'
@@ -121,12 +121,13 @@ const columns = [
 class ListUser extends Component {
 
   componentDidMount() {
-    this.props.getUsers()
+    this.props.getUsers({ page: 1 })
   }
 
   render() {
-    const { listUser } = this.props.accountStore
+    const { listUser, total } = this.props.accountStore
     const { deleteUser, getUsers } = this.props
+    
     dataSource = []
     listUser.forEach(item => {
       dataSource.push({
@@ -163,9 +164,12 @@ class ListUser extends Component {
                 dataSource={dataSource}
                 columns={columns}
                 scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px )` }}
+                loading={this.props.accountStore.submitting === TYPES.GET_USERS_REQUEST}
+
               />
               <div className="pagination-box">
-                <Pagination defaultCurrent={1} total={50} />
+                <Pagination 
+                  defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getUsers({ page })} />
               </div>
             </div>
           </Content>
