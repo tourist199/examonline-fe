@@ -84,7 +84,7 @@ const columns = [
 @connect((state) => ({
   testStore: state.test
 }), {
-  getTests: actions.getTestsByTeacher
+  getTests: actions.getTestsByTeacher,
 })
 class ListTest extends Component {
   _onSubmit = (values) => {

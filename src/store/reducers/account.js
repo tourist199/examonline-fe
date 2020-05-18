@@ -32,8 +32,6 @@ export default (state = INIT_STATE, action) => {
         submitting: action.type
       }
     case TYPES.GET_USERS_SUCCESS:
-      console.log(action.data);
-
       return {
         ...state,
         submitting: null,

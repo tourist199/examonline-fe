@@ -6,13 +6,15 @@ import { TYPES } from '@/store/actions'
 import ui from './ui'
 import account from './account'
 import test from './test'
+import exam from './exam'
 
 const appReducer = (history) => combineReducers({
   router: connectRouter(history),
   localize: localizeReducer,
   ui,
   account,
-  test
+  test,
+  exam
 })
 
 export default (history) => (state, action) => {

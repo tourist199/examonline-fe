@@ -20,6 +20,7 @@ const ListUser = lazy(() => import('@/pages/ListUser'))
 const ListTest = lazy(() => import('@/pages/ListTest'))
 const NewTest = lazy(() => import('@/pages/NewTest'))
 const EditTest = lazy(() => import('@/pages/EditTest'))
+const WatchTest = lazy(() => import('@/pages/WatchTest'))
 const CreateExam = lazy(() => import('@/pages/CreateExam'))
 const ListExam = lazy(() => import('@/pages/ListExam'))
 const NotFound = lazy(() => import('@/pages/not-found'))
@@ -67,6 +68,7 @@ class Routes extends Component {
             <Route exact path="/edit-test/:idTest" component={this._renderLazyComponent(EditTest)} />
             <Route exact path="/create-exam" component={this._renderLazyComponent(CreateExam)} />
             <Route exact path="/list-exam" component={this._renderLazyComponent(ListExam)} />
+            <Route exact path="/watch-test/:id" component={this._renderLazyComponent(WatchTest)} />
 
             <Redirect to="/not-found" />
           </Switch>

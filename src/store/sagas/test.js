@@ -2,7 +2,7 @@ import { all, takeLatest } from 'redux-saga/effects'
 
 import sagaHelper from '@/utils/saga-helper'
 import { TYPES } from '@/store/actions'
-import { insertTest, getTestsByTeacher, getTestById, updateTest, deleteTest } from '@/api/test'
+import { insertTest, getTestsByTeacher, getTestById, updateTest, deleteTest, getTestsWaitingAdmin, changeStatusTestDraft, changeStatusTestDone } from '@/api/test'
 
 export default function* watcher() {
   yield all([
@@ -20,6 +20,15 @@ export default function* watcher() {
     })),
     takeLatest(TYPES.DELETE_TEST, sagaHelper({
       api: deleteTest
+    })),
+    takeLatest(TYPES.GET_TESTS_WAITING_ADMIN, sagaHelper({
+      api: getTestsWaitingAdmin
+    })),
+    takeLatest(TYPES.CHANGE_STATUS_TEST_DRAFT, sagaHelper({
+      api: changeStatusTestDraft
+    })),
+    takeLatest(TYPES.CHANGE_STATUS_TEST_DONE, sagaHelper({
+      api: changeStatusTestDone
     }))
   ])
 }
