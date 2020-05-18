@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { actions } from '@/store/actions'
+import moment from 'moment'
 
 import { Pagination } from 'antd'
 import Input from '@/components/input'
@@ -38,38 +39,32 @@ const Content = styled.div`
 `
 let dataSource = []
 
-lodash.range(5).forEach(() => {
-  dataSource.push({
-    key: '1',
-    STT: '1',
-    nameExam: 'Trắc nghiệm',
-    testExam: 'Code js',
-    time: '22/12/1998',
-    Action: <div> <Button> EDIT </Button> <Button> DELETE </Button></div>
-  })
-})
 
 const columns = [
   {
-    title: 'STT',
-    dataIndex: 'STT',
+    title: '#',
+    dataIndex: '#',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
   },
   {
     title: 'Tên đề thi',
-    dataIndex: 'nameExam',
-    key: 'nameExam'
+    dataIndex: 'titleExam',
+    key: 'titleExam'
   },
   {
     title: 'Bộ đề thi',
-    dataIndex: 'testExam',
-    key: 'testExam'
+    dataIndex: 'titleTest',
+    key: 'titleTest'
   },
   {
-    title: 'Thời gian',
-    dataIndex: 'time',
-    key: 'time'
+    title: 'Thời gian bắt đầu',
+    dataIndex: 'timeStart',
+    key: 'timeStart'
+  },
+  {
+    title: 'Thời gian kết thúc',
+    dataIndex: 'timeEnd',
+    key: 'timeEnd'
   },
   {
     title: 'Action',
@@ -89,9 +84,9 @@ class ListExam extends Component {
   }
 
   componentDidMount() {
-    this.props.getExamsByTeacher()
+    this.props.getExamsByTeacher(1)
   }
-  
+
 
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
@@ -113,6 +108,17 @@ class ListExam extends Component {
   )
 
   render() {
+    console.log();
+    dataSource = []
+    this.props.examStore.listExam.forEach((item => {
+      dataSource.push({
+        titleExam: item.title,
+        titleTest: item.testId && item.testId.title,
+        timeStart: moment(item.timeStart).format('LLL'),
+        timeEnd: moment(item.timeEnd).format('LLL'),
+        Action: <div> <Button> EDIT </Button> <Button> DELETE </Button></div>
+      })
+    }))
 
     return (
       <Page>
@@ -120,7 +126,7 @@ class ListExam extends Component {
           <Content>
             <Formik
               validateOnChange={false}
-              validateOnBlur={false}  
+              validateOnBlur={false}
               onSubmit={this._onSubmit}
               component={this._renderForm}
             />

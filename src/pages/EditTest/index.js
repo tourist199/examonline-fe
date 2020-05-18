@@ -72,9 +72,9 @@ const Content = styled.div`
 @connect((state) => ({
   testIndex: state.test.editTest
 }), {
-  insertTest: actions.insertTest,
   getTestById: actions.getTestById,
-  updateTest: actions.updateTest
+  updateTest: actions.updateTest,
+  deleteTest: actions.deleteTest
 })
 class EditTest extends Component {
 
@@ -240,6 +240,11 @@ class EditTest extends Component {
     })
   }
 
+  _deleteThisTest = () => {
+    this.props.deleteTest(this.props.match.params.idTest)
+    
+  }
+
   _onSubmitTest = () => {
     let data = {
       title: this.state.title,
@@ -283,7 +288,7 @@ class EditTest extends Component {
                 <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
                   Lưu nháp
                 </Button>
-                <Button  danger type="primary" className="item-button" shape='round'  icon={<DeleteOutlined />}>
+                <Button  danger onClick={this._deleteThisTest} type="primary" className="item-button" shape='round'  icon={<DeleteOutlined />}>
                   Xóa
                 </Button>
                 <Button onClick={this._onSubmitTest} type="primary" shape='round' className="item-button" icon={<CheckOutlined />}>

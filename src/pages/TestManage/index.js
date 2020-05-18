@@ -4,6 +4,9 @@ import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
+import { connect } from 'react-redux'
+import { actions } from '@/store/actions'
+import moment from 'moment'
 
 import Input from '@/components/input'
 import Field from '@/components/field'
@@ -51,8 +54,6 @@ let dataSource = []
 
 lodash.range(4).forEach(() => {
   dataSource.push({
-    key: '1',
-    STT: '1',
     nameExam: 'Trắc nghiệm',
     date: '22/12/1999',
     teacher: 'Lê Tùng Khánh',
@@ -63,19 +64,19 @@ lodash.range(4).forEach(() => {
 const columns = [
   {
     title: '#',
-    dataIndex: 'STT',
+    dataIndex: '#',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
+    key: '#'
   },
   {
     title: 'Tên bộ đề',
-    dataIndex: 'nameExam',
-    key: 'nameExam'
+    dataIndex: 'title',
+    key: 'title'
   },
   {
     title: 'Ngày tạo',
-    dataIndex: 'date',
-    key: 'date'
+    dataIndex: 'createAt',
+    key: 'createAt'
   },
   {
     title: 'Giáo viên',
@@ -88,11 +89,20 @@ const columns = [
     key: 'action'
   },
 ]
-
+@connect((state) => ({
+  testStore: state.test
+}), {
+  getTestsWaiting: actions.getTestsWaitingAdmin,
+})
 class TestManage extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
+
+  componentDidMount() {
+    this.props.getTestsWaiting()
+  }
+
 
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
@@ -114,12 +124,25 @@ class TestManage extends Component {
   )
 
   render() {
+    let lsTestWaiting = this.props.testStore.listTestWaiting;
+    console.log(lsTestWaiting);
+    
+    dataSource = []
+    lsTestWaiting.forEach(item => {
+      dataSource.push({
+        title: item.title,
+        createAt: moment(item.createAt).format('LLL'),
+        teacher: item.nameTeacher,
+        action: <Button onClick= {()=>this.props.history.push('/watch-test/'+item._id)}> Xem </Button>
+      })
+    })
+
 
     return (
       <Page>
         <Container>
           <Content>
-            <Formik 
+            <Formik
               onSubmit={this._onSubmit}
               component={this._renderForm}
             />

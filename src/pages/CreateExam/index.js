@@ -134,8 +134,7 @@ class CreateExam extends Component {
 
   _onSubmit = (values) => {
     let { testId, timeStart, timeEnd, listStudent } = this.state
-    console.log({ ...values, testId, timeStart, timeEnd, listStudent })
-    this.props.insertExam({ ...values, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ACESS_TOKEN') }, (success, data) => {
+    this.props.insertExam({ ...values, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ID') }, (success, data) => {
       if (success)
         Notification.success('Create Exam Success')
     })
