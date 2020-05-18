@@ -10,6 +10,13 @@ export default [
 
   'INSERT_TEST',
   'GET_TESTS_BY_TEACHER',
+  'GET_TEST_BY_ID',
+  'UPDATE_TEST',
+  'DELETE_TEST',
+  'GET_STUDENTS',
+
+  'INSERT_EXAM',
+  'GET_EXAMS_BY_TEACHER',
 
   // Store
   'CLEAR_STORE'

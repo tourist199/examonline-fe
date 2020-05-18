@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
+import {connect} from 'react-redux'
+import { actions } from '@/store/actions'
 
 import { Pagination } from 'antd'
 import Input from '@/components/input'
@@ -76,10 +78,20 @@ const columns = [
   },
 ]
 
+@connect((state) => ({
+  examStore: state.exam,
+}), {
+  getExamsByTeacher: actions.getExamsByTeacher
+})
 class ListExam extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
+
+  componentDidMount() {
+    this.props.getExamsByTeacher()
+  }
+  
 
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">

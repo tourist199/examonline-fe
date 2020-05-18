@@ -4,8 +4,12 @@ import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string, date } from 'yup'
 import moment from 'moment'
+import { actions } from '@/store/actions'
+import { connect } from 'react-redux'
+import Notification from '@/components/notification'
 
-import { Pagination, Checkbox, Select, TimePicker } from 'antd'
+
+import { Pagination, Checkbox, Select, DatePicker } from 'antd'
 import Input from '@/components/input'
 import Field from '@/components/field'
 import Button from '@/components/button'
@@ -55,13 +59,12 @@ const Content = styled.div`
     }
   }
 `
-const { RangePicker } = TimePicker
+const { RangePicker } = DatePicker
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY']
 const { Option } = Select
-const children = [];
-for (let i = 10; i < 36; i++) {
-  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-}
+let children = [];
+let tests = []
+
 
 let dataSource = []
 
@@ -104,12 +107,38 @@ const columns = [
 ]
 
 const validationSchema = object().shape({
-  create: string().required()
+  title: string().required(),
+  description: string().required()
 })
 
+@connect((state) => ({
+  accountStore: state.account,
+  testStore: state.test
+}), {
+  getStudents: actions.getStudents,
+  getTests: actions.getTestsByTeacher,
+  insertExam: actions.insertExam
+})
 class CreateExam extends Component {
+  componentDidMount() {
+    this.props.getStudents()
+    this.props.getTests(1)
+  }
+
+  state = {
+    testId: '',
+    timeStart: null,
+    timeEnd: null,
+    listStudent: []
+  }
+
   _onSubmit = (values) => {
-    console.log(values)
+    let {testId, timeStart, timeEnd, listStudent} = this.state
+    console.log({...values, testId, timeStart, timeEnd, listStudent})
+    this.props.insertExam({...values, testId, timeStart, timeEnd, listStudent}, (success, data) => {
+      if(success)
+        Notification.success('Create Exam Success')
+    })
   }
 
   _renderForm = ({ handleSubmit, ...form }) => (
@@ -121,8 +150,9 @@ class CreateExam extends Component {
             form={form}
             inline
             size="middle"
-            name="create"
-            label="Tạo kỳ thi"
+            name="title"
+            label="Tên kỳ thi"
+            style={{ width: 500 }}
             component={Input}
           />
           <Button
@@ -140,7 +170,8 @@ class CreateExam extends Component {
             form={form}
             inline
             size="middle"
-            name="create"
+            name="description"
+            style={{ width: 500 }}
             label="Mô tả kỳ thi"
             component={Input}
           />
@@ -149,7 +180,7 @@ class CreateExam extends Component {
             size="middle"
             htmlType="submit"
             type="primary"
-            onClick={handleSubmit}
+            onClick={this.props.history.goBack}
           >
             Cancel
           </Button>
@@ -158,30 +189,36 @@ class CreateExam extends Component {
           <h3>Chọn bộ đề</h3>
           <Select
             showSearch
-            style={{ width: 270, paddingLeft: 65}}
-            placeholder="Select a person"
+            style={{ width: 500, marginLeft: 65 }}
+            placeholder="Chọn đề thi"
             optionFilterProp="children"
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
+            onChange={(testId) => this.setState({ testId })}
+            value={this.state.testId}
           >
-            <Option value="one">one</Option>
-            <Option value="two">two</Option>
-            <Option value="three">three</Option>
+            {tests}
           </Select>
         </div>
         <div className="time-exam">
           <h3>Thời gian thi</h3>
-          
-          <RangePicker style={{marginLeft: 60, width: 205 }}/>
+
+          <RangePicker
+            onChange={(time) => this.setState({ timeStart: time[0], timeEnd: time[1] })}
+            value={[this.state.timeStart, this.state.timeEnd]}
+            showTime={{ format: 'HH:mm' }}
+            style={{ marginLeft: 60, width: 500 }}
+          />
         </div>
         <div className="combobox-student">
-        <h3>Sinh viên</h3>
+          <h3>Sinh viên</h3>
           <Select
             mode="multiple"
-            style={{ width: 288, paddingLeft: 85}}
-            placeholder="Please select"
-            defaultValue={['a10', 'c12']}
+            style={{ width: 500, marginLeft: 85 }}
+            placeholder="Chọn sinh viên"
+            value={[...this.state.listStudent]}
+            onChange={(listStudent) => this.setState({ listStudent })}
           >
             {children}
           </Select>
@@ -192,8 +229,22 @@ class CreateExam extends Component {
 
   render() {
     const initialValues = {
-      create: ''
+      title: '',
+      description: ''
     }
+    let listStudent = this.props.accountStore.listStudent
+    let listTest = this.props.testStore.listTest
+
+    tests = []
+    listTest.forEach((item, index) => {
+      tests.push(<Option key={index} value={item._id}>{item.title}</Option>)
+    })
+
+
+    children = []
+    listStudent.forEach((item, index) => {
+      children.push(<Option key={index} value={item._id}>{item.email}</Option>);
+    })
 
     return (
       <Page>
@@ -214,9 +265,9 @@ class CreateExam extends Component {
                 columns={columns}
                 scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
               />
-              <div className="pagination-box">
+              {/* <div className="pagination-box">
                 <Pagination defaultCurrent={1} total={50} />
-              </div>
+              </div> */}
             </div>
           </Content>
         </Container>

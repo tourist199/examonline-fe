@@ -146,7 +146,7 @@ class NewTest extends Component {
                 this.setState({ listQuestion })
               }}
             />
-          </div><Divider bordered={false}>Answer</Divider>
+          </div><Divider >Answer</Divider>
           <div className='answer-box'>
             {
               questionItem.answers.map((item, index) => (
@@ -160,7 +160,6 @@ class NewTest extends Component {
                       listQuestion[this.state.questionIndex].result = index
                       this.setState({ listQuestion })
                     }} />
-                  {/* <Button shape="circle" disabled >{String.fromCharCode(65 + index)}</Button> */}
                   <Input
                     className="input-answer"
                     name=''

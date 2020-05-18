@@ -4,44 +4,46 @@ const INIT_STATE = {
   loaded: [],
   submitting: null,
   error: null,
-  listTest: [],
-  editTest: {}
+  listExam: [],
+  examIndex: {}
 }
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case TYPES.GET_TESTS_BY_TEACHER_REQUEST:
+    case TYPES.INSERT_EXAM_REQUEST:
       return {
         ...state,
         submitting: action.type
       }
-    case TYPES.GET_TESTS_BY_TEACHER_SUCCESS:
-      return {
-        ...state,
-        submitting: null,
-        listTest: action.data.result
-      }
-    case TYPES.GET_TESTS_BY_TEACHER_FAILURE:
-      return {
-        ...state,
-        submitting: null,
-        error: action.error
-      }
-    case TYPES.GET_TEST_BY_ID_REQUEST:
-      return {
-        ...state,
-        submitting: action.type
-      }
-    case TYPES.GET_TEST_BY_ID_SUCCESS:
-      return {
-        ...state,
-        submitting: null,
-        editTest: action.data
-      }
-    case TYPES.GET_TEST_BY_ID_FAILURE:
+    case TYPES.INSERT_EXAM_SUCCESS:
       return {
         ...state,
         submitting: null
+      }
+    case TYPES.INSERT_EXAM_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        // error: action.error
+      }
+    case TYPES.GET_EXAMS_BY_TEACHER_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_EXAMS_BY_TEACHER_SUCCESS:
+      // console.log(action);
+      
+      return {
+        ...state,
+        submitting: null
+      }
+    case TYPES.GET_EXAMS_BY_TEACHER_FAILURE:
+      // console.log(action);
+      return {
+        ...state,
+        submitting: null,
+        // error: action.error
       }
 
     default:

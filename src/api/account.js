@@ -12,6 +12,10 @@ export function getUsers() {
   return MainApi.get('/users/1')
 }
 
+export function getStudents() {
+  return MainApi.get('/users/get-student')
+}
+
 export function deleteUser(payload) {
   return MainApi.delete(`/users/${payload}`)
 }

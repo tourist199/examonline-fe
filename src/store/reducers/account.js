@@ -4,7 +4,8 @@ const INIT_STATE = {
   loaded: [],
   submitting: null,
   error: null,
-  listUser: []
+  listUser: [],
+  listStudent: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -32,13 +33,30 @@ export default (state = INIT_STATE, action) => {
       }
     case TYPES.GET_USERS_SUCCESS:
       console.log(action.data);
-      
+
       return {
         ...state,
         submitting: null,
         listUser: action.data.listUser
       }
     case TYPES.GET_USERS_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        error: action.error
+      }
+    case TYPES.GET_STUDENTS_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_STUDENTS_SUCCESS:
+      return {
+        ...state,
+        submitting: null,
+        listStudent: action.data.listStudent
+      }
+    case TYPES.GET_STUDENTS_FAILURE:
       return {
         ...state,
         submitting: null,

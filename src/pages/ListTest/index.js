@@ -116,7 +116,7 @@ class ListTest extends Component {
 
   render() {
     let listTest = this.props.testStore.listTest
-console.log(listTest);
+
 
     if (listTest) {
       dataSource = []
@@ -126,7 +126,7 @@ console.log(listTest);
           nameExam: item.title,
           date: moment(item.createAt).format('llll'),
           status: item.status,
-          Action: <Button> EDIT </Button>
+          Action: <Button onClick={()=> this.props.history.push('/edit-test/'+item._id)} > EDIT </Button>
         })
       })
     }
