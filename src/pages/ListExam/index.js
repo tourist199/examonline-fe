@@ -4,7 +4,7 @@ import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
 import { connect } from 'react-redux'
-import { actions } from '@/store/actions'
+import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'
 
 import { Pagination } from 'antd'
@@ -84,31 +84,15 @@ class ListExam extends Component {
   }
 
   componentDidMount() {
-    this.props.getExamsByTeacher(1)
+    this.props.getExamsByTeacher({ page: 1})
   }
 
-
-  _renderForm = ({ handleSubmit, ...form }) => (
-    <Form className="form">
-      <div className="field-group">
-        <h1> Danh sách đề thi </h1>
-      </div>
-      <div className="table-box">
-        <Table
-          rowKey={(row, index) => index}
-          dataSource={dataSource}
-          columns={columns}
-          scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
-        />
-        <div className="pagination-box">
-          <Pagination defaultCurrent={1} total={50} />
-        </div>
-      </div>
-    </Form>
-  )
-
   render() {
-    console.log();
+    const { total } = this.props.examStore
+    console.log(this.props.examStore);
+    
+    const { getExamsByTeacher } = this.props
+      
     dataSource = []
     this.props.examStore.listExam.forEach((item => {
       dataSource.push({
@@ -116,7 +100,10 @@ class ListExam extends Component {
         titleTest: item.testId && item.testId.title,
         timeStart: moment(item.timeStart).format('LLL'),
         timeEnd: moment(item.timeEnd).format('LLL'),
-        Action: <div> <Button> EDIT </Button> <Button> DELETE </Button></div>
+        Action: <div> 
+                  <Button onClick= {()=>this.props.history.push('/edit-exam')}> EDIT </Button> 
+                  <Button> DELETE </Button>
+                </div>
       })
     }))
 
@@ -124,12 +111,21 @@ class ListExam extends Component {
       <Page>
         <Container>
           <Content>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}
-              onSubmit={this._onSubmit}
-              component={this._renderForm}
+          <div className="field-group">
+            <h1> Danh sách kỳ thi </h1>
+          </div>
+          <div className="table-box">
+            <Table
+              rowKey={(row, index) => index}
+              dataSource={dataSource}
+              columns={columns}
+              scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
+              loading={this.props.examStore.submitting === TYPES.GET_EXAMS_BY_TEACHER_REQUEST}
             />
+            <div className="pagination-box">
+              <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getExamsByTeacher({page})}  />
+            </div>
+          </div>
           </Content>
         </Container>
       </Page>

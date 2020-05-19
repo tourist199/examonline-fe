@@ -128,6 +128,8 @@ class ListUser extends Component {
     const { listUser, total } = this.props.accountStore
     const { deleteUser, getUsers } = this.props
     
+    console.log(this.props.accountStore);
+    
     dataSource = []
     listUser.forEach(item => {
       dataSource.push({

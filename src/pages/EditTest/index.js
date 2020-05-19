@@ -77,7 +77,6 @@ const Content = styled.div`
   deleteTest: actions.deleteTest
 })
 class EditTest extends Component {
-
   state = {
     _id: '',
     title: '',

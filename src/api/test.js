@@ -22,8 +22,9 @@ export function deleteTest(payload) {
     return MainApi.delete('/tests/'+payload)
 }
 
-export function getTestsByTeacher(page) {
-    return MainApi.get('/tests/getTestsByTeacher?page='+ page)
+export function getTestsByTeacher(payload) {
+    const { page } = payload
+    return MainApi.get(`/tests/getTestsByTeacher?page=${page}`)
 }
 
 export function getTestById(id) {
