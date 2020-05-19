@@ -108,7 +108,7 @@ class ListExam extends Component {
   )
 
   render() {
-    console.log();
+    console.log(this.props.examStore.listExam);
     dataSource = []
     this.props.examStore.listExam.forEach((item => {
       dataSource.push({
