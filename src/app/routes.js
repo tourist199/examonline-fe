@@ -25,6 +25,7 @@ const CreateExam = lazy(() => import('@/pages/CreateExam'))
 const ListExam = lazy(() => import('@/pages/ListExam'))
 const EditExam = lazy(() => import('@/pages/EditExam'))
 const RoomExam = lazy(() => import('@/pages/RoomExam'))
+const CheckExam = lazy(() => import('@/pages/CheckExam'))
 const NotFound = lazy(() => import('@/pages/not-found'))
 
 const VerticalBox = styled.div`
@@ -73,9 +74,8 @@ class Routes extends Component {
             <Route exact path="/edit-exam" component={this._renderLazyComponent(EditExam)} />
             <Route exact path="/watch-test/:id" component={this._renderLazyComponent(WatchTest)} />
             <Route exact path="/room-exam" component={this._renderLazyComponent(RoomExam)} />
+            <Route exact path="/check-exam" component={this._renderLazyComponent(CheckExam)} />
             
-            
-
             <Redirect to="/not-found" />
           </Switch>
         </Suspense>

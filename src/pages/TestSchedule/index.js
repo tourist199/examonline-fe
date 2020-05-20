@@ -57,7 +57,9 @@ lodash.range(3).forEach(() => {
     startDay: '22/12/1999',
     endDay: '23/12/1999',
     status: 'Đang diễn ra',
-    join: <Button> Vào thi</Button>
+    join: <div>
+            <Button> Vào thi</Button>
+          </div>
   })
 })
 

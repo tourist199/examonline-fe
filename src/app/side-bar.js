@@ -18,7 +18,8 @@ import {
   UserOutlined,
   SolutionOutlined,
   FileProtectOutlined,
-  TeamOutlined
+  TeamOutlined,
+  HddOutlined 
 } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
@@ -136,7 +137,7 @@ class SideBar extends Component {
             <SubMenu icon={<FileProtectOutlined />} title="Quản lý đề thi">
               <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/new-test') }}>Tạo đề thi</Menu.Item>
               <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-test') }}>Xem danh sách</Menu.Item>
-              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/room-exam') }}>Phòng Thi</Menu.Item>
+              <Menu.Item icon={<HddOutlined  />} onClick={() => { historyPush('/room-exam') }}>Phòng Thi</Menu.Item>
             </SubMenu>
             <SubMenu
               icon={<AppstoreOutlined />}
