@@ -68,17 +68,13 @@ let tests = []
 
 let dataSource = []
 
-lodash.range(2).forEach(() => {
-  dataSource.push({
-    email: 'ltk@teacher.com',
-    name: 'Test',
-    birthday: '26/06/2019',
-    gender: 'Nam',
-    address: 'Huế'
-  })
-})
 
 const columns = [
+  {
+    title: '#',
+    dataIndex: '#',
+    render: (text, record, index) => <span>{index + 1}</span>,
+  },
   {
     title: 'Email',
     dataIndex: 'email',
@@ -116,7 +112,7 @@ const validationSchema = object().shape({
   testStore: state.test
 }), {
   getStudents: actions.getStudents,
-  getTests: actions.getTestsByTeacher,
+  getTests: actions.getTestsDone,
   insertExam: actions.insertExam
 })
 class CreateExam extends Component {
@@ -232,13 +228,27 @@ class CreateExam extends Component {
       description: ''
     }
     let listStudent = this.props.accountStore.listStudent
-    let listTest = this.props.testStore.listTest
+    let listTest = this.props.testStore.listTestDone
 
     tests = []
     listTest.forEach((item, index) => {
       tests.push(<Option key={index} value={item._id}>{item.title}</Option>)
     })
 
+    dataSource = []
+
+    listStudent.forEach(item => {
+      console.log();
+      
+      if (this.state.listStudent.indexOf(item._id) >= 0)
+        dataSource.push({
+          email: item.email,
+          name: item.name,
+          birthday: moment(item.birthday).format('L'),
+          gender: item.gender,
+          address: item.address
+        })
+    })
 
     children = []
     listStudent.forEach((item, index) => {
