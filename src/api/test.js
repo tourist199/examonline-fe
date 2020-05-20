@@ -26,6 +26,10 @@ export function getTestsByTeacher(page) {
     return MainApi.get('/tests/getTestsByTeacher?page='+ page)
 }
 
+export function getTestsDone() {
+    return MainApi.get('/tests/getTestsDone')
+}
+
 export function getTestById(id) {
     return MainApi.get('/tests/'+ id)
 }

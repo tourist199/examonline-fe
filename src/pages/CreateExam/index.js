@@ -112,7 +112,7 @@ const validationSchema = object().shape({
   testStore: state.test
 }), {
   getStudents: actions.getStudents,
-  getTests: actions.getTestsByTeacher,
+  getTests: actions.getTestsDone,
   insertExam: actions.insertExam
 })
 class CreateExam extends Component {
@@ -228,7 +228,7 @@ class CreateExam extends Component {
       description: ''
     }
     let listStudent = this.props.accountStore.listStudent
-    let listTest = this.props.testStore.listTest
+    let listTest = this.props.testStore.listTestDone
 
     tests = []
     listTest.forEach((item, index) => {
@@ -238,6 +238,8 @@ class CreateExam extends Component {
     dataSource = []
 
     listStudent.forEach(item => {
+      console.log();
+      
       if (this.state.listStudent.indexOf(item._id) >= 0)
         dataSource.push({
           email: item.email,

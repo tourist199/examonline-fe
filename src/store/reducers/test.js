@@ -6,7 +6,8 @@ const INIT_STATE = {
   error: null,
   listTest: [],
   editTest: {},
-  listTestWaiting: []
+  listTestWaiting: [],
+  listTestDone: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -23,6 +24,25 @@ export default (state = INIT_STATE, action) => {
         listTest: action.data.result
       }
     case TYPES.GET_TESTS_BY_TEACHER_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        error: action.error
+      }
+    case TYPES.GET_TESTS_DONE_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_TESTS_DONE_SUCCESS:
+      console.log(action);
+      
+      return {
+        ...state,
+        submitting: null,
+        listTestDone: action.data.result
+      }
+    case TYPES.GET_TESTS_DONE_FAILURE:
       return {
         ...state,
         submitting: null,
