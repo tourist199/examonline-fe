@@ -1,0 +1,19 @@
+{
+  "sidebar": {
+    "homePage": "Trang chủ",
+    "studentTestSchedule": "Lịch thi",
+    "personalInformation": "Thông tin cá nhân",
+    "historyExam": "Lịch sử thi",
+    "administrationExam": "Quản lý đề thi",
+    "createExam": "Tạo đề thi",
+    "listExam": "Danh sách đề thi",
+    "testExam": "Kỳ thi",
+    "createTestExam": "Tạo kỳ thi",
+    "listTestExam": "Danh sách kỳ thi",
+    "roomExam": "Phòng thi",
+    "managesExam": "Admin quản lý đề thi",
+    "managementUser": "Quản lý người dùng",
+    "createUser": "Tạo người dùng",
+    "listUser": "Danh sách người dùng"
+  }
+}

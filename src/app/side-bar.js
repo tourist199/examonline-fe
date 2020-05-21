@@ -6,6 +6,9 @@ import { withLocalize } from 'react-localize-redux'
 import { push } from 'connected-react-router'
 import Storage from '@/utils/storage'
 
+import sidebarEN from '@/languages/sidebar/en.json'
+import sidebarVI from '@/languages/sidebar/vi.json'
+
 import { Menu, Button } from "antd";
 import {
   AppstoreOutlined,
@@ -84,8 +87,16 @@ import { Colors } from '@/theme'
 })
 
 class SideBar extends Component {
-  render() {
 
+  componentDidMount() {
+    const { addTranslationForLanguage } = this.props
+
+    addTranslationForLanguage(sidebarEN, 'en')
+    addTranslationForLanguage(sidebarVI, 'vi')
+  }
+
+  render() {
+    const { translate } = this.props
     const { uiStore, historyPush } = this.props
     const userType = Storage.get('TYPE', 'STUDENT')
 
@@ -98,13 +109,13 @@ class SideBar extends Component {
             theme="light"
             inlineCollapsed={uiStore.isSideBarOpen}
           >
-            <Menu.Item icon={<HomeOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
-            <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/exam-schedule') }} >Lịch thi </Menu.Item>
+            <Menu.Item icon={<HomeOutlined />} onClick={() => { historyPush('/') }}  >{translate('sidebar.homePage')}</Menu.Item>
+            <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/exam-schedule') }} >{translate('sidebar.studentTestSchedule')} </Menu.Item>
             <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
-              Thông tin cá nhân
+            {translate('sidebar.personalInformation')}
               </Menu.Item>
             <Menu.Item icon={<HistoryOutlined />} onClick={() => { historyPush('/history-exam') }}>
-              Lịch sử thi
+            {translate('sidebar.historyExam')}
               </Menu.Item>
           </Menu>
         ) : null}
@@ -116,14 +127,14 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
             <Menu.Item icon={<FileProtectOutlined />} onClick={() => { historyPush('/test-manage') }}>
-              Admin Quản lý đề
+            {translate('sidebar.managesExam')}
               </Menu.Item>
 
-            <SubMenu icon={<SolutionOutlined />} title="Quản lý người dùng">
+            <SubMenu icon={<SolutionOutlined />} title={translate('sidebar.managementUser')}>
               <Menu.Item icon={<UserAddOutlined />} onClick={() => { historyPush('/new-user') }}>
-                Tạo người dùng
+              {translate('sidebar.createUser')}
             </Menu.Item>
-              <Menu.Item icon={<TeamOutlined />} onClick={() => { historyPush('/list-user') }}>Danh sách người dùng</Menu.Item>
+              <Menu.Item icon={<TeamOutlined />} onClick={() => { historyPush('/list-user') }}>{translate('sidebar.listUser')}</Menu.Item>
             </SubMenu>
           </Menu>
         ) : null}
@@ -134,18 +145,19 @@ class SideBar extends Component {
             theme="light"
             inlineCollapsed={uiStore.isSideBarOpen}
           >
-            <SubMenu icon={<FileProtectOutlined />} title="Quản lý đề thi">
-              <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/new-test') }}>Tạo đề thi</Menu.Item>
-              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-test') }}>Xem danh sách</Menu.Item>
+            
+            <SubMenu icon={<FileProtectOutlined />} title={translate('sidebar.administrationExam')}>
+              <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/new-test') }}>{translate('sidebar.createExam')}</Menu.Item>
+              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-test') }}>{translate('sidebar.listExam')}</Menu.Item>
             </SubMenu>
             <SubMenu
               icon={<AppstoreOutlined />}
-              title="Kỳ thi"
+              title={translate('sidebar.listExam')}
             >
-              <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/create-exam') }} >Tạo Kỳ thi</Menu.Item>
-              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-exam') }}  >Xem danh sách</Menu.Item>
+              <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/create-exam') }} >{translate('sidebar.createTestExam')}</Menu.Item>
+              <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-exam') }}>{translate('sidebar.listTestExam')}</Menu.Item>
             </SubMenu>
-            <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/room-exam') }}>Phòng Thi</Menu.Item>
+            <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/room-exam') }}>{translate('sidebar.roomExam')}</Menu.Item>
 
           </Menu>
         ) : null}

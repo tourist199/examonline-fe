@@ -1,5 +1,6 @@
 {
   "account": {
-    "titleLogin": "ĐĂNG NHẬP"
+    "titleLogin": "ĐĂNG NHẬP",
+    "buttonLogin": "Đăng nhập"
   }
 }
