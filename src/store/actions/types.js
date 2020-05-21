@@ -23,6 +23,7 @@ export default [
   'INSERT_EXAM',
   'GET_EXAMS_BY_TEACHER',
   'GET_EXAM_BY_ID',
+  'GET_EXAMS_BY_STUDENT',
 
   // Store
   'CLEAR_STORE'

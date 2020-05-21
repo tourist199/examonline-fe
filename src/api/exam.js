@@ -10,5 +10,9 @@ export function getExamsByTeacher(payload) {
 }
 
 export function getExamById(id) {
-    return MainApi.get('/get-exam/'+ id)
+    return MainApi.get('/exams/get-exam/'+ id)
+}
+
+export function getExamsByStudent() {
+    return MainApi.get('/exams/get-exams-student')
 }

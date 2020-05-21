@@ -99,7 +99,7 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
             <Menu.Item icon={<HomeOutlined />} onClick={() => { historyPush('/') }}  >Trang chủ</Menu.Item>
-            <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/test-schedule') }} >Lịch thi </Menu.Item>
+            <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/exam-schedule') }} >Lịch thi </Menu.Item>
             <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
               Thông tin cá nhân
               </Menu.Item>
