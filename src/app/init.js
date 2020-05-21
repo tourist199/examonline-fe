@@ -4,9 +4,9 @@ import { withLocalize } from 'react-localize-redux'
 import setLocale from 'yup/lib/setLocale'
 
 import errorMessagesEN from '@/languages/error-messages/en.json'
-import errorMessagesJP from '@/languages/error-messages/jp.json'
+import errorMessagesVI from '@/languages/error-messages/vi.json'
 import validationEN from '@/languages/validation/en.json'
-import validationJP from '@/languages/validation/jp.json'
+import validationVI from '@/languages/validation/vi.json'
 import Request from '@/utils/request'
 import Storage from '@/utils/storage'
 
@@ -30,8 +30,8 @@ class Init extends Component {
         name: 'English',
         code: 'en'
       }, {
-        name: 'Japan',
-        code: 'jp'
+        name: 'Tiếng việt',
+        code: 'vi'
       }],
       options: {
         renderToStaticMarkup
@@ -39,9 +39,9 @@ class Init extends Component {
     })
 
     add(errorMessagesEN, 'en')
-    add(errorMessagesJP, 'jp')
+    add(errorMessagesVI, 'vi')
     add(validationEN, 'en')
-    add(validationJP, 'jp')
+    add(validationVI, 'vi')
 
     const token = Storage.get('ACCESS_TOKEN')
     Request.setAccessToken(token)
