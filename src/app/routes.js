@@ -8,6 +8,7 @@ import Page from '@/components/page'
 import Header from './header'
 import SideBar from './side-bar'
 
+const Intro = lazy(() => import('@/pages/Intro'))
 const Login = lazy(() => import('@/pages/account/login'))
 const Home = lazy(() => import('@/pages/home'))
 const Settings = lazy(() => import('@/pages/settings'))
@@ -80,6 +81,7 @@ class Routes extends Component {
           <Switch>
             <Route path="/login" component={this._renderLazyComponent(Login)} />
             <Route path="/not-found" component={this._renderLazyComponent(NotFound)} />
+            <Route path="/intro" component={this._renderLazyComponent(Intro)} />
             <PrivateRoute
               condition={() => Storage.has('ACCESS_TOKEN')}
               redirect="/login"
