@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
-// import { Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import moment from 'moment'
 
 import Input from '@/components/input'
@@ -21,7 +20,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
-
     
   .table-box {
     height: 200px;
@@ -40,7 +38,6 @@ const Content = styled.div`
     height: 200px;
     margin: 20px;
     
-    
     .pagination-box {
       height: 100px;
       display: flex;
@@ -53,12 +50,6 @@ const Content = styled.div`
 let dataSource = []
 
 const columns = [
-  {
-    title: 'STT',
-    dataIndex: 'STT',
-    render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
-  },
   {
     title: 'Tên bộ đề',
     dataIndex: 'nameExam',
@@ -89,15 +80,15 @@ const columns = [
 class ListTest extends Component {
 
   componentDidMount() {
-    this.props.getTests({ page: 1})
+    this.props.getTests({ page: 1 })
   }
 
   render() {
     const { total } = this.props.testStore
     console.log(this.props.testStore);
-        
+
     const { getTests } = this.props
-    
+
     let listTest = this.props.testStore.listTest
     if (listTest) {
       dataSource = []
@@ -107,30 +98,30 @@ class ListTest extends Component {
           nameExam: item.title,
           date: moment(item.createAt).format('llll'),
           status: item.status,
-          Action: <Button onClick={()=> this.props.history.push('/edit-test/'+item._id)} > EDIT </Button>
+          Action: <Button disabled={item.status === 'DONE'} onClick={() => this.props.history.push('/edit-test/' + item._id)} > EDIT </Button>
         })
       })
     }
-    
+
     return (
       <Page>
         <Container>
           <Content>
-              <div className="field-group">
-                <h1> Danh sách đề thi </h1>
+            <div className="field-group">
+              <h1> Danh sách đề thi </h1>
+            </div>
+            <div className="table-box">
+              <Table
+                rowKey={(row, index) => index}
+                dataSource={dataSource}
+                columns={columns}
+                scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
+                loading={this.props.testStore.submitting === TYPES.GET_TESTS_BY_TEACHER_REQUEST}
+              />
+              <div className="pagination-box">
+                <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getTests({ page })} />
               </div>
-              <div className="table-box">
-                <Table
-                  rowKey={(row, index) => index}
-                  dataSource={dataSource}
-                  columns={columns}
-                  scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
-                  loading={this.props.testStore.submitting === TYPES.GET_TESTS_BY_TEACHER_REQUEST}
-                />
-                <div className="pagination-box">
-                  <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getTests({ page })} />
-                </div>
-              </div>
+            </div>
           </Content>
         </Container>
       </Page>
