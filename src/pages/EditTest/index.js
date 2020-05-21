@@ -3,15 +3,15 @@ import styled from 'styled-components'
 import moment from 'moment'
 import Storage from '@/utils/storage'
 import { connect } from 'react-redux'
-import Notification from '@/components/notification'
+import { actions } from '@/store/actions'
 
 import Input from '@/components/input'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
-import { PlusOutlined, MinusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined,DeleteOutlined } from '@ant-design/icons'
-import { actions } from '@/store/actions'
-import { Divider,Descriptions,Tooltip  } from 'antd';
+import { PlusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Divider, Descriptions, Tooltip } from 'antd';
+import Notification from '@/components/notification'
 
 const Content = styled.div`
   display: flex;
@@ -69,27 +69,42 @@ const Content = styled.div`
   }
 `
 
-@connect(null, {
-  insertTest: actions.insertTest
+@connect((state) => ({
+  testIndex: state.test.editTest
+}), {
+  getTestById: actions.getTestById,
+  updateTest: actions.updateTest,
+  deleteTest: actions.deleteTest
 })
-class NewTest extends Component {
-
+class EditTest extends Component {
   state = {
+    _id: '',
     title: '',
     description: '',
-    listQuestion: [
-      {
-        title: '',
-        answers: ['', ''],
-        description: '',
-        result: null
-      }
-    ],
+    listQuestion: [],
     questionIndex: 0
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.testIndex && nextProps.testIndex.test && nextProps.testIndex.test._id !== prevState._id) {
+      return {
+        _id: nextProps.testIndex.test._id || '',
+        title: nextProps.testIndex.test.title || '',
+        description: nextProps.testIndex.test.description || '',
+        listQuestion: nextProps.testIndex.listQuestion || [],
+      };
+    }
+    else return null;
+  }
+
+  componentDidMount() {
+    this.props.getTestById(this.props.match.params.idTest);
+  }
+
+
+
   _showQuestionBtn = () => {
-    if (!this.state.listQuestion)
+    if (!this.state.listQuestion || this.state.listQuestion.length === 0)
       return null
     return this.state.listQuestion.map((item, index) => {
       return <Button
@@ -104,6 +119,8 @@ class NewTest extends Component {
   }
 
   _showQuestionItem = () => {
+    if (!this.state.listQuestion || this.state.listQuestion.length === 0)
+      return null
     let questionItem = this.state.listQuestion[this.state.questionIndex]
     return (
       <div className="question-box-border">
@@ -126,7 +143,7 @@ class NewTest extends Component {
           <div>
             <span className='description'>Mo ta:</span>
             <Input
-            className="question-input"
+              className="question-input"
               name='description'
               value={questionItem.description}
               onChange={(e) => {
@@ -149,6 +166,7 @@ class NewTest extends Component {
                       listQuestion[this.state.questionIndex].result = index
                       this.setState({ listQuestion })
                     }} />
+                  {/* <Button shape="circle" disabled >{String.fromCharCode(65 + index)}</Button> */}
                   <Input
                     className="input-answer"
                     name=''
@@ -156,22 +174,20 @@ class NewTest extends Component {
                     suffix={
                       <Tooltip title="Delete">
                         <Button
-                    shape="circle"
-                    icon={<DeleteOutlined />}
-                    onClick={() => {
-                      let listQuestion = this.state.listQuestion
-                      listQuestion[this.state.questionIndex].answers.splice(index, 1)
-                      if (listQuestion[this.state.questionIndex].result > index) {
-                        listQuestion[this.state.questionIndex].result = listQuestion[this.state.questionIndex].result - 1
-                      }
-                      else if (listQuestion[this.state.questionIndex].result == index) {
-                        listQuestion[this.state.questionIndex].result = null
-                      }
-
-                      this.setState({ listQuestion })
-
-                    }}
-                  />
+                          shape="circle"
+                          icon={<DeleteOutlined />}
+                          onClick={() => {
+                            let listQuestion = this.state.listQuestion
+                            listQuestion[this.state.questionIndex].answers.splice(index, 1)
+                            if (listQuestion[this.state.questionIndex].result > index) {
+                              listQuestion[this.state.questionIndex].result = listQuestion[this.state.questionIndex].result - 1
+                            }
+                            else if (listQuestion[this.state.questionIndex].result == index) {
+                              listQuestion[this.state.questionIndex].result = null
+                            }
+                            this.setState({ listQuestion })
+                          }}
+                        />
                       </Tooltip>
                     }
                     value={item}
@@ -179,13 +195,13 @@ class NewTest extends Component {
                       let listQuestion = this.state.listQuestion
                       listQuestion[this.state.questionIndex].answers[index] = e.target.value
                       this.setState({ listQuestion })
-                    }} /> 
+                    }} />
                 </div>
               ))
             }
             <div className="answer-button">
               <Button
-                
+
                 icon={<PlusCircleOutlined />}
                 onClick={() => {
                   let listQuestion = this.state.listQuestion
@@ -204,6 +220,7 @@ class NewTest extends Component {
 
   _onSaveTest = () => {
     let data = {
+      _id: this.state._id,
       title: this.state.title,
       description: this.state.description,
       createAt: moment(),
@@ -211,14 +228,20 @@ class NewTest extends Component {
       createdBy: Storage.get('ID'),
       listQuestion: this.state.listQuestion
     }
-    this.props.insertTest(data, (success, rs) => {
-      console.log(success);
-      
-      if(success){
-        Notification.success('Insert test success')
+    this.props.updateTest({ data: { ...data }, idTest: this.props.match.params.idTest }, (success, data) => {
+      if (success) {
+        Notification.success('Update success!')
         this.props.history.goBack()
+        this.props.getTestById(this.props.match.params.idTest);
       }
+      else
+        Notification.error('Update failed!')
     })
+  }
+
+  _deleteThisTest = () => {
+    this.props.deleteTest(this.props.match.params.idTest)
+    
   }
 
   _onSubmitTest = () => {
@@ -226,27 +249,29 @@ class NewTest extends Component {
       title: this.state.title,
       description: this.state.description,
       createAt: moment(),
-      status: 'DRAFT',
+      status: 'WAITTING',
       createdBy: Storage.get('ID'),
       listQuestion: this.state.listQuestion
     }
-    this.props.insertTest(data, (success, rs) => {
-      console.log(success);
-      
-      if(success){
-        Notification.success('Insert test success')
+    this.props.updateTest({ data: { ...data }, idTest: this.props.match.params.idTest }, (success, data) => {
+      if (success) {
+        Notification.success('Update success!')
         this.props.history.goBack()
+        this.props.getTestById(this.props.match.params.idTest);
       }
+      else
+        Notification.error('Update failed!')
     })
   }
 
   render() {
+
     return (
       <Page>
         <Container>
           <Content>
             <div >
-              <h1 style={{ marginBottom: '20px' }}> Tạo mới đề thi </h1>
+              <h1 style={{ marginBottom: '20px' }}> Chỉnh sửa đề thi </h1>
               <div className="abc">
                 <span className='title'>Tên bộ đề thi</span>
                 <Input className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
@@ -256,13 +281,16 @@ class NewTest extends Component {
                 <Input className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
               </div>
               <div className="groupbutton">
-                <Button type="primary" shape='round' danger className="item-button" icon={<CloseCircleOutlined />}>
+                <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
                   CANCEL
                 </Button>
-                <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' icon={<PlusCircleOutlined />}>
+                <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
                   Lưu nháp
                 </Button>
-                <Button onClick={this._onSubmitTest} type="primary" shape='round' className="item-button" ghost icon={<CheckOutlined />}>
+                <Button  danger onClick={this._deleteThisTest} type="primary" className="item-button" shape='round'  icon={<DeleteOutlined />}>
+                  Xóa
+                </Button>
+                <Button onClick={this._onSubmitTest} type="primary" shape='round' className="item-button" icon={<CheckOutlined />}>
                   Đề xuất duyệt
                 </Button>
               </div>
@@ -294,4 +322,4 @@ class NewTest extends Component {
   }
 }
 
-export default NewTest
+export default EditTest

@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik'
 import { connect } from 'react-redux'
 import { object, string } from 'yup'
 import styled from 'styled-components'
+import { withLocalize } from 'react-localize-redux'
 
 import Request from '@/utils/request'
 import Storage from '@/utils/storage'
@@ -13,6 +14,9 @@ import Input from '@/components/input'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Field from '@/components/field'
+
+import accountEN from '@/languages/account/en.json'
+import accountVI from '@/languages/account/vi.json'
 
 const StyledContainer = styled(Container)`
   display: flex;
@@ -65,6 +69,7 @@ const validationSchema = object().shape({
   password: string().required()
 })
 
+@withLocalize
 @connect((state) => ({
   accountStore: state.account
 }), {
@@ -86,8 +91,17 @@ class Login extends Component {
     })
   }
 
+  componentDidMount() {
+    const { addTranslationForLanguage } = this.props
+
+    addTranslationForLanguage(accountEN, 'en')
+    addTranslationForLanguage(accountVI, 'vi')
+  }
+  
+
   _renderForm = ({ handleSubmit, ...form }) => {
     const { accountStore } = this.props
+    const { translate } = this.props
 
     return (
       <Form className="form">
@@ -96,7 +110,7 @@ class Login extends Component {
           alt=""
           className="logo"
         />
-        <p className="title">LOGIN</p>
+        <p className="title">{translate('account.titleLogin')}</p>
         <div className="field-group">
           <Field
             form={form}

@@ -8,6 +8,7 @@ import { actions } from '@/store/actions'
 import { connect } from 'react-redux'
 import Notification from '@/components/notification'
 import Storage from '@/utils/storage'
+import { PlusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
 
 import { Pagination, Checkbox, Select, DatePicker } from 'antd'
 import Input from '@/components/input'
@@ -46,6 +47,10 @@ const Content = styled.div`
     display: flex;
     padding-bottom: 30px;
   }
+  .button-exam {
+    display: flex;
+    justify-content: flex-end;
+  }
     
   .table-box {
     height: 200px;
@@ -68,13 +73,17 @@ let tests = []
 
 let dataSource = []
 
+lodash.range(2).forEach(() => {
+  dataSource.push({
+    email: 'ltk@teacher.com',
+    name: 'Test',
+    birthday: '26/06/2019',
+    gender: 'Nam',
+    address: 'Huế'
+  })
+})
 
 const columns = [
-  {
-    title: '#',
-    dataIndex: '#',
-    render: (text, record, index) => <span>{index + 1}</span>,
-  },
   {
     title: 'Email',
     dataIndex: 'email',
@@ -109,11 +118,15 @@ const validationSchema = object().shape({
 
 @connect((state) => ({
   accountStore: state.account,
-  testStore: state.test
+  testStore: state.test,
+  //id
+  examIndex: state.exam.editExam
 }), {
   getStudents: actions.getStudents,
-  getTests: actions.getTestsDone,
-  insertExam: actions.insertExam
+  getTests: actions.getTestsByTeacher,
+  insertExam: actions.insertExam,
+  //id
+  getExamById: actions.getExamById 
 })
 class CreateExam extends Component {
   componentDidMount() {
@@ -150,15 +163,6 @@ class CreateExam extends Component {
             style={{ width: 500 }}
             component={Input}
           />
-          <Button
-            className="create-button"
-            size="middle"
-            htmlType="submit"
-            type="primary"
-            onClick={handleSubmit}
-          >
-            Create
-          </Button>
         </div>
         <div className="create-exam">
           <Field
@@ -170,15 +174,7 @@ class CreateExam extends Component {
             label="Mô tả kỳ thi"
             component={Input}
           />
-          <Button
-            className="create-button"
-            size="middle"
-            htmlType="submit"
-            type="primary"
-            onClick={this.props.history.goBack}
-          >
-            Cancel
-          </Button>
+        
         </div>
         <div className="combobox-exam">
           <h3>Chọn bộ đề</h3>
@@ -218,6 +214,14 @@ class CreateExam extends Component {
             {children}
           </Select>
         </div>
+        <div className="button-exam">
+        <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
+          CANCEL
+        </Button>
+        <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
+          Lưu nháp
+        </Button>
+        </div>
       </div>
     </Form>
   )
@@ -228,27 +232,13 @@ class CreateExam extends Component {
       description: ''
     }
     let listStudent = this.props.accountStore.listStudent
-    let listTest = this.props.testStore.listTestDone
+    let listTest = this.props.testStore.listTest
 
     tests = []
     listTest.forEach((item, index) => {
       tests.push(<Option key={index} value={item._id}>{item.title}</Option>)
     })
 
-    dataSource = []
-
-    listStudent.forEach(item => {
-      console.log();
-      
-      if (this.state.listStudent.indexOf(item._id) >= 0)
-        dataSource.push({
-          email: item.email,
-          name: item.name,
-          birthday: moment(item.birthday).format('L'),
-          gender: item.gender,
-          address: item.address
-        })
-    })
 
     children = []
     listStudent.forEach((item, index) => {

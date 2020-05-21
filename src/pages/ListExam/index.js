@@ -3,6 +3,9 @@ import styled from 'styled-components'
 import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string } from 'yup'
+import { connect } from 'react-redux'
+import { actions, TYPES } from '@/store/actions'
+import moment from 'moment'
 
 import { Pagination } from 'antd'
 import Input from '@/components/input'
@@ -36,38 +39,32 @@ const Content = styled.div`
 `
 let dataSource = []
 
-lodash.range(5).forEach(() => {
-  dataSource.push({
-    key: '1',
-    STT: '1',
-    nameExam: 'Trắc nghiệm',
-    testExam: 'Code js',
-    time: '22/12/1998',
-    Action: <div> <Button> EDIT </Button> <Button> DELETE </Button></div>
-  })
-})
 
 const columns = [
   {
-    title: 'STT',
-    dataIndex: 'STT',
+    title: '#',
+    dataIndex: '#',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
   },
   {
     title: 'Tên đề thi',
-    dataIndex: 'nameExam',
-    key: 'nameExam'
+    dataIndex: 'titleExam',
+    key: 'titleExam'
   },
   {
     title: 'Bộ đề thi',
-    dataIndex: 'testExam',
-    key: 'testExam'
+    dataIndex: 'titleTest',
+    key: 'titleTest'
   },
   {
-    title: 'Thời gian',
-    dataIndex: 'time',
-    key: 'time'
+    title: 'Thời gian bắt đầu',
+    dataIndex: 'timeStart',
+    key: 'timeStart'
+  },
+  {
+    title: 'Thời gian kết thúc',
+    dataIndex: 'timeEnd',
+    key: 'timeEnd'
   },
   {
     title: 'Action',
@@ -76,42 +73,59 @@ const columns = [
   },
 ]
 
+@connect((state) => ({
+  examStore: state.exam,
+}), {
+  getExamsByTeacher: actions.getExamsByTeacher
+})
 class ListExam extends Component {
   _onSubmit = (values) => {
     console.log(values)
   }
 
-  _renderForm = ({ handleSubmit, ...form }) => (
-    <Form className="form">
-      <div className="field-group">
-        <h1> Danh sách đề thi </h1>
-      </div>
-      <div className="table-box">
-        <Table
-          rowKey={(row, index) => index}
-          dataSource={dataSource}
-          columns={columns}
-          scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
-        />
-        <div className="pagination-box">
-          <Pagination defaultCurrent={1} total={50} />
-        </div>
-      </div>
-    </Form>
-  )
+  componentDidMount() {
+    this.props.getExamsByTeacher({ page: 1})
+  }
 
   render() {
+    const { total } = this.props.examStore
+    console.log(this.props.examStore);
+    
+    const { getExamsByTeacher } = this.props
+      
+    dataSource = []
+    this.props.examStore.listExam.forEach((item => {
+      dataSource.push({
+        titleExam: item.title,
+        titleTest: item.testId && item.testId.title,
+        timeStart: moment(item.timeStart).format('LLL'),
+        timeEnd: moment(item.timeEnd).format('LLL'),
+        Action: <div> 
+                  <Button onClick= {()=>this.props.history.push('/edit-exam')}> EDIT </Button> 
+                  <Button> DELETE </Button>
+                </div>
+      })
+    }))
 
     return (
       <Page>
         <Container>
           <Content>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}  
-              onSubmit={this._onSubmit}
-              component={this._renderForm}
+          <div className="field-group">
+            <h1> Danh sách kỳ thi </h1>
+          </div>
+          <div className="table-box">
+            <Table
+              rowKey={(row, index) => index}
+              dataSource={dataSource}
+              columns={columns}
+              scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
+              loading={this.props.examStore.submitting === TYPES.GET_EXAMS_BY_TEACHER_REQUEST}
             />
+            <div className="pagination-box">
+              <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getExamsByTeacher({page})}  />
+            </div>
+          </div>
           </Content>
         </Container>
       </Page>

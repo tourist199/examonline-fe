@@ -8,8 +8,13 @@ export function register(payload) {
   return MainApi.post('/users/register', payload)
 }
 
-export function getUsers() {
-  return MainApi.get('/users/1')
+export function getUsers(payload) {
+  const { page } = payload
+  return MainApi.get(`/users/get-users?page=${page}`)
+}
+
+export function getStudents() {
+  return MainApi.get('/users/get-student')
 }
 
 export function deleteUser(payload) {

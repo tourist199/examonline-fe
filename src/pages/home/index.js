@@ -3,7 +3,7 @@ import { withLocalize } from 'react-localize-redux'
 import styled from 'styled-components'
 
 import homeEN from '@/languages/home/en.json'
-import homeJP from '@/languages/home/jp.json'
+import homeVI from '@/languages/home/vi.json'
 import Page from '@/components/page'
 import Container from '@/components/container'
 
@@ -20,7 +20,7 @@ class Home extends Component {
     const { addTranslationForLanguage } = this.props
 
     addTranslationForLanguage(homeEN, 'en')
-    addTranslationForLanguage(homeJP, 'jp')
+    addTranslationForLanguage(homeVI, 'vi')
   }
 
   render() {

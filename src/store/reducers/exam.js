@@ -4,82 +4,80 @@ const INIT_STATE = {
   loaded: [],
   submitting: null,
   error: null,
-  listTest: [],
   total: 0,
-  editTest: {},
-  listTestWaiting: [],
-  listTestDone: []
+  listExam: [],
+  examIndex: {},
+  editExam: {},
+  examSchedule: []
 }
 
 export default (state = INIT_STATE, action) => {
   switch (action.type) {
-    case TYPES.GET_TESTS_BY_TEACHER_REQUEST:
+    case TYPES.INSERT_EXAM_REQUEST:
       return {
         ...state,
         submitting: action.type
       }
-    case TYPES.GET_TESTS_BY_TEACHER_SUCCESS:
-      
+    case TYPES.INSERT_EXAM_SUCCESS:
+      return {
+        ...state,
+        submitting: null
+      }
+    case TYPES.INSERT_EXAM_FAILURE:
       return {
         ...state,
         submitting: null,
-        listTest: action.data.result,
+        // error: action.error
+      }
+    case TYPES.GET_EXAMS_BY_TEACHER_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_EXAMS_BY_TEACHER_SUCCESS:
+
+      return {
+        ...state,
+        submitting: null,
+        listExam: action.data.listExam,
         total: action.data.total
       }
-    case TYPES.GET_TESTS_BY_TEACHER_FAILURE:
+    case TYPES.GET_EXAMS_BY_TEACHER_FAILURE:
       return {
         ...state,
         submitting: null,
-        error: action.error
+        // error: action.error
       }
-    case TYPES.GET_TESTS_DONE_REQUEST:
+
+    case TYPES.GET_EXAMS_BY_STUDENT_REQUEST:
       return {
         ...state,
         submitting: action.type
       }
-    case TYPES.GET_TESTS_DONE_SUCCESS:
-      console.log(action);
-      
+    case TYPES.GET_EXAMS_BY_STUDENT_SUCCESS:
       return {
         ...state,
         submitting: null,
-        listTestDone: action.data.result
+        examSchedule: action.data.listExam
       }
-    case TYPES.GET_TESTS_DONE_FAILURE:
+    case TYPES.GET_EXAMS_BY_STUDENT_FAILURE:
       return {
         ...state,
         submitting: null,
-        error: action.error
       }
-    case TYPES.GET_TESTS_WAITING_ADMIN_REQUEST:
+
+    case TYPES.GET_EXAM_BY_ID_REQUEST:
       return {
         ...state,
         submitting: action.type
       }
-    case TYPES.GET_TESTS_WAITING_ADMIN_SUCCESS:
+    case TYPES.GET_EXAM_BY_ID_SUCCESS:
       return {
         ...state,
         submitting: null,
-        listTestWaiting: action.data.result
+        editExam: action.data
       }
-    case TYPES.GET_TESTS_WAITING_ADMIN_FAILURE:
-      return {
-        ...state,
-        submitting: null,
-        error: action.error
-      }
-    case TYPES.GET_TEST_BY_ID_REQUEST:
-      return {
-        ...state,
-        submitting: action.type
-      }
-    case TYPES.GET_TEST_BY_ID_SUCCESS:
-      return {
-        ...state,
-        submitting: null,
-        editTest: action.data
-      }
-    case TYPES.GET_TEST_BY_ID_FAILURE:
+    case TYPES.GET_EXAM_BY_ID_FAILURE:
       return {
         ...state,
         submitting: null
