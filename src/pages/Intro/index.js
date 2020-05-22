@@ -32,7 +32,7 @@ const IntroPage = styled.div`
     color: #fff;
   }
 //   .item-img{
-//     background: url('./../src/resources/mages/avt.jpg');
+//     background: url('../../resources/images/abc.jpg');
 //   }
 
 `
