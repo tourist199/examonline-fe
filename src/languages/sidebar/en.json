@@ -1,0 +1,19 @@
+{
+  "sidebar": {
+    "homePage": "Home page",
+    "studentTestSchedule": "Test schedule",
+    "personalInformation": "Personal information",
+    "historyExam": "History exam",
+    "administrationExam": "Administration Exam",
+    "createExam": "Create exam",
+    "listExam": "List exam",
+    "testExam": "Test Exam",
+    "createTestExam": "Create test exam",
+    "listTestExam": "List test exam",
+    "roomExam": "Room Exam",
+    "managesExam": "Manages exam",
+    "managementUser": "Management user",
+    "createUser": "Create user",
+    "listUser": "List user"
+  }
+}

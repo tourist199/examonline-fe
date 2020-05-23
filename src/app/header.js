@@ -11,6 +11,9 @@ import { actions } from '@/store/actions'
 import { Images } from '@/theme'
 import { Dimensions } from '@/theme'
 
+import headerEN from '@/languages/header/en.json'
+import headerVI from '@/languages/header/vi.json'
+
 const HeaderContainer = styled.header`
   width: 100%;
   height: ${Dimensions.HEADER_HEIGHT}px;
@@ -122,6 +125,14 @@ const HeaderContainer = styled.header`
 })
 
 class Header extends Component {
+
+  componentDidMount() {
+    const { addTranslationForLanguage } = this.props
+
+    addTranslationForLanguage(headerEN, 'en')
+    addTranslationForLanguage(headerVI, 'vi')
+  }
+
   _onLogout = (e) => {
     e.preventDefault()
 
@@ -133,6 +144,7 @@ class Header extends Component {
 
   render() {
     const { languages, setActiveLanguage, toggleSideBar } = this.props
+    const { translate } = this.props
     const name = Storage.get('NAME','Name')
     return (
       <HeaderContainer>
@@ -142,12 +154,12 @@ class Header extends Component {
               onClick={toggleSideBar}
               className="menu-button"
               type="menu" />
-            <p className="title">Exam Online</p>
+            <p className="title">{translate('header.examOnline')}</p>
           </div>
           <div className="right-box">
             <Popover
               content={(
-                <a href="/" onClick={this._onLogout}>Logout</a>
+                <a href="/" onClick={this._onLogout}>{translate('header.logOut')}</a>
               )}
               trigger="click"
             >

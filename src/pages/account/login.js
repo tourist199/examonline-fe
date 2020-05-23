@@ -134,7 +134,7 @@ class Login extends Component {
             loading={accountStore.submitting === TYPES.LOGIN_REQUEST}
             onClick={handleSubmit}
           >
-            Login
+            {translate('account.buttonLogin')}
           </Button>
         </div>
       </Form>
