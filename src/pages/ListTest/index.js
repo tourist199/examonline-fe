@@ -5,6 +5,7 @@ import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import { withLocalize } from 'react-localize-redux'
 
 import Input from '@/components/input'
 import Field from '@/components/field'
@@ -15,6 +16,10 @@ import Container from '@/components/container'
 import Table from '@/components/table'
 import { Dimensions } from '@/theme'
 import { actions, TYPES } from '@/store/actions'
+
+
+import listtestEN from '@/languages/listtest/en.json'
+import listtestVI from '@/languages/listtest/vi.json'
 
 const Content = styled.div`
   display: flex;
@@ -72,6 +77,7 @@ const columns = [
   },
 ]
 
+@withLocalize
 @connect((state) => ({
   testStore: state.test
 }), {
@@ -80,13 +86,17 @@ const columns = [
 class ListTest extends Component {
 
   componentDidMount() {
-    this.props.getTests({ page: 1 })
+    this.props.getTests({ page: 1})
+    const { addTranslationForLanguage } = this.props
+
+    addTranslationForLanguage(listtestEN, 'en')
+    addTranslationForLanguage(listtestVI, 'vi')
   }
 
   render() {
     const { total } = this.props.testStore
     console.log(this.props.testStore);
-
+    const { translate } = this.props
     const { getTests } = this.props
 
     let listTest = this.props.testStore.listTest
@@ -107,21 +117,21 @@ class ListTest extends Component {
       <Page>
         <Container>
           <Content>
-            <div className="field-group">
-              <h1> Danh sách đề thi </h1>
-            </div>
-            <div className="table-box">
-              <Table
-                rowKey={(row, index) => index}
-                dataSource={dataSource}
-                columns={columns}
-                scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
-                loading={this.props.testStore.submitting === TYPES.GET_TESTS_BY_TEACHER_REQUEST}
-              />
-              <div className="pagination-box">
-                <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getTests({ page })} />
+              <div className="field-group">
+                <h1> {translate('listtest.listTest')} </h1>
               </div>
-            </div>
+              <div className="table-box">
+                <Table
+                  rowKey={(row, index) => index}
+                  dataSource={dataSource}
+                  columns={columns}
+                  scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
+                  loading={this.props.testStore.submitting === TYPES.GET_TESTS_BY_TEACHER_REQUEST}
+                />
+                <div className="pagination-box">
+                  <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getTests({ page })} />
+                </div>
+              </div>
           </Content>
         </Container>
       </Page>

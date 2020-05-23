@@ -59,12 +59,12 @@ const columns = [
     key: 'examName'
   },
   {
-    title: 'Ngày bắt đầu',
+    title: 'Thời gian bắt đầu',
     dataIndex: 'startDay',
     key: 'startDay'
   },
   {
-    title: 'Ngày Kết thúc',
+    title: 'Thời gian kết thúc',
     dataIndex: 'endDay',
     key: 'endDay'
   },
@@ -95,12 +95,12 @@ const columns_1 = [
     key: 'ExamName'
   },
   {
-    title: 'Ngày bắt đầu',
+    title: 'Thời gian bắt đầu',
     dataIndex: 'startDay',
     key: 'startDay'
   },
   {
-    title: 'Ngày Kết thúc',
+    title: 'Thời gian Kết thúc',
     dataIndex: 'endDay',
     key: 'endDay'
   }
@@ -109,16 +109,16 @@ const columns_1 = [
 @connect((state) => ({
   examStore: state.exam
 }), {
-  getExamsByStudent: actions.getExamsByStudent
+  getRoomsExam: actions.getRoomsExam,
 })
 class ManageRoomExam extends Component {
 
   componentDidMount() {
-    this.props.getExamsByStudent()
+    this.props.getRoomsExam()
   }
 
   render() {
-    let listExam = this.props.examStore.examSchedule
+    let listExam = this.props.examStore.roomsExam
     console.log(listExam);
     
 
@@ -135,7 +135,7 @@ class ManageRoomExam extends Component {
           endDay: moment(item.timeEnd).format('L'),
           status: 'Đang diễn ra',
           join: <div>
-            <Button onClick={() => this.props.history.push(`exam/${item._id}/${item.testId}`)} > Vào thi</Button>
+            <Button onClick={() => this.props.history.push(`room-exam/${item._id}`)} >Coi thi</Button>
           </div>
         })
     })
@@ -161,7 +161,7 @@ class ManageRoomExam extends Component {
         <Container>
           <Content>
             <div className="field-group">
-              <h1> Lịch Thi</h1>
+              <h1> Phòng thi</h1>
             </div>
             <div className="table-box">
               <h3 style={{ marginBottom: '15px' }}> Kỳ thi hiện tại</h3>
