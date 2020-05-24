@@ -76,7 +76,7 @@ class Routes extends Component {
             <Route exact path="/edit-test/:idTest" component={this._renderLazyComponent(EditTest)} />
             <Route exact path="/create-exam" component={this._renderLazyComponent(CreateExam)} />
             <Route exact path="/list-exam" component={this._renderLazyComponent(ListExam)} />
-            <Route exact path="/edit-exam" component={this._renderLazyComponent(EditExam)} />
+            <Route exact path="/edit-exam/:idExam" component={this._renderLazyComponent(EditExam)} />
             <Route exact path="/watch-test/:id" component={this._renderLazyComponent(WatchTest)} />
             <Route exact path="/room-exam/:idRoom" component={this._renderLazyComponent(RoomExam)} />
             <Route exact path="/check-exam" component={this._renderLazyComponent(CheckExam)} />

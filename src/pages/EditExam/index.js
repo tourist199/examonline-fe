@@ -119,27 +119,44 @@ const validationSchema = object().shape({
 @connect((state) => ({
   accountStore: state.account,
   testStore: state.test,
-  //id
-  examIndex: state.exam.editExam
+  editExam: state.exam.editExam
 }), {
   getStudents: actions.getStudents,
-  getTests: actions.getTestsByTeacher,
-  insertExam: actions.insertExam,
-  //id
-  getExamById: actions.getExamById 
+  getTests: actions.getTestsDone,
+  getExamById: actions.getExamById
 })
-class CreateExam extends Component {
+class EditExam extends Component {
   componentDidMount() {
     this.props.getStudents()
-    this.props.getTests(1)
+    this.props.getTests()
+    this.props.getExamById(this.props.match.params.idExam)
   }
 
   state = {
+    _id: '',
     testId: '',
     timeStart: null,
     timeEnd: null,
+    title: '',
+    description: '',
     listStudent: []
   }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.editExam && nextProps.editExam.exam && nextProps.editExam.exam._id !== prevState._id) {
+      return { 
+        testId: nextProps.editExam.exam.testId._id,
+        _id: nextProps.editExam.exam._id,
+        timeStart: moment(nextProps.editExam.exam.timeStart),
+        timeEnd: moment(nextProps.editExam.exam.timeEnd),
+        title: nextProps.editExam.exam.title,
+        description: nextProps.editExam.exam.description,
+        listStudent: nextProps.editExam.listStudent.map(item => item._id)
+      }
+    }
+    else return null;
+  }
+
 
   _onSubmit = (values) => {
     let { testId, timeStart, timeEnd, listStudent } = this.state
@@ -152,7 +169,7 @@ class CreateExam extends Component {
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
-        <h1> Tạo kỳ thi </h1>
+        <h1> Edit exam </h1>
         <div className="create-exam">
           <Field
             form={form}
@@ -174,7 +191,7 @@ class CreateExam extends Component {
             label="Mô tả kỳ thi"
             component={Input}
           />
-        
+
         </div>
         <div className="combobox-exam">
           <h3>Chọn bộ đề</h3>
@@ -215,11 +232,11 @@ class CreateExam extends Component {
           </Select>
         </div>
         <div className="button-exam">
-        <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
-          CANCEL
+          <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
+            CANCEL
         </Button>
-        <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
-          Lưu nháp
+          <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
+            Lưu nháp
         </Button>
         </div>
       </div>
@@ -228,11 +245,13 @@ class CreateExam extends Component {
 
   render() {
     const initialValues = {
-      title: '',
-      description: ''
+      title: this.state.title,
+      description: this.state.description
     }
+    console.log(this.props.editExam, initialValues);
+    
     let listStudent = this.props.accountStore.listStudent
-    let listTest = this.props.testStore.listTest
+    let listTest = this.props.testStore.listTestDone
 
     tests = []
     listTest.forEach((item, index) => {
@@ -252,7 +271,10 @@ class CreateExam extends Component {
             <Formik
               validateOnChange={false}
               validateOnBlur={false}
-              initialValues={initialValues}
+              initialValues={{
+                title: this.state.title,
+                description: this.state.description
+              }}
               validationSchema={validationSchema}
               onSubmit={this._onSubmit}
               component={this._renderForm}
@@ -264,9 +286,6 @@ class CreateExam extends Component {
                 columns={columns}
                 scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
               />
-              {/* <div className="pagination-box">
-                <Pagination defaultCurrent={1} total={50} />
-              </div> */}
             </div>
           </Content>
         </Container>
@@ -275,4 +294,4 @@ class CreateExam extends Component {
   }
 }
 
-export default CreateExam
+export default EditExam

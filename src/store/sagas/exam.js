@@ -2,7 +2,7 @@ import { all, takeLatest } from 'redux-saga/effects'
 
 import sagaHelper from '@/utils/saga-helper'
 import { TYPES } from '@/store/actions'
-import { insertExam, getExamsByTeacher, getExamsByStudent, getExamById, getRoomsExam, getStudentsInExam } from '@/api/exam'
+import { insertExam, getExamsByTeacher, getExamsByStudent, getExamById, getRoomsExam, getStudentsInExam, getInfoExamByStudent } from '@/api/exam'
 
 export default function* watcher() {
   yield all([
@@ -23,6 +23,9 @@ export default function* watcher() {
     })),
     takeLatest(TYPES.GET_STUDENTS_IN_EXAM, sagaHelper({
       api: getStudentsInExam
+    })),
+    takeLatest(TYPES.GET_INFO_EXAM_BY_STUDENT, sagaHelper({
+      api: getInfoExamByStudent
     }))
-  ])
+    ])
 }

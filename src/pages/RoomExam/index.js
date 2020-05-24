@@ -50,41 +50,29 @@ const Content = styled.div`
   getStudentsInExam: actions.getStudentsInExam,
 })
 export default class RoomExam extends Component {
-  componentDidMount() {
-    this.props.getStudentsInExam(this.props.match.params.idRoom);
 
-    axios.get("http://geoplugin.net/json.gp").then(res => {
-      // const {
-      //   geoplugin_request,
-      //   geoplugin_countryCode,
-      //   geoplugin_city,
-      //   geoplugin_region,
-      //   geoplugin_countryName
-      // } = res.data;
+  _listenChangeStatusStudent = () => {
+    socket.on("change_status_student", () => {
 
-      // const visitor = {
-      //   ip: geoplugin_request,
-      //   countryCode: geoplugin_countryCode,
-      //   city: geoplugin_city,
-      //   state: geoplugin_region,
-      //   country: geoplugin_countryName,
-      //   studentId: Storage.get('ID')
-      // };
-      
-      let room = {
-        idRoom: this.props.match.params.idRoom,
-        idTeacher: Storage.get('ID')
-      }
-
-      socket.emit("send_request_status_students_in_room", room);
-
-      socket.on("get_status_students_in_room", visitors => {
-        this.setState({
-          visitors: visitors
-        });
-      });
-      
     })
+  }
+
+  componentDidMount() {
+    this.props.getStudentsInExam(this.props.match.params.idRoom)
+
+    let room = {
+      idRoom: this.props.match.params.idRoom,
+      idTeacher: Storage.get('ID')
+    }
+
+    socket.on(`change_status_student_room_${this.props.match.params.idRoom}`, () => {
+      this.props.getStudentsInExam(this.props.match.params.idRoom)
+    });
+
+    socket.on(`change_answer_student_room_${this.props.match.params.idRoom}`, () => {
+      this.props.getStudentsInExam(this.props.match.params.idRoom)
+    });
+
   }
 
   _showStudentItem = (list) => {
@@ -93,14 +81,15 @@ export default class RoomExam extends Component {
         <div className="student-information" key={index}>
           <div className="student-exam">
             <h5> {item.studentId.name} </h5>
-            <CheckCircleTwoTone twoToneColor="#52c41a" />
+            {item.status === 'ONLINE' ? <CheckCircleTwoTone twoToneColor="#52c41a" /> : <CheckCircleTwoTone twoToneColor="red" />}
+
           </div>
           <div className="button-exam" >
-            <span> IP: 111012 </span>
+            {item.ip ? <span> IP: {item.ip} </span> : null}
             <Button type="primary" size="small"> Follow</Button>
           </div>
-          <span> City: Quảng Nam <br /></span>
-          <span> State: Quảng Nam <br /></span>
+          {item.city ? <p> IP: {item.city}<br /> </p> : null}
+          {item.state ? <p> State: {item.state}<br /> </p> : null}
           <span> Tham gia: 20p trước</span>
         </div>
       )
@@ -110,7 +99,6 @@ export default class RoomExam extends Component {
   render() {
     let { studentsInExam } = this.props.examStore
     console.log(studentsInExam)
-
 
     return (
       <Container className="not-found">

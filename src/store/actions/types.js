@@ -28,6 +28,8 @@ export default [
   'GET_ROOMS_EXAM',
   'GET_STUDENTS_IN_EXAM',
 
+  'GET_INFO_EXAM_BY_STUDENT',
+
   // Store
   'CLEAR_STORE'
 ]

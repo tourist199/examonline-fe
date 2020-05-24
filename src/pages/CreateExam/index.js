@@ -118,7 +118,7 @@ const validationSchema = object().shape({
 class CreateExam extends Component {
   componentDidMount() {
     this.props.getStudents()
-    this.props.getTests(1)
+    this.props.getTests()
   }
 
   state = {

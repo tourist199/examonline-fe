@@ -10,7 +10,8 @@ const INIT_STATE = {
   editExam: {},
   examSchedule: [],
   roomsExam: [],
-  studentsInExam: []
+  studentsInExam: [],
+  listAnswerOfStudent: []
 }
 
 export default (state = INIT_STATE, action) => {
@@ -31,6 +32,7 @@ export default (state = INIT_STATE, action) => {
         submitting: null,
         // error: action.error
       }
+
     case TYPES.GET_EXAMS_BY_TEACHER_REQUEST:
       return {
         ...state,
@@ -45,6 +47,25 @@ export default (state = INIT_STATE, action) => {
         total: action.data.total
       }
     case TYPES.GET_EXAMS_BY_TEACHER_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        // error: action.error
+      }
+
+    case TYPES.GET_INFO_EXAM_BY_STUDENT_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_INFO_EXAM_BY_STUDENT_SUCCESS:
+
+      return {
+        ...state,
+        submitting: null,
+        listAnswerOfStudent: action.data.listAnswer ? action.data.listAnswer : []
+      }
+    case TYPES.GET_INFO_EXAM_BY_STUDENT_FAILURE:
       return {
         ...state,
         submitting: null,
@@ -110,6 +131,8 @@ export default (state = INIT_STATE, action) => {
         submitting: action.type
       }
     case TYPES.GET_EXAM_BY_ID_SUCCESS:
+      console.log(action);
+      
       return {
         ...state,
         submitting: null,

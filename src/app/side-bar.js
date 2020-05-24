@@ -146,7 +146,7 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
 
-            <SubMenu icon={<FileProtectOutlined />} title={translate('sidebar.administrationExam')}>
+            <SubMenu icon={<FileProtectOutlined />} title={translate('sidebar.manageTest')}>
               <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/new-test') }}>{translate('sidebar.createExam')}</Menu.Item>
               <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-test') }}>{translate('sidebar.listExam')}</Menu.Item>
             </SubMenu>

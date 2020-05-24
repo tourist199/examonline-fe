@@ -101,7 +101,7 @@ class ListExam extends Component {
         timeStart: moment(item.timeStart).format('LLL'),
         timeEnd: moment(item.timeEnd).format('LLL'),
         Action: <div> 
-                  <Button onClick= {()=>this.props.history.push('/edit-exam')}> EDIT </Button> 
+                  <Button onClick= {()=>this.props.history.push('/edit-exam/'+item._id)}> EDIT </Button> 
                   <Button> DELETE </Button>
                 </div>
       })
