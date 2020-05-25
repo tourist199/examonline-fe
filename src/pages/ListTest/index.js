@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
-// import { Form } from 'formik'
 import { object, string } from 'yup'
 import { Pagination, Checkbox } from 'antd'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import moment from 'moment'
 import { withLocalize } from 'react-localize-redux'
 
@@ -26,7 +25,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
-
     
   .table-box {
     height: 200px;
@@ -45,7 +43,6 @@ const Content = styled.div`
     height: 200px;
     margin: 20px;
     
-    
     .pagination-box {
       height: 100px;
       display: flex;
@@ -58,12 +55,6 @@ const Content = styled.div`
 let dataSource = []
 
 const columns = [
-  {
-    title: 'STT',
-    dataIndex: 'STT',
-    render: (text, record, index) => <span>{index + 1}</span>,
-    key: 'STT'
-  },
   {
     title: 'Tên bộ đề',
     dataIndex: 'nameExam',
@@ -107,7 +98,7 @@ class ListTest extends Component {
     console.log(this.props.testStore);
     const { translate } = this.props
     const { getTests } = this.props
-    
+
     let listTest = this.props.testStore.listTest
     if (listTest) {
       dataSource = []
@@ -117,11 +108,11 @@ class ListTest extends Component {
           nameExam: item.title,
           date: moment(item.createAt).format('llll'),
           status: item.status,
-          Action: <Button onClick={()=> this.props.history.push('/edit-test/'+item._id)} > EDIT </Button>
+          Action: <Button disabled={item.status === 'DONE'} onClick={() => this.props.history.push('/edit-test/' + item._id)} > EDIT </Button>
         })
       })
     }
-    
+
     return (
       <Page>
         <Container>

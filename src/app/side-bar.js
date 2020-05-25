@@ -112,11 +112,11 @@ class SideBar extends Component {
             <Menu.Item icon={<HomeOutlined />} onClick={() => { historyPush('/') }}  >{translate('sidebar.homePage')}</Menu.Item>
             <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/exam-schedule') }} >{translate('sidebar.studentTestSchedule')} </Menu.Item>
             <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
-            {translate('sidebar.personalInformation')}
-              </Menu.Item>
+              {translate('sidebar.personalInformation')}
+            </Menu.Item>
             <Menu.Item icon={<HistoryOutlined />} onClick={() => { historyPush('/history-exam') }}>
-            {translate('sidebar.historyExam')}
-              </Menu.Item>
+              {translate('sidebar.historyExam')}
+            </Menu.Item>
           </Menu>
         ) : null}
 
@@ -127,13 +127,13 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
             <Menu.Item icon={<FileProtectOutlined />} onClick={() => { historyPush('/test-manage') }}>
-            {translate('sidebar.managesExam')}
-              </Menu.Item>
+              {translate('sidebar.managesExam')}
+            </Menu.Item>
 
             <SubMenu icon={<SolutionOutlined />} title={translate('sidebar.managementUser')}>
               <Menu.Item icon={<UserAddOutlined />} onClick={() => { historyPush('/new-user') }}>
-              {translate('sidebar.createUser')}
-            </Menu.Item>
+                {translate('sidebar.createUser')}
+              </Menu.Item>
               <Menu.Item icon={<TeamOutlined />} onClick={() => { historyPush('/list-user') }}>{translate('sidebar.listUser')}</Menu.Item>
             </SubMenu>
           </Menu>
@@ -145,7 +145,7 @@ class SideBar extends Component {
             theme="light"
             inlineCollapsed={uiStore.isSideBarOpen}
           >
-            
+
             <SubMenu icon={<FileProtectOutlined />} title={translate('sidebar.administrationExam')}>
               <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/new-test') }}>{translate('sidebar.createExam')}</Menu.Item>
               <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-test') }}>{translate('sidebar.listExam')}</Menu.Item>
@@ -157,7 +157,9 @@ class SideBar extends Component {
               <Menu.Item icon={<FileAddOutlined />} onClick={() => { historyPush('/create-exam') }} >{translate('sidebar.createTestExam')}</Menu.Item>
               <Menu.Item icon={<UnorderedListOutlined />} onClick={() => { historyPush('/list-exam') }}>{translate('sidebar.listTestExam')}</Menu.Item>
             </SubMenu>
-            <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/room-exam') }}>{translate('sidebar.roomExam')}</Menu.Item>
+            <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/manage-room') }}>
+              {translate('sidebar.roomExam')}
+            </Menu.Item>
 
           </Menu>
         ) : null}

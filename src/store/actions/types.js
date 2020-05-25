@@ -19,11 +19,14 @@ export default [
   'GET_TESTS_DONE',
 
   'GET_STUDENTS',
+  
 
   'INSERT_EXAM',
   'GET_EXAMS_BY_TEACHER',
   'GET_EXAM_BY_ID',
   'GET_EXAMS_BY_STUDENT',
+  'GET_ROOMS_EXAM',
+  'GET_STUDENTS_IN_EXAM',
 
   // Store
   'CLEAR_STORE'
