@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
-import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
 import { connect } from 'react-redux'
 import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'
 
 import { Pagination } from 'antd'
-import Input from '@/components/input'
-import Field from '@/components/field'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Select from '@/components/select'
@@ -37,8 +33,8 @@ const Content = styled.div`
     }
   }
 `
-let dataSource = []
 
+let dataSource = []
 
 const columns = [
   {
@@ -47,63 +43,67 @@ const columns = [
     render: (text, record, index) => <span>{index + 1}</span>,
   },
   {
-    title: 'Tên đề thi',
-    dataIndex: 'titleExam',
-    key: 'titleExam'
+    title: 'Tên học viên',
+    dataIndex: 'nameStudent',
+    key: 'nameStudent'
   },
   {
-    title: 'Bộ đề thi',
-    dataIndex: 'titleTest',
-    key: 'titleTest'
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email'
   },
   {
-    title: 'Thời gian bắt đầu',
-    dataIndex: 'timeStart',
-    key: 'timeStart'
+    title: 'Ngày sinh',
+    dataIndex: 'birthday',
+    key: 'birthday'
   },
   {
-    title: 'Thời gian kết thúc',
-    dataIndex: 'timeEnd',
-    key: 'timeEnd'
+    title: 'Trạng thái',
+    dataIndex: 'status',
+    key: 'status'
   },
   {
-    title: 'Action',
-    dataIndex: 'Action',
-    key: 'Action'
+    title: 'IP',
+    dataIndex: 'ip',
+    key: 'ip'
+  },
+  {
+    title: 'Câu đã làm',
+    dataIndex: 'numQuestionDid',
+    key: 'numQuestionDid'
+  },
+  {
+    title: 'Điểm',
+    dataIndex: 'score',
+    key: 'score'
   },
 ]
 
 @connect((state) => ({
-  examStore: state.exam,
+  examStore: state.exam
 }), {
-  getExamsByTeacher: actions.getExamsByTeacher,
-  deleteExam: actions.deleteExam
+  getStudentsInExam: actions.getStudentsInExam,
 })
-class ListExam extends Component {
+class HistoryExamTeacher extends Component {
 
   componentDidMount() {
-    this.props.getExamsByTeacher({ page: 1 })
+    this.props.getStudentsInExam(this.props.match.params.idExam)
   }
 
   render() {
-    // const { total } = this.props.examStore
-    console.log(this.props.examStore);
-
-    // const { getExamsByTeacher } = this.props
+    console.log(this.props.examStore.studentsInExam);
 
     dataSource = []
-    this.props.examStore.listExam.forEach((item => {
-      if (moment(item.timeStart) > moment())
-        dataSource.push({
-          titleExam: item.title,
-          titleTest: item.testId && item.testId.title,
-          timeStart: moment(item.timeStart).format('LLL'),
-          timeEnd: moment(item.timeEnd).format('LLL'),
-          Action: <div>
-            <Button onClick={() => this.props.history.push('/edit-exam/' + item._id)}> EDIT </Button>
-            <Button onClick={() => { this.props.deleteExam(item._id) }}> DELETE </Button>
-          </div>
-        })
+    this.props.examStore.studentsInExam.forEach((item => {
+      dataSource.push({
+        nameStudent: item.studentId.name,
+        email: item.studentId.email,
+        birthday: moment(item.studentId.birthday).format('L'),
+        status: item.submit ? 'Đã nộp bài' : 'Chưa xác nhận nộp bài',
+        ip: item.ip ? item.ip : '',
+        numQuestionDid: item.listAnswer ? item.listAnswer.length : '',
+        score: item.listAnswer ? (`${+item.listAnswer.length * 10} / ${+item.examId.testId.totalQuestion * 10}`) : 0
+      })
     }))
 
     return (
@@ -121,9 +121,7 @@ class ListExam extends Component {
                 scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
                 loading={this.props.examStore.submitting === TYPES.GET_EXAMS_BY_TEACHER_REQUEST}
               />
-              {/* <div className="pagination-box">
-                <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getExamsByTeacher({ page })} />
-              </div> */}
+
             </div>
           </Content>
         </Container>
@@ -132,4 +130,4 @@ class ListExam extends Component {
   }
 }
 
-export default ListExam
+export default HistoryExamTeacher

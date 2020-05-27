@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
-import { Formik, Form } from 'formik'
-import { object, string, date } from 'yup'
 import moment from 'moment'
 import { actions } from '@/store/actions'
 import { connect } from 'react-redux'
@@ -10,9 +8,7 @@ import Notification from '@/components/notification'
 import Storage from '@/utils/storage'
 import { PlusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
 
-import { Pagination, Checkbox, Select, DatePicker } from 'antd'
-import Input from '@/components/input'
-import Field from '@/components/field'
+import { Pagination, Checkbox, Select, DatePicker, Input } from 'antd'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
@@ -67,21 +63,11 @@ const Content = styled.div`
 const { RangePicker } = DatePicker
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY']
 const { Option } = Select
-let children = [];
+let students = [];
 let tests = []
 
 
 let dataSource = []
-
-lodash.range(2).forEach(() => {
-  dataSource.push({
-    email: 'ltk@teacher.com',
-    name: 'Test',
-    birthday: '26/06/2019',
-    gender: 'Nam',
-    address: 'Huế'
-  })
-})
 
 const columns = [
   {
@@ -111,11 +97,6 @@ const columns = [
   }
 ]
 
-const validationSchema = object().shape({
-  title: string().required(),
-  description: string().required()
-})
-
 @connect((state) => ({
   accountStore: state.account,
   testStore: state.test,
@@ -123,7 +104,8 @@ const validationSchema = object().shape({
 }), {
   getStudents: actions.getStudents,
   getTests: actions.getTestsDone,
-  getExamById: actions.getExamById
+  getExamById: actions.getExamById,
+  updateExam: actions.updateExam
 })
 class EditExam extends Component {
   componentDidMount() {
@@ -144,112 +126,33 @@ class EditExam extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.editExam && nextProps.editExam.exam && nextProps.editExam.exam._id !== prevState._id) {
-      return { 
+      return {
         testId: nextProps.editExam.exam.testId._id,
         _id: nextProps.editExam.exam._id,
         timeStart: moment(nextProps.editExam.exam.timeStart),
         timeEnd: moment(nextProps.editExam.exam.timeEnd),
         title: nextProps.editExam.exam.title,
         description: nextProps.editExam.exam.description,
-        listStudent: nextProps.editExam.listStudent.map(item => item._id)
+        listStudent: nextProps.editExam.listStudent.map(item => item.studentId)
       }
     }
     else return null;
   }
 
 
-  _onSubmit = (values) => {
-    let { testId, timeStart, timeEnd, listStudent } = this.state
-    this.props.insertExam({ ...values, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ID') }, (success, data) => {
+  _onSave = () => {
+    let { testId, title, description, timeStart, timeEnd, listStudent, _id } = this.state
+    this.props.updateExam({ _id, title, description, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ID') }, (success, data) => {
       if (success)
-        Notification.success('Create Exam Success')
+        Notification.success('Update Exam Success')
     })
   }
-
-  _renderForm = ({ handleSubmit, ...form }) => (
-    <Form className="form">
-      <div className="field-group">
-        <h1> Edit exam </h1>
-        <div className="create-exam">
-          <Field
-            form={form}
-            inline
-            size="middle"
-            name="title"
-            label="Tên kỳ thi"
-            style={{ width: 500 }}
-            component={Input}
-          />
-        </div>
-        <div className="create-exam">
-          <Field
-            form={form}
-            inline
-            size="middle"
-            name="description"
-            style={{ width: 500 }}
-            label="Mô tả kỳ thi"
-            component={Input}
-          />
-
-        </div>
-        <div className="combobox-exam">
-          <h3>Chọn bộ đề</h3>
-          <Select
-            showSearch
-            style={{ width: 500, marginLeft: 65 }}
-            placeholder="Chọn đề thi"
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-            }
-            onChange={(testId) => this.setState({ testId })}
-            value={this.state.testId}
-          >
-            {tests}
-          </Select>
-        </div>
-        <div className="time-exam">
-          <h3>Thời gian thi</h3>
-
-          <RangePicker
-            onChange={(time) => this.setState({ timeStart: time[0], timeEnd: time[1] })}
-            value={[this.state.timeStart, this.state.timeEnd]}
-            showTime={{ format: 'HH:mm' }}
-            style={{ marginLeft: 60, width: 500 }}
-          />
-        </div>
-        <div className="combobox-student">
-          <h3>Sinh viên</h3>
-          <Select
-            mode="multiple"
-            style={{ width: 500, marginLeft: 85 }}
-            placeholder="Chọn sinh viên"
-            value={[...this.state.listStudent]}
-            onChange={(listStudent) => this.setState({ listStudent })}
-          >
-            {children}
-          </Select>
-        </div>
-        <div className="button-exam">
-          <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
-            CANCEL
-        </Button>
-          <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
-            Lưu nháp
-        </Button>
-        </div>
-      </div>
-    </Form>
-  )
 
   render() {
     const initialValues = {
       title: this.state.title,
       description: this.state.description
     }
-    console.log(this.props.editExam, initialValues);
-    
     let listStudent = this.props.accountStore.listStudent
     let listTest = this.props.testStore.listTestDone
 
@@ -258,38 +161,109 @@ class EditExam extends Component {
       tests.push(<Option key={index} value={item._id}>{item.title}</Option>)
     })
 
+    dataSource = []
 
-    children = []
-    listStudent.forEach((item, index) => {
-      children.push(<Option key={index} value={item._id}>{item.email}</Option>);
+    listStudent.forEach(item => {
+      if (this.state.listStudent.indexOf(item._id) >= 0)
+        dataSource.push({
+          email: item.email,
+          name: item.name,
+          birthday: moment(item.birthday).format('L'),
+          gender: item.gender,
+          address: item.address
+        })
+    })
+
+    students = []
+    listStudent.forEach((item) => {
+      students.push(<Option key={item._id}>{item.email}</Option>);
     })
 
     return (
       <Page>
         <Container>
           <Content>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}
-              initialValues={{
-                title: this.state.title,
-                description: this.state.description
-              }}
-              validationSchema={validationSchema}
-              onSubmit={this._onSubmit}
-              component={this._renderForm}
-            />
-            <div className="table-box">
-              <Table
-                rowKey={(row, index) => index}
-                dataSource={dataSource}
-                columns={columns}
-                scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
-              />
+            <div className="field-group">
+              <h1> Edit exam </h1>
+              <div className="create-exam">
+                <h3>Tên kỳ thi</h3>
+                <Input
+                  size="middle"
+                  name="title"
+                  label="Tên kỳ thi"
+                  value={this.state.title}
+                  onChange={(e) => this.setState({ title: e.target.value })}
+                  style={{ width: 500, marginLeft: 80 }}
+                />
+              </div>
+              <div className="create-exam">
+                <h3>Mô tả kỳ thi</h3>
+                <Input
+                  size="middle"
+                  name="description"
+                  onChange={(e) => this.setState({ description: e.target.value })}
+                  value={this.state.description}
+                  style={{ width: 500, marginLeft: 65 }}
+                  label="Mô tả kỳ thi"
+                />
+
+              </div>
+              <div className="combobox-exam">
+                <h3>Chọn bộ đề</h3>
+                <Select
+                  showSearch
+                  style={{ width: 500, marginLeft: 65 }}
+                  placeholder="Chọn đề thi"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                  }
+                  onChange={(testId) => this.setState({ testId })}
+                  value={this.state.testId}
+                >
+                  {tests}
+                </Select>
+              </div>
+              <div className="time-exam">
+                <h3>Thời gian thi</h3>
+
+                <RangePicker
+                  onChange={(time) => this.setState({ timeStart: time[0], timeEnd: time[1] })}
+                  value={[this.state.timeStart, this.state.timeEnd]}
+                  showTime={{ format: 'HH:mm' }}
+                  style={{ marginLeft: 60, width: 500 }}
+                />
+              </div>
+              <div className="combobox-student">
+                <h3>Sinh viên</h3>
+                <Select
+                  mode="multiple"
+                  style={{ width: 500, marginLeft: 85 }}
+                  placeholder="Chọn sinh viên"
+                  value={this.state.listStudent}
+                  onChange={(listStudent) => this.setState({ listStudent })}
+                >
+                  {students}
+                </Select>
+              </div>
+              <div className="button-exam">
+                <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
+                  CANCEL
+                </Button>
+                <Button onClick={this._onSave} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
+                  Lưu
+                </Button>
+              </div>
             </div>
+            <Table
+              rowKey={(row, index) => index}
+              dataSource={dataSource}
+              columns={columns}
+              scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
+            />
           </Content>
         </Container>
-      </Page>
+      </Page >
     )
   }
 }

@@ -130,6 +130,8 @@ class CreateExam extends Component {
 
   _onSubmit = (values) => {
     let { testId, timeStart, timeEnd, listStudent } = this.state
+    console.log({ ...values, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ID') });
+    
     this.props.insertExam({ ...values, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ID') }, (success, data) => {
       if (success)
         Notification.success('Create Exam Success')
@@ -230,6 +232,8 @@ class CreateExam extends Component {
     let listStudent = this.props.accountStore.listStudent
     let listTest = this.props.testStore.listTestDone
 
+    console.log(this.state.listStudent);
+    
     tests = []
     listTest.forEach((item, index) => {
       tests.push(<Option key={index} value={item._id}>{item.title}</Option>)
@@ -274,9 +278,7 @@ class CreateExam extends Component {
                 columns={columns}
                 scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
               />
-              {/* <div className="pagination-box">
-                <Pagination defaultCurrent={1} total={50} />
-              </div> */}
+            
             </div>
           </Content>
         </Container>

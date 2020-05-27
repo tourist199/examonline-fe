@@ -90,6 +90,8 @@ export default class RoomExam extends Component {
           </div>
           {item.city ? <p> IP: {item.city}<br /> </p> : null}
           {item.state ? <p> State: {item.state}<br /> </p> : null}
+          {item.numQuestionDidCorrect || item.numQuestionDidCorrect === 0 ? <p> Đúng: {item.numQuestionDidCorrect}<br /> </p> : null}
+          {item.numQuestionDid || item.numQuestionDid === 0 ? <p> Làm: {item.numQuestionDid}<br /> </p> : null}
           <span> Tham gia: 20p trước</span>
         </div>
       )

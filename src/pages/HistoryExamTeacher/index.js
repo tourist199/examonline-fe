@@ -37,8 +37,8 @@ const Content = styled.div`
     }
   }
 `
-let dataSource = []
 
+let dataSource = []
 
 const columns = [
   {
@@ -67,6 +67,11 @@ const columns = [
     key: 'timeEnd'
   },
   {
+    title: 'Trạng thái',
+    dataIndex: 'status',
+    key: 'status'
+  },
+  {
     title: 'Action',
     dataIndex: 'Action',
     key: 'Action'
@@ -76,32 +81,31 @@ const columns = [
 @connect((state) => ({
   examStore: state.exam,
 }), {
-  getExamsByTeacher: actions.getExamsByTeacher,
-  deleteExam: actions.deleteExam
+  getExamsByTeacher: actions.getExamsByTeacher
 })
-class ListExam extends Component {
+class HistoryExamTeacher extends Component {
 
   componentDidMount() {
     this.props.getExamsByTeacher({ page: 1 })
   }
 
   render() {
-    // const { total } = this.props.examStore
+    const { total } = this.props.examStore
     console.log(this.props.examStore);
 
-    // const { getExamsByTeacher } = this.props
+    const { getExamsByTeacher } = this.props
 
     dataSource = []
     this.props.examStore.listExam.forEach((item => {
-      if (moment(item.timeStart) > moment())
+      if (moment(item.timeEnd) < moment())
         dataSource.push({
           titleExam: item.title,
           titleTest: item.testId && item.testId.title,
           timeStart: moment(item.timeStart).format('LLL'),
           timeEnd: moment(item.timeEnd).format('LLL'),
+          status: 'Đã diễn ra',
           Action: <div>
-            <Button onClick={() => this.props.history.push('/edit-exam/' + item._id)}> EDIT </Button>
-            <Button onClick={() => { this.props.deleteExam(item._id) }}> DELETE </Button>
+            <Button onClick={() => this.props.history.push('history-room-detail/' + item._id)}> More Info </Button>
           </div>
         })
     }))
@@ -121,9 +125,9 @@ class ListExam extends Component {
                 scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px - 50px)` }}
                 loading={this.props.examStore.submitting === TYPES.GET_EXAMS_BY_TEACHER_REQUEST}
               />
-              {/* <div className="pagination-box">
+              <div className="pagination-box">
                 <Pagination defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getExamsByTeacher({ page })} />
-              </div> */}
+              </div>
             </div>
           </Content>
         </Container>
@@ -132,4 +136,4 @@ class ListExam extends Component {
   }
 }
 
-export default ListExam
+export default HistoryExamTeacher

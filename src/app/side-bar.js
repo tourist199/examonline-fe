@@ -129,6 +129,9 @@ class SideBar extends Component {
             <Menu.Item icon={<FileProtectOutlined />} onClick={() => { historyPush('/test-manage') }}>
               {translate('sidebar.managesExam')}
             </Menu.Item>
+            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
+              {translate('sidebar.personalInformation')}
+            </Menu.Item>
 
             <SubMenu icon={<SolutionOutlined />} title={translate('sidebar.managementUser')}>
               <Menu.Item icon={<UserAddOutlined />} onClick={() => { historyPush('/new-user') }}>
@@ -159,6 +162,12 @@ class SideBar extends Component {
             </SubMenu>
             <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/manage-room') }}>
               {translate('sidebar.roomExam')}
+            </Menu.Item>
+            <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/history-room') }}>
+              Lịch sử kỳ thi
+            </Menu.Item>
+            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
+              {translate('sidebar.personalInformation')}
             </Menu.Item>
 
           </Menu>

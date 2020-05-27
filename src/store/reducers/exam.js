@@ -33,6 +33,26 @@ export default (state = INIT_STATE, action) => {
         // error: action.error
       }
 
+    case TYPES.DELETE_EXAM_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.DELETE_EXAM_SUCCESS:
+      console.log('delete '+ action.data.idExamDeleted);
+      
+      return {
+        ...state,
+        submitting: null,
+        listExam: state.listExam.filter(item => item._id !== action.data.idExamDeleted)
+      }
+    case TYPES.DELETE_EXAM_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        // error: action.error
+      }
+
     case TYPES.GET_EXAMS_BY_TEACHER_REQUEST:
       return {
         ...state,
@@ -132,7 +152,7 @@ export default (state = INIT_STATE, action) => {
       }
     case TYPES.GET_EXAM_BY_ID_SUCCESS:
       console.log(action);
-      
+
       return {
         ...state,
         submitting: null,

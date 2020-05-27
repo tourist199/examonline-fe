@@ -91,7 +91,8 @@ const Content = styled.div`
   listAnswerOfStudent: state.exam.listAnswerOfStudent
 }), {
   getTestById: actions.getTestById,
-  getInfoExamByStudent: actions.getInfoExamByStudent
+  getInfoExamByStudent: actions.getInfoExamByStudent,
+  studentSubmitExam: actions.studentSubmitExam
 })
 
 export default class Exam extends Component {
@@ -156,6 +157,10 @@ export default class Exam extends Component {
      */
     this.props.getInfoExamByStudent(this.props.match.params.idExam)
 
+
+    /**
+     * Send signal join exam
+     */
     this._emitJoinExam()
 
   }
@@ -194,17 +199,29 @@ export default class Exam extends Component {
               shape="round"
               danger={chose && chose.selected == index}
               onClick={() => {
-                let listAnswer = [...this.state.listAnswer.filter(x => x.idQuestion !== item._id),
-                { idQuestion: item._id, selected: index }]
+                let listAnswer = [
+                  ...this.state.listAnswer.filter(x => x.idQuestion !== item._id),
+                  { idQuestion: item._id, selected: index }
+                ]
+
+                let numQuestionDidCorrect = 0;
+                listAnswer.forEach((item => {
+                  let temp = this.state.listQuestion.find(el => el._id === item.idQuestion)
+                  if (temp && +temp.result === +item.selected)
+                    numQuestionDidCorrect++
+                }))
+
                 this.setState({
-                  listAnswer
+                  listAnswer,
+                  numQuestionDidCorrect
                 })
-                console.log(listAnswer);
+                console.log(listAnswer, numQuestionDidCorrect);
 
                 socket.emit('change_answer_student', {
                   studentId: Storage.get('ID'),
                   examId: this.props.match.params.idExam,
-                  listAnswer
+                  listAnswer,
+                  numQuestionDidCorrect
                 })
 
               }}
@@ -220,16 +237,26 @@ export default class Exam extends Component {
       return null
   }
 
+  _onSubmit = () => {
+    this.props.studentSubmitExam(
+      {
+        examId: this.props.match.params.idExam
+      },
+      (success, data) => {
+        if (success)
+          alert("Submit Exam Success")
+      }
+    )
+  }
+
   componentWillUnmount() {
     console.log('leave room');
-    
+
     socket.emit("leave_room");
   }
 
   render() {
-    console.log(this.props.testIndex);
-    console.log(this.state.listAnswer);
-
+    console.log(this.state.listQuestion, 'lsques');
 
     return (
       <Page>
@@ -247,19 +274,46 @@ export default class Exam extends Component {
                     {this._showBtnQuestion()}
                   </div>
                 </div>
+                <div>
+                  <Button onClick={this._onSubmit} >Nộp bài</Button>
+                </div>
               </Col>
               <Col span={16}>
                 <div className="border-margin-exam">
                   <div className="exam-margin ">
-                    <p className="question-exam"> Câu {`${this.state.questionIndex + 1} : ${this.state.title}`} </p>
+                    <p className="question-exam"> Câu {`${this.state.questionIndex + 1} : ${this.state.listQuestion[this.state.questionIndex] && this.state.listQuestion[this.state.questionIndex].title}`} </p>
                     <div className="img-exam"><img src="https://thuthuat.taimienphi.vn/cf/Images/gl/2019/8/8/duong-dan-file-trong-html-.jpg"></img></div>
                     <div className="button-answer">
 
                       {this._showAnswers()}
 
                       <div className="button-changhe">
-                        <Button className="btn-btn-changhe" type="primary" shape="round" > Previous </Button>
-                        <Button className="btn-btn-changhe" type="primary" shape="round" > Next </Button>
+                        <Button
+                          className="btn-btn-changhe"
+                          type="primary"
+                          shape="round"
+                          disabled={this.state.questionIndex === 0}
+                          onClick={() => {
+                            let index = this.state.questionIndex;
+                            if (index - 1 >= 0)
+                              this.setState({ questionIndex: index - 1 })
+                          }}
+                        >
+                          Previous
+                        </Button>
+                        <Button
+                          className="btn-btn-changhe"
+                          type="primary"
+                          shape="round"
+                          disabled={this.state.questionIndex === this.state.listQuestion.length - 1}
+                          onClick={() => {
+                            let index = this.state.questionIndex;
+                            if (index + 1 < this.state.listQuestion.length)
+                              this.setState({ questionIndex: index + 1 })
+                          }}
+                        >
+                          Next
+                        </Button>
                       </div>
                     </div>
                   </div>
