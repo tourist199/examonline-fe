@@ -21,7 +21,7 @@ const Content = styled.div`
     padding: 15px;
     border-radius: 5px;
     width: 1050px;
-    background: #ebf4f0;
+    background: #f2f7f7;
       
     margin: 10px 30px;
 
