@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import lodash from 'lodash'
-import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
 import { connect } from 'react-redux'
 import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'

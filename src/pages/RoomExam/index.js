@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
+import TimeLeft from '@/components/base/TimeLeft'
+
 import { CheckCircleTwoTone } from '@ant-design/icons'
 import { Button } from 'antd';
 import Container from '@/components/container'
@@ -48,6 +50,7 @@ const Content = styled.div`
   examStore: state.exam
 }), {
   getStudentsInExam: actions.getStudentsInExam,
+  getExamById: actions.getExamById
 })
 export default class RoomExam extends Component {
 
@@ -58,7 +61,12 @@ export default class RoomExam extends Component {
   }
 
   componentDidMount() {
+
+    // get list student in exam
     this.props.getStudentsInExam(this.props.match.params.idRoom)
+
+    // Get info exam
+    this.props.getExamById(this.props.match.params.idRoom)
 
     let room = {
       idRoom: this.props.match.params.idRoom,
@@ -88,7 +96,7 @@ export default class RoomExam extends Component {
             {item.ip ? <span> IP: {item.ip} </span> : null}
             <Button type="primary" size="small"> Follow</Button>
           </div>
-          {item.city ? <p> IP: {item.city}<br /> </p> : null}
+          {item.city ? <p> City: {item.city}<br /> </p> : null}
           {item.state ? <p> State: {item.state}<br /> </p> : null}
           {item.numQuestionDidCorrect || item.numQuestionDidCorrect === 0 ? <p> Đúng: {item.numQuestionDidCorrect}<br /> </p> : null}
           {item.numQuestionDid || item.numQuestionDid === 0 ? <p> Làm: {item.numQuestionDid}<br /> </p> : null}
@@ -99,8 +107,7 @@ export default class RoomExam extends Component {
   }
 
   render() {
-    let { studentsInExam } = this.props.examStore
-    console.log(studentsInExam)
+    let { studentsInExam, editExam } = this.props.examStore
 
     return (
       <Container className="not-found">
@@ -110,11 +117,9 @@ export default class RoomExam extends Component {
           </div>
 
           <div>
-            <h3> Tên kỳ thi: Code 2020</h3>
+            <h3> Tên kỳ thi: {editExam.exam && editExam.exam.title}</h3>
             <div className="time-exam">
-              <span> Thời gian bắt đầu: 2h20p </span>
-              <span> Thời gian kết thúc: 2h20p </span>
-              <span> Thời gian còn lại: 2h20p </span>
+              <span> Thời gian còn lại: <TimeLeft timeEnd = {editExam.exam.timeEnd} /> </span>
             </div>
           </div>
 

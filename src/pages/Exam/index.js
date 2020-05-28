@@ -8,6 +8,7 @@ import Storage from '@/utils/storage'
 import Page from '@/components/page'
 import Container from '@/components/container'
 import { Button, Badge, Row, Col } from 'antd';
+import TimeLeft from '@/components/base/TimeLeft'
 
 import Configs from '@/configs'
 import openSocket from "socket.io-client"
@@ -88,7 +89,8 @@ const Content = styled.div`
 
 @connect((state) => ({
   testIndex: state.test.editTest,
-  listAnswerOfStudent: state.exam.listAnswerOfStudent
+  listAnswerOfStudent: state.exam.listAnswerOfStudent,
+  examIndex: state.exam.examIndex
 }), {
   getTestById: actions.getTestById,
   getInfoExamByStudent: actions.getInfoExamByStudent,
@@ -102,7 +104,9 @@ export default class Exam extends Component {
     title: '',
     listQuestion: [],
     listAnswer: [],
-    questionIndex: 0
+    questionIndex: 0,
+    timeLeft: '',
+    timeOut: false
   }
 
   _emitJoinExam = () => {
@@ -130,7 +134,16 @@ export default class Exam extends Component {
     })
   }
 
+  _setTimeOutExam = () => {
+    this.setState({ timeOut: true })
+  }
+
   static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.examIndex && nextProps.examIndex.timeEnd && nextProps.examIndex.timeEnd !== prevState.timeEnd) {
+      return {
+        timeEnd: nextProps.examIndex.timeEnd
+      };
+    }
     if (nextProps.testIndex && nextProps.testIndex.test && nextProps.testIndex.test._id !== prevState._id) {
       return {
         _id: nextProps.testIndex.test._id,
@@ -253,73 +266,83 @@ export default class Exam extends Component {
     console.log('leave room');
 
     socket.emit("leave_room");
+
   }
 
   render() {
-    console.log(this.state.listQuestion, 'lsques');
+    console.log(this.state.timeEnd, 'lsques');
 
     return (
       <Page>
         <Container>
           <Content>
+            {
+              this.state.timeOut ?
+                (<div>Da het thoi gian lam bai</div>)
+                :
+                (
+                  <React.Fragment>
+                    <Row>
+                      <Col span={8}><h3 className="title-exam"> {this.props.examIndex.title} </h3> </Col>
+                      <Col span={16} style={{ textAlign: "center" }}> <span > Thời gian còn lại: <TimeLeft timeEnd={this.state.timeEnd} cb={this._setTimeOutExam} /> </span></Col>
+                    </Row>
+                    <Row>
+                      <Col span={8}>
+                        <div className="border-margin-exam">
+                          <div className="exam-margin" style={{ paddingTop: "15px" }}>
+                            {this._showBtnQuestion()}
+                          </div>
+                        </div>
+                        <div>
+                          <Button onClick={this._onSubmit} >Nộp bài</Button>
+                        </div>
+                      </Col>
+                      <Col span={16}>
+                        <div className="border-margin-exam">
+                          <div className="exam-margin ">
+                            <p className="question-exam"> Câu {`${this.state.questionIndex + 1} : ${this.state.listQuestion[this.state.questionIndex] && this.state.listQuestion[this.state.questionIndex].title || ''}`} </p>
+                            <div className="img-exam"><img src="https://thuthuat.taimienphi.vn/cf/Images/gl/2019/8/8/duong-dan-file-trong-html-.jpg"></img></div>
+                            <div className="button-answer">
 
-            <Row>
-              <Col span={8}><h3 className="title-exam"> {} </h3> </Col>
-              <Col span={16} style={{ textAlign: "center" }}> <span > Thời gian còn lại: 20h20p </span></Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <div className="border-margin-exam">
-                  <div className="exam-margin" style={{ paddingTop: "15px" }}>
-                    {this._showBtnQuestion()}
-                  </div>
-                </div>
-                <div>
-                  <Button onClick={this._onSubmit} >Nộp bài</Button>
-                </div>
-              </Col>
-              <Col span={16}>
-                <div className="border-margin-exam">
-                  <div className="exam-margin ">
-                    <p className="question-exam"> Câu {`${this.state.questionIndex + 1} : ${this.state.listQuestion[this.state.questionIndex] && this.state.listQuestion[this.state.questionIndex].title}`} </p>
-                    <div className="img-exam"><img src="https://thuthuat.taimienphi.vn/cf/Images/gl/2019/8/8/duong-dan-file-trong-html-.jpg"></img></div>
-                    <div className="button-answer">
+                              {this._showAnswers()}
 
-                      {this._showAnswers()}
+                              <div className="button-changhe">
+                                <Button
+                                  className="btn-btn-changhe"
+                                  type="primary"
+                                  shape="round"
+                                  disabled={this.state.questionIndex === 0}
+                                  onClick={() => {
+                                    let index = this.state.questionIndex;
+                                    if (index - 1 >= 0)
+                                      this.setState({ questionIndex: index - 1 })
+                                  }}
+                                >
+                                  Previous
+                            </Button>
+                                <Button
+                                  className="btn-btn-changhe"
+                                  type="primary"
+                                  shape="round"
+                                  disabled={this.state.questionIndex === this.state.listQuestion.length - 1}
+                                  onClick={() => {
+                                    let index = this.state.questionIndex;
+                                    if (index + 1 < this.state.listQuestion.length)
+                                      this.setState({ questionIndex: index + 1 })
+                                  }}
+                                >
+                                  Next
+                            </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
+                )
+            }
 
-                      <div className="button-changhe">
-                        <Button
-                          className="btn-btn-changhe"
-                          type="primary"
-                          shape="round"
-                          disabled={this.state.questionIndex === 0}
-                          onClick={() => {
-                            let index = this.state.questionIndex;
-                            if (index - 1 >= 0)
-                              this.setState({ questionIndex: index - 1 })
-                          }}
-                        >
-                          Previous
-                        </Button>
-                        <Button
-                          className="btn-btn-changhe"
-                          type="primary"
-                          shape="round"
-                          disabled={this.state.questionIndex === this.state.listQuestion.length - 1}
-                          onClick={() => {
-                            let index = this.state.questionIndex;
-                            if (index + 1 < this.state.listQuestion.length)
-                              this.setState({ questionIndex: index + 1 })
-                          }}
-                        >
-                          Next
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
           </Content>
         </Container>
       </Page>

@@ -102,7 +102,7 @@ class HistoryExamTeacher extends Component {
         status: item.submit ? 'Đã nộp bài' : 'Chưa xác nhận nộp bài',
         ip: item.ip ? item.ip : '',
         numQuestionDid: item.listAnswer ? item.listAnswer.length : '',
-        score: item.listAnswer ? (`${+item.listAnswer.length * 10} / ${+item.examId.testId.totalQuestion * 10}`) : 0
+        score: item.listAnswer ? (`${item.numQuestionDidCorrect ? Math.ceil((item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100) : 0}`) : 0
       })
     }))
 
@@ -111,7 +111,9 @@ class HistoryExamTeacher extends Component {
         <Container>
           <Content>
             <div className="field-group">
-              <h1> Danh sách kỳ thi </h1>
+              <h1> Chi tiết kỳ thi </h1>
+              <p>Tên kỳ thi: </p>
+              <p>Thời gian thi: x -> y </p>
             </div>
             <div className="table-box">
               <Table

@@ -97,8 +97,8 @@ class ListExam extends Component {
         dataSource.push({
           titleExam: item.title,
           titleTest: item.testId && item.testId.title,
-          timeStart: moment(item.timeStart).format('LLL'),
-          timeEnd: moment(item.timeEnd).format('LLL'),
+          timeStart: moment(item.timeStart).format('MM/DD/YYYY, hh:mm:ss'),
+          timeEnd: moment(item.timeEnd).format('MM/DD/YYYY, hh:mm:ss'),
           Action: <div>
             <Button onClick={() => this.props.history.push('/edit-exam/' + item._id)}> EDIT </Button>
             <Button onClick={() => { this.props.deleteExam(item._id) }}> DELETE </Button>

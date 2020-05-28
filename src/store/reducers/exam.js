@@ -11,7 +11,7 @@ const INIT_STATE = {
   examSchedule: [],
   roomsExam: [],
   studentsInExam: [],
-  listAnswerOfStudent: []
+  listAnswerOfStudent: [],
 }
 
 export default (state = INIT_STATE, action) => {
@@ -79,7 +79,6 @@ export default (state = INIT_STATE, action) => {
         submitting: action.type
       }
     case TYPES.GET_INFO_EXAM_BY_STUDENT_SUCCESS:
-
       return {
         ...state,
         submitting: null,
@@ -151,8 +150,6 @@ export default (state = INIT_STATE, action) => {
         submitting: action.type
       }
     case TYPES.GET_EXAM_BY_ID_SUCCESS:
-      console.log(action);
-
       return {
         ...state,
         submitting: null,

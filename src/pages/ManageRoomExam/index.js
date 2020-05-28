@@ -120,7 +120,7 @@ class ManageRoomExam extends Component {
   render() {
     let listExam = this.props.examStore.roomsExam
     console.log(listExam);
-    
+
 
     /**
      * Render ky thi dang dien ra
@@ -128,11 +128,11 @@ class ManageRoomExam extends Component {
 
     dataSourceOngoingExam = []
     listExam.forEach(item => {
-      if (moment(item.timeStart) < moment() && moment(item.timeEnd) > moment())
+      if (moment(item.timeStart).isBefore(moment()) && moment(item.timeEnd).isAfter(moment()))
         dataSourceOngoingExam.push({
           examName: item.title,
-          startDay: moment(item.timeStart).format('L'),
-          endDay: moment(item.timeEnd).format('L'),
+          startDay: moment(item.timeStart).format('MM/DD/YYYY, hh:mm:ss'),
+          endDay: moment(item.timeEnd).format('MM/DD/YYYY, hh:mm:ss'),
           status: 'Đang diễn ra',
           join: <div>
             <Button onClick={() => this.props.history.push(`room-exam/${item._id}`)} >Coi thi</Button>
@@ -146,11 +146,11 @@ class ManageRoomExam extends Component {
 
     dataSourceUpcomingExam = []
     listExam.forEach(item => {
-      if (moment(item.timeStart) > moment())
+      if (moment(item.timeStart).isAfter(moment()))
         dataSourceUpcomingExam.push({
           ExamName: item.title,
-          startDay: moment(item.timeStart).format('L'),
-          endDay: moment(item.timeEnd).format('L')
+          startDay: moment(item.timeStart).format('MM/DD/YYYY, hh:mm:ss'),
+          endDay: moment(item.timeEnd).format('MM/DD/YYYY, hh:mm:ss')
         })
     })
 
