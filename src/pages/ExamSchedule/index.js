@@ -132,7 +132,7 @@ class ExamSchedule extends Component {
 
     dataSourceOngoingExam = []
     listExam.forEach(item => {
-      if (moment(item.timeStart) < moment() && moment(item.timeEnd) > moment())
+      if (moment(item.timeStart) < moment() && moment(item.timeEnd) > moment() && !item.submit)
         dataSourceOngoingExam.push({
           examName: item.title,
           startDay: moment(item.timeStart).format('L'),

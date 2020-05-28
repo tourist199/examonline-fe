@@ -8,6 +8,7 @@ import Storage from '@/utils/storage'
 import Page from '@/components/page'
 import Container from '@/components/container'
 import { Button, Badge, Row, Col } from 'antd';
+import TimeLeft from '@/components/base/TimeLeft'
 
 import Configs from '@/configs'
 import openSocket from "socket.io-client"
@@ -54,6 +55,9 @@ const Content = styled.div`
       .img-exam{
         padding-bottom: 10px;
         text-align:center;
+        img {
+          width: 100%
+        }
       }
     }
   }
@@ -84,12 +88,26 @@ const Content = styled.div`
 `
 
 @connect((state) => ({
-  testIndex: state.test.editTest
+  testIndex: state.test.editTest,
+  listAnswerOfStudent: state.exam.listAnswerOfStudent,
+  examIndex: state.exam.examIndex
 }), {
-  getTestById: actions.getTestById
+  getTestById: actions.getTestById,
+  getInfoExamByStudent: actions.getInfoExamByStudent,
+  studentSubmitExam: actions.studentSubmitExam
 })
 
 export default class Exam extends Component {
+
+  state = {
+    _id: '',
+    title: '',
+    listQuestion: [],
+    listAnswer: [],
+    questionIndex: 0,
+    timeLeft: '',
+    timeOut: false
+  }
 
   _emitJoinExam = () => {
     axios.get("http://geoplugin.net/json.gp").then(res => {
@@ -101,76 +119,230 @@ export default class Exam extends Component {
         geoplugin_countryName
       } = res.data;
 
-      const visitor = {
+      const data = {
         ip: geoplugin_request,
         countryCode: geoplugin_countryCode,
         city: geoplugin_city,
         state: geoplugin_region,
         country: geoplugin_countryName,
-        studentId: Storage.get('ID')
+        studentId: Storage.get('ID'),
+        examId: this.props.match.params.idExam,
+        status: 'ONLINE'
       };
 
-      socket.emit("new_visitor", visitor);
-
-      // socket.on("visitors", visitors => {
-      //   this.setState({
-      //     visitors: visitors
-      //   });
-      // });
+      socket.emit("student_join", data);
     })
   }
 
+  _setTimeOutExam = () => {
+    this.setState({ timeOut: true })
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.examIndex && nextProps.examIndex.timeEnd && nextProps.examIndex.timeEnd !== prevState.timeEnd) {
+      return {
+        timeEnd: nextProps.examIndex.timeEnd
+      };
+    }
+    if (nextProps.testIndex && nextProps.testIndex.test && nextProps.testIndex.test._id !== prevState._id) {
+      return {
+        _id: nextProps.testIndex.test._id,
+        title: nextProps.testIndex.test.title,
+        listQuestion: nextProps.testIndex.listQuestion,
+      };
+    }
+    else if (prevState.listAnswer.length === 0) {
+      return {
+        listAnswer: nextProps.listAnswerOfStudent ? nextProps.listAnswerOfStudent : []
+      };
+    }
+    else return null;
+  }
+
   componentDidMount() {
+    /**
+     * get info test and question
+     */
     this.props.getTestById(this.props.match.params.idTest)
 
+    /**
+     * get answer of student
+     */
+    this.props.getInfoExamByStudent(this.props.match.params.idExam)
+
+
+    /**
+     * Send signal join exam
+     */
     this._emitJoinExam()
 
   }
 
+  _showBtnQuestion = () => {
+    if (this.state.listQuestion)
+      return this.state.listQuestion.map((item, index) => {
+        let chose = this.state.listAnswer.find(ele => ele.idQuestion === item._id)
+        return (
+          <Badge
+            count={chose ? String.fromCharCode(+chose.selected + 65) : ''}
+            key={index}
+            className="site-badge-count-4"
+          >
+            <Button type={index === this.state.questionIndex ? "" : "dashed"} danger shape="circle" onClick={() => { this.setState({ questionIndex: index }) }} >{index + 1}</Button>
+          </Badge>
+        )
+      })
+    return null
+  }
+
+  _showAnswers = () => {
+    if (
+      this.state.listQuestion &&
+      this.state.listQuestion[this.state.questionIndex] &&
+      this.state.listQuestion[this.state.questionIndex].answers
+    ) {
+      let item = this.state.listQuestion[this.state.questionIndex]
+      let chose = this.state.listAnswer.find(ele => ele.idQuestion === item._id)
+
+      return this.state.listQuestion[this.state.questionIndex].answers.map((contentAns, index) => {
+        return (
+          <div className="button-answer" key={index}>
+            <Button
+              className="btn-btn-answer"
+              shape="round"
+              danger={chose && chose.selected == index}
+              onClick={() => {
+                let listAnswer = [
+                  ...this.state.listAnswer.filter(x => x.idQuestion !== item._id),
+                  { idQuestion: item._id, selected: index }
+                ]
+
+                let numQuestionDidCorrect = 0;
+                listAnswer.forEach((item => {
+                  let temp = this.state.listQuestion.find(el => el._id === item.idQuestion)
+                  if (temp && +temp.result === +item.selected)
+                    numQuestionDidCorrect++
+                }))
+
+                this.setState({
+                  listAnswer,
+                  numQuestionDidCorrect
+                })
+                console.log(listAnswer, numQuestionDidCorrect);
+
+                socket.emit('change_answer_student', {
+                  studentId: Storage.get('ID'),
+                  examId: this.props.match.params.idExam,
+                  listAnswer,
+                  numQuestionDidCorrect
+                })
+
+              }}
+            >
+              {`${String.fromCharCode(65 + index)}. ${contentAns} `}
+            </Button>
+          </div>
+        )
+      })
+    }
+
+    else
+      return null
+  }
+
+  _onSubmit = () => {
+    this.props.studentSubmitExam(
+      {
+        examId: this.props.match.params.idExam
+      },
+      (success, data) => {
+        if (success)
+          alert("Submit Exam Success")
+      }
+    )
+  }
+
+  componentWillUnmount() {
+    console.log('leave room');
+
+    socket.emit("leave_room");
+
+  }
+
   render() {
-    console.log(this.props.testIndex);
+    console.log(this.state.timeEnd, 'lsques');
 
     return (
       <Page>
         <Container>
           <Content>
+            {
+              this.state.timeOut ?
+                (<div>Da het thoi gian lam bai</div>)
+                :
+                (
+                  <React.Fragment>
+                    <Row>
+                      <Col span={8}><h3 className="title-exam"> {this.props.examIndex.title} </h3> </Col>
+                      <Col span={16} style={{ textAlign: "center" }}> <span > Thời gian còn lại: <TimeLeft timeEnd={this.state.timeEnd} cb={this._setTimeOutExam} /> </span></Col>
+                    </Row>
+                    <Row>
+                      <Col span={8}>
+                        <div className="border-margin-exam">
+                          <div className="exam-margin" style={{ paddingTop: "15px" }}>
+                            {this._showBtnQuestion()}
+                          </div>
+                        </div>
+                        <div>
+                          <Button onClick={this._onSubmit} >Nộp bài</Button>
+                        </div>
+                      </Col>
+                      <Col span={16}>
+                        <div className="border-margin-exam">
+                          <div className="exam-margin ">
+                            <p className="question-exam"> Câu {`${this.state.questionIndex + 1} : ${this.state.listQuestion[this.state.questionIndex] && this.state.listQuestion[this.state.questionIndex].title || ''}`} </p>
+                            <div className="img-exam"><img src="https://thuthuat.taimienphi.vn/cf/Images/gl/2019/8/8/duong-dan-file-trong-html-.jpg"></img></div>
+                            <div className="button-answer">
 
-            <Row>
-              <Col span={8}><h3 className="title-exam"> Kỳ thi interview </h3> </Col>
-              <Col span={16} style={{ textAlign: "center" }}> <span > Thời gian còn lại: 20h20p </span></Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <div className="border-margin-exam">
-                  <div className="exam-margin" style={{ paddingTop: "15px" }}>
-                    <Badge count={4} className="site-badge-count-4">
-                      <Button type="dashed" danger shape="circle"> 1</Button>
-                    </Badge>
-                    <Badge count={4} className="site-badge-count-4">
-                      <Button type="dashed" danger shape="circle"> 2</Button>
-                    </Badge>
+                              {this._showAnswers()}
 
-                  </div>
-                </div>
-              </Col>
-              <Col span={16}>
-                <div className="border-margin-exam">
-                  <div className="exam-margin ">
-                    <p className="question-exam"> Câu 1: What is you name?</p>
-                    <div className="img-exam"><img src="https://thuthuat.taimienphi.vn/cf/Images/gl/2019/8/8/duong-dan-file-trong-html-.jpg"></img></div>
-                    <div className="button-answer">
-                      <div className="button-answer"> <Button className="btn-btn-answer" shape="round"> A. Đúng </Button> </div>
-                      <div className="button-answer"> <Button className="btn-btn-answer" shape="round" > B. Sai </Button> </div>
-                      <div className="button-answer"> <Button className="btn-btn-answer" shape="round" > C. Đúng or Sai </Button> </div>
-                      <div className="button-changhe">
-                        <Button className="btn-btn-changhe" type="primary" shape="round" > Previous </Button>
-                        <Button className="btn-btn-changhe" type="primary" shape="round" > Next </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
+                              <div className="button-changhe">
+                                <Button
+                                  className="btn-btn-changhe"
+                                  type="primary"
+                                  shape="round"
+                                  disabled={this.state.questionIndex === 0}
+                                  onClick={() => {
+                                    let index = this.state.questionIndex;
+                                    if (index - 1 >= 0)
+                                      this.setState({ questionIndex: index - 1 })
+                                  }}
+                                >
+                                  Previous
+                            </Button>
+                                <Button
+                                  className="btn-btn-changhe"
+                                  type="primary"
+                                  shape="round"
+                                  disabled={this.state.questionIndex === this.state.listQuestion.length - 1}
+                                  onClick={() => {
+                                    let index = this.state.questionIndex;
+                                    if (index + 1 < this.state.listQuestion.length)
+                                      this.setState({ questionIndex: index + 1 })
+                                  }}
+                                >
+                                  Next
+                            </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Col>
+                    </Row>
+                  </React.Fragment>
+                )
+            }
+
           </Content>
         </Container>
       </Page>

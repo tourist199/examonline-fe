@@ -10,7 +10,8 @@ const INIT_STATE = {
   editExam: {},
   examSchedule: [],
   roomsExam: [],
-  studentsInExam: []
+  studentsInExam: [],
+  listAnswerOfStudent: [],
 }
 
 export default (state = INIT_STATE, action) => {
@@ -31,6 +32,27 @@ export default (state = INIT_STATE, action) => {
         submitting: null,
         // error: action.error
       }
+
+    case TYPES.DELETE_EXAM_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.DELETE_EXAM_SUCCESS:
+      console.log('delete '+ action.data.idExamDeleted);
+      
+      return {
+        ...state,
+        submitting: null,
+        listExam: state.listExam.filter(item => item._id !== action.data.idExamDeleted)
+      }
+    case TYPES.DELETE_EXAM_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        // error: action.error
+      }
+
     case TYPES.GET_EXAMS_BY_TEACHER_REQUEST:
       return {
         ...state,
@@ -45,6 +67,24 @@ export default (state = INIT_STATE, action) => {
         total: action.data.total
       }
     case TYPES.GET_EXAMS_BY_TEACHER_FAILURE:
+      return {
+        ...state,
+        submitting: null,
+        // error: action.error
+      }
+
+    case TYPES.GET_INFO_EXAM_BY_STUDENT_REQUEST:
+      return {
+        ...state,
+        submitting: action.type
+      }
+    case TYPES.GET_INFO_EXAM_BY_STUDENT_SUCCESS:
+      return {
+        ...state,
+        submitting: null,
+        listAnswerOfStudent: action.data.listAnswer ? action.data.listAnswer : []
+      }
+    case TYPES.GET_INFO_EXAM_BY_STUDENT_FAILURE:
       return {
         ...state,
         submitting: null,

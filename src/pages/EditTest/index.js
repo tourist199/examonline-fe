@@ -226,7 +226,8 @@ class EditTest extends Component {
       createAt: moment(),
       status: 'DRAFT',
       createdBy: Storage.get('ID'),
-      listQuestion: this.state.listQuestion
+      listQuestion: this.state.listQuestion,
+      totalQuestion: this.state.listQuestion.length
     }
     this.props.updateTest({ data: { ...data }, idTest: this.props.match.params.idTest }, (success, data) => {
       if (success) {
@@ -240,7 +241,13 @@ class EditTest extends Component {
   }
 
   _deleteThisTest = () => {
-    this.props.deleteTest(this.props.match.params.idTest)
+    this.props.deleteTest(this.props.match.params.idTest, (success, data) => {
+      if (success) {
+        alert("Delete Success")
+        this.props.history.goBack()
+      }
+        
+    })
     
   }
 

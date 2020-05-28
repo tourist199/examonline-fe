@@ -8,6 +8,7 @@ import Page from '@/components/page'
 import Header from './header'
 import SideBar from './side-bar'
 
+
 const Intro = lazy(() => import('@/pages/Intro'))
 const Login = lazy(() => import('@/pages/account/login'))
 const Home = lazy(() => import('@/pages/home'))
@@ -15,7 +16,9 @@ const Settings = lazy(() => import('@/pages/settings'))
 const StudentInformation = lazy(() => import('@/pages/StudentInformation'))
 const ExamSchedule = lazy(() => import('@/pages/ExamSchedule'))
 const ManageRoomExam = lazy(() => import('@/pages/ManageRoomExam'))
-const HistoryExam = lazy(() => import('@/pages/HistoryExam'))
+const HistoryExam = lazy(() => import('@/pages/HistoryExamStudent'))
+const HistoryExamTeacher = lazy(() => import('@/pages/HistoryExamTeacher'))
+const HistoryExamTeacherDetail = lazy(() => import('@/pages/HistoryExamTeacherDetail'))
 const TestManage = lazy(() => import('@/pages/TestManage'))
 const NewUser = lazy(() => import('@/pages/NewUser'))
 const ListUser = lazy(() => import('@/pages/ListUser'))
@@ -67,6 +70,8 @@ class Routes extends Component {
             <Route exact path="/exam-schedule" component={this._renderLazyComponent(ExamSchedule)} />
             <Route exact path="/manage-room" component={this._renderLazyComponent(ManageRoomExam)} />
             <Route exact path="/history-exam" component={this._renderLazyComponent(HistoryExam)} />
+            <Route exact path="/history-room" component={this._renderLazyComponent(HistoryExamTeacher)} />
+            <Route exact path="/history-room-detail/:idExam" component={this._renderLazyComponent(HistoryExamTeacherDetail)} />
             <Route exact path="/test-manage" component={this._renderLazyComponent(TestManage)} />
             <Route exact path="/new-user" component={this._renderLazyComponent(NewUser)} />
             <Route exact path="/list-user" component={this._renderLazyComponent(ListUser)} />
@@ -76,11 +81,11 @@ class Routes extends Component {
             <Route exact path="/edit-test/:idTest" component={this._renderLazyComponent(EditTest)} />
             <Route exact path="/create-exam" component={this._renderLazyComponent(CreateExam)} />
             <Route exact path="/list-exam" component={this._renderLazyComponent(ListExam)} />
-            <Route exact path="/edit-exam" component={this._renderLazyComponent(EditExam)} />
+            <Route exact path="/edit-exam/:idExam" component={this._renderLazyComponent(EditExam)} />
             <Route exact path="/watch-test/:id" component={this._renderLazyComponent(WatchTest)} />
             <Route exact path="/room-exam/:idRoom" component={this._renderLazyComponent(RoomExam)} />
             <Route exact path="/check-exam" component={this._renderLazyComponent(CheckExam)} />
-            
+
             <Redirect to="/not-found" />
           </Switch>
         </Suspense>

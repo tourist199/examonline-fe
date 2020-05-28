@@ -126,22 +126,23 @@ const Content = styled.div`
                   height: 100px;
                   border-radius: 50%;
 
-                // .button-change {
-                //   background: linear-gradient(0deg,rgba(0,0,0,.5) 50%,transparent 0);
-                //   border-radius: 0;
-                //   border: none;
-                //   color: #fff;
-                //   font-size: 16px;
-                //   font-weight: 400;
-                //   height: 100%;
-                //   line-height: 2.5em;
-                //   margin: 0;
-                //   padding-bottom: 8px;
-                //   padding-top: 50%;
-                //   position: absolute;
-                //   text-decoration: underline;
-                //   top: 0;
-                //   width: 100%;
+                .button-change {
+                  background: linear-gradient(0deg,rgba(0,0,0,.5) 50%,transparent 0);
+                  border-radius: 0;
+                  border: none;
+                  color: #fff;
+                  font-size: 16px;
+                  font-weight: 400;
+                  height: 100%;
+                  line-height: 2.5em;
+                  margin: 0;
+                  padding-bottom: 8px;
+                  padding-top: 50%;
+                  position: absolute;
+                  text-decoration: underline;
+                  top: 0;
+                  width: 100%;
+                }
                 }
               }
             }
@@ -181,31 +182,17 @@ const Content = styled.div`
                 line-height: 20px;
                 max-height: 36px;
                 border-radius: 3px;
+                visibility: hidden;
                 
                 &:hover {
                   background-color: rgb(235, 236, 240);
-                  box-sizing: border-box;
-                  color: rgb(23, 43, 77);
-                  display: flex;
-                  font-size: 14px;
-                  max-width: 100%;
                   box-shadow: rgb(223, 225, 230) 0px 0px 0px 2px inset;
-                  line-height: 20px;
-                  max-height: 36px;
-                  border-radius: 3px;
                 }
                 
                 &:focus {
-                  background-color: rgb(235, 236, 240);
-                  box-sizing: border-box;
+                  background-color: #fff;
                   color: rgb(23, 43, 77);
-                  display: flex;
-                  font-size: 14px;
-                  max-width: 100%;
                   box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
-                  line-height: 20px;
-                  max-height: 36px;
-                  border-radius: 3px;
                 }
                 
                 
@@ -284,8 +271,9 @@ class ThongTinCaNhan extends Component {
                                 src="./../resources/images/avt.jpg"
                                 alt=""
                               />
-                            </span>
+                            </span> 
                           </div>
+                          <button className="button-change">Thay đổi ảnh đại diện...</button>
                         </div>
                       </div>
                       
