@@ -4,9 +4,9 @@ import lodash from 'lodash'
 import { Formik, Form } from 'formik'
 import { object, string, date } from 'yup'
 import moment from 'moment';
+import Storage from '@/utils/storage'
 
-import { Avatar, Select, DatePicker } from 'antd' 
-import Input from '@/components/input'
+import { Avatar, Select, DatePicker, Input } from 'antd' 
 import Field from '@/components/field'
 import Button from '@/components/button'
 import Page from '@/components/page'
@@ -15,152 +15,330 @@ import Table from '@/components/table'
 import { Dimensions } from '@/theme'
 
 const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 500px;
-  padding: 10px;
-  .thongtinhocvien {
-    padding-left: 60px;
-  }
-  .update-button {
-    display: flex;
-    justify-content: flex-end;
-  }
+  .header-box {
+    background-color: #f4f5f7;
 
+    .tabbe-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+      max-width: 650px;
+      position: relative;
+
+      .user-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0;
+    
+        .avatar {
+          background-color: #dfe1e6;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          margin-right: 20px;
+        }
+    
+        .name {
+          font-size: 24px;
+          font-weight: 500;
+          line-height: 28px;
+          color: #0c3953;
+          margin-right: 10px;
+        }
+    
+        .email {
+          font-size: 12px;
+          line-height: 20px;
+          color: #5e6c84;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+  
+  .main-box {
+    background: #fff;
+
+    .main-wrapper {
+      max-width: 1000px;
+
+      .main-wrapper-box {
+
+        .main-img {
+          width: 100%;
+          max-width: 530px;
+          display: flex;
+          flex-direction: column;
+          margin: auto;
+
+          .image {
+            display: block;
+            margin: 18px auto 42px;
+            max-width: 100%;
+            height: auto;
+          }
+
+          .information-name {
+            padding-bottom: 5px;
+            border: 1px solid #DFE1E8;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+          }
+
+          .table-box {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            
+            .avatar-full {
+              align-items: center;
+              display: flex;
+              flex-direction: column;
+              margin-right: 4px;
+              margin-top: 16px;
+
+              .avatar-name {
+                font-size: 14px;
+                margin-top: 16px;
+                margin-top: 0;
+                margin-bottom: 12px;
+              }
+
+              .avatar-changhe{
+                border-radius: 50%;
+                cursor: pointer;
+                overflow: hidden;
+                position: relative;
+
+                .title-name {
+                  position: relative;
+                  line-height: 10px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                }
+
+                .avatar-information {
+                  background-color: #dfe1e6;
+                  width: 100px;
+                  height: 100px;
+                  border-radius: 50%;
+
+                .button-change {
+                  background: linear-gradient(0deg,rgba(0,0,0,.5) 50%,transparent 0);
+                  border-radius: 0;
+                  border: none;
+                  color: #fff;
+                  font-size: 16px;
+                  font-weight: 400;
+                  height: 100%;
+                  line-height: 2.5em;
+                  margin: 0;
+                  padding-bottom: 8px;
+                  padding-top: 50%;
+                  position: absolute;
+                  text-decoration: underline;
+                  top: 0;
+                  width: 100%;
+                }
+                }
+              }
+            }
+
+            .form-table {
+              display: flex;
+              flex-direction: column;
+              flex: 0 0 355px;
+
+              .form-text {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-bottom: 12px;
+                margin-top: 0;
+
+                .form-name {
+                  color: #172b4d;
+                  font-size: 14px;
+                  font-weight: 600;
+                  letter-spacing: -.003em;
+                  line-height: 16px;
+                  margin-top: 16px;
+                  margin-top: 0;
+                  padding-top: 16px;
+                }
+              }
+
+              .input-text {
+                background-color: rgb(250, 251, 252);
+                box-sizing: border-box;
+                color: rgb(23, 43, 77);
+                display: flex;
+                font-size: 14px;
+                max-width: 100%;
+                box-shadow: rgb(223, 225, 230) 0px 0px 0px 2px inset;
+                line-height: 20px;
+                max-height: 36px;
+                border-radius: 3px;
+                visibility: hidden;
+                
+                &:hover {
+                  background-color: rgb(235, 236, 240);
+                  box-shadow: rgb(223, 225, 230) 0px 0px 0px 2px inset;
+                }
+                
+                &:focus {
+                  background-color: #fff;
+                  color: rgb(23, 43, 77);
+                  box-shadow: rgb(0, 121, 191) 0px 0px 0px 2px inset;
+                }
+                
+                
+                .input-name {
+                  background-color: inherit;
+                  box-shadow: inherit;
+                  margin: unset;
+                  transition: inherit;
+                  padding: 8px 12px;
+                  border-radius: inherit;
+                  color: #172b4d;
+                  outline: none;
+                  border: none;
+                  width: 100%;
+                }
+              }
+
+              .button-save {
+                margin-top: 30px;
+              }
+            }
+          }
+
+            
+        }
+          }
+        }
+      }
+    }
+  }
+  
 `
 const { Option } = Select
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY']
-
-const validationSchema = object().shape({
-  email: string().required(),
-  name: string().required(),
-  gender: string().ensure(),
-  birthday: date().nullable(),
-  address: string().required(),
-  phoneNumber: string().required(),
-  cardID: string().required(),
-})
 
 class ThongTinCaNhan extends Component {
-  state = {
-    gender: 'female',
-    birthday: moment('2015/1/1')
-  }
-  _onSubmit = (values) => {
-    console.log(values)
-  }
-
-  _renderForm = ({ handleSubmit, ...form }) => (
-    <Form className="form">
-      <div className="field-group">
-        <h1 style={{marginBottom: '20px'}}> Thông tin học viên </h1>
-        <div className="thongtinhocvien">
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            size="middle"
-            name="email"
-            label="Email"
-            component={Input}
-          />
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            size="middle"
-            name="name"
-            label="Tên học viên"
-            component={Input}
-          />
-          <Field
-            style={{ width: '250' }}
-            form={form}
-            inline
-            label="Giới tính"
-            component={() => (
-              <Select style={{ width: 250 }}>
-                <Option value="male">Nam</Option>
-                <Option value="female">Nữ</Option>
-              </Select>
-            )}
-          />
-          <Field
-            style={{ width: '250' }}
-            form={form}
-            inline
-            name="birthday"
-            label="Ngày sinh"
-            component={() => <DatePicker style={{ width: 250 }} format={dateFormatList} />}
-          />
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            name="address"
-            size="middle"
-            label="Chỗ ở hiện tại"
-            component={Input}
-          />
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            name="phoneNumber"
-            size="middle"
-            label="Số điện thoại"
-            component={Input}
-          />
-          <Field
-            style={{marginBottom: '10px', width: '250px'}}
-            form={form}
-            inline
-            size="middle"
-            name="cardID"
-            label="CMND"
-            component={Input}
-          />
-          
-        </div>
-      </div>
-      <div className="table-box">
-        <div className="update-button">
-          <Button
-            size="middle"
-            htmlType="submit"
-            type="primary"
-            onClick={handleSubmit}
-          >
-            Update
-          </Button>
-        </div>
-      </div>
-    </Form>
-  )
-
   render() {
-    const initialValues = {
-      email: '',
-      name: '',
-      gender: '',
-      birthday: '',
-      address: '',
-      phoneNumber: '',
-      cardID: '',
-    }
+    const name = Storage.get('NAME','Name')
 
     return (
       <Page>
         <Container>
           <Content>
-            <Formik
-              validateOnChange={false}
-              validateOnBlur={false}
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={this._onSubmit}
-              component={this._renderForm}
-            />
+            <div className="header-box">
+              <div className="tabbe-box">
+                <div className="user-box">
+                  <div>
+                    <img
+                      className="avatar"
+                      src="./../resources/images/avt.jpg"
+                      alt=""
+                    />
+                  </div>
+                  <div className="name">
+                    <span>{name}</span>
+                  </div>
+                  <div className="email">
+                    <span> @NguyenVanPhi </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="main-box">
+              <div className="main-wrapper">
+                <div className="main-wrapper-box">
+                  <div className="main-img">
+                    <img class="image" src="https://a.trellocdn.com/prgb/dist/images/member-home/taco-privacy.ced1e262c59e0225e3aa.svg" alt="" ></img>
+                    <h1 className="information-name"> Thông tin cá nhân</h1>
+                    <div className="table-box">
+                      <div className="avatar-full">
+                        <h3 className="avatar-name"> Ảnh đại diện</h3>
+                        <div className="avatar-changhe"> 
+                          <div className="title-name" title={name}> 
+                            <span>
+                              <img
+                                className="avatar-information"
+                                src="./../resources/images/avt.jpg"
+                                alt=""
+                              />
+                            </span> 
+                          </div>
+                          <button className="button-change">Thay đổi ảnh đại diện...</button>
+                        </div>
+                      </div>
+                      
+                      <form className="form-table">
+                        <div className="form-text">
+                          <span className="form-name">Tên học viên</span>
+                        </div>
+                        <div className="input-text">
+                          <Input placeholder="Basic usage" />
+                        </div>
+                        <div className="form-text">
+                          <span className="form-name">Ngày sinh</span>
+                        </div>
+                        <div className="input-text">
+                          <DatePicker showTime style={{ width: 400 }} />
+                        </div>
+                        <div className="form-text">
+                          <span className="form-name">Giới tính</span>
+                        </div>
+                        <div className="input-text">
+                          <Select
+                            showSearch
+                            style={{ width: 400 }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                          >
+                            <Option value="Nam">Nam</Option>
+                            <Option value="Nữ">Nữ</Option>
+                          </Select>
+                        </div>
+                        <div className="form-text">
+                          <span className="form-name">Chỗ ở hiện tại</span>
+                        </div>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                        </div>
+                        <div className="form-text">
+                          <span className="form-name">Số điện thoại</span>
+                        </div>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                        </div>
+                        <div className="form-text">
+                          <span className="form-name">CMND</span>
+                        </div>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                        </div>
+                        <div className="form-text">
+                          <span className="form-name">Email</span>
+                        </div>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                        </div>
+                        <div className="button-save">
+                          <Button type="primary" block> Lưu </Button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Content>
         </Container>
       </Page>
