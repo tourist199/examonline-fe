@@ -108,16 +108,40 @@ const Content = styled.div`
               }
 
               .avatar-changhe{
-                position: relative;
-                line-height: 10px;
+                border-radius: 50%;
+                cursor: pointer;
                 overflow: hidden;
-                white-space: nowrap;
+                position: relative;
+
+                .title-name {
+                  position: relative;
+                  line-height: 10px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                }
 
                 .avatar-information {
                   background-color: #dfe1e6;
                   width: 100px;
                   height: 100px;
                   border-radius: 50%;
+
+                // .button-change {
+                //   background: linear-gradient(0deg,rgba(0,0,0,.5) 50%,transparent 0);
+                //   border-radius: 0;
+                //   border: none;
+                //   color: #fff;
+                //   font-size: 16px;
+                //   font-weight: 400;
+                //   height: 100%;
+                //   line-height: 2.5em;
+                //   margin: 0;
+                //   padding-bottom: 8px;
+                //   padding-top: 50%;
+                //   position: absolute;
+                //   text-decoration: underline;
+                //   top: 0;
+                //   width: 100%;
                 }
               }
             }
@@ -214,6 +238,7 @@ const Content = styled.div`
   }
   
 `
+const { Option } = Select
 
 class ThongTinCaNhan extends Component {
   render() {
@@ -251,57 +276,71 @@ class ThongTinCaNhan extends Component {
                     <div className="table-box">
                       <div className="avatar-full">
                         <h3 className="avatar-name"> Ảnh đại diện</h3>
-                        <div className="avatar-changhe">
-                          <img
-                            className="avatar-information"
-                            src="./../resources/images/avt.jpg"
-                            alt=""
-                          />
+                        <div className="avatar-changhe"> 
+                          <div className="title-name" title={name}> 
+                            <span>
+                              <img
+                                className="avatar-information"
+                                src="./../resources/images/avt.jpg"
+                                alt=""
+                              />
+                            </span>
+                          </div>
                         </div>
                       </div>
                       
                       <form className="form-table">
-                        <div class="form-text">
-                          <span class="form-name">Tên học viên</span>
+                        <div className="form-text">
+                          <span className="form-name">Tên học viên</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <Input placeholder="Basic usage" />
                         </div>
-                        <div class="form-text">
-                          <span class="form-name">Giới tính</span>
+                        <div className="form-text">
+                          <span className="form-name">Ngày sinh</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <DatePicker showTime style={{ width: 400 }} />
                         </div>
-                        <div class="form-text">
-                          <span class="form-name">Nơi sinh</span>
+                        <div className="form-text">
+                          <span className="form-name">Giới tính</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <Select
+                            showSearch
+                            style={{ width: 400 }}
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                          >
+                            <Option value="Nam">Nam</Option>
+                            <Option value="Nữ">Nữ</Option>
+                          </Select>
                         </div>
-                        <div class="form-text">
-                          <span class="form-name">Chỗ ở hiện tại</span>
+                        <div className="form-text">
+                          <span className="form-name">Chỗ ở hiện tại</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
                         </div>
-                        <div class="form-text">
-                          <span class="form-name">Số điện thoại</span>
+                        <div className="form-text">
+                          <span className="form-name">Số điện thoại</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
                         </div>
-                        <div class="form-text">
-                          <span class="form-name">CMND</span>
+                        <div className="form-text">
+                          <span className="form-name">CMND</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
                         </div>
-                        <div class="form-text">
-                          <span class="form-name">Email</span>
+                        <div className="form-text">
+                          <span className="form-name">Email</span>
                         </div>
-                        <div class="input-text">
-                          <input class="input-name" name="full-name" autocomplete="name"></input>
+                        <div className="input-text">
+                          <input className="input-name" name="full-name" autocomplete="name"></input>
                         </div>
                         <div className="button-save">
                           <Button type="primary" block> Lưu </Button>

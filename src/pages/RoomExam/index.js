@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 
-import { CheckCircleTwoTone } from '@ant-design/icons'
-import { Button } from 'antd';
+import { CheckCircleTwoTone, CloseCircleTwoTone, ClockCircleOutlined, FieldTimeOutlined, DashboardOutlined, CloseCircleOutlined, FileDoneOutlined } from '@ant-design/icons'
+import { Button, Progress } from 'antd';
 import Container from '@/components/container'
 import Storage from '@/utils/storage'
 import Configs from '@/configs'
@@ -15,29 +15,85 @@ const API_URL = `${Configs.API_URL}`
 const socket = openSocket(API_URL)
 
 const Content = styled.div`
-  .time-exam {
-    display: flex;
-    justify-content: space-evenly;
-  }
-  .student-information-all {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    
-    .student-information {
-      padding: 20px;
-      box-shadow: 0 12px 201px 0 rgba(0, 0, 0, 0.06);
-      width: 250px;
-      border-radius: 4px;
-      background-color: white;
+  .room-exam {
+    box-shadow: -1px 2px 5px 1px rgba(163,163,163,0.2);
+    margin: 30px 90px;
+    padding: 15px;
+    border-radius: 5px;
+    width: 1050px;
+    background: #ebf4f0;
       
-      .student-exam {
+    margin: 10px 30px;
+
+    .time-exam {
+      display: flex;
+      justify-content: space-evenly;
+    }
+    .student-information-all {
+      display: flex;
+      flex-wrap: wrap;
+      box-shadow: -1px 2px 5px 1px rgba(163,163,163,0.2);
+      margin: 30px 90px;
+      padding: 15px;
+      width: 850px;
+      border-radius: 5px;
+      background: whitesmoke;
+      
+      .student-information {
         display: flex;
-        justify-content: space-between;
-      }
-      .button-exam {
-        display: flex;
-        justify-content: space-between;
+  
+        .student-information-join {
+          margin: 5px 5px;
+          padding: 15px;
+          box-shadow: -1px 2px 5px 1px rgba(163,163,163,0.2);
+          width: 220px;
+          border-width: 1px;
+          border-radius: 20px;
+          border-style: solid;
+          background: white;
+    
+          .student-exam {
+            display: flex;
+          }
+          .button-exam {
+            display: flex;
+            justify-content: space-between;
+    
+            .avatar {
+              background-color: #dfe1e6;
+              width: 45px;
+              height: 45px;
+              border-radius: 50%;
+            }
+          }
+        }
+  
+        .student-information-success {
+          margin: 5px 5px;
+          padding: 15px;
+          box-shadow: -1px 2px 5px 1px rgba(163,163,163,0.2);
+          width: 220px;
+          border-radius: 20px;
+          border-width: 1px;
+          border-style: dotted;
+          background-color: white;
+          background: #cdf0f7;
+    
+          .student-exam {
+            display: flex;
+          }
+          .button-exam {
+            display: flex;
+            justify-content: space-between;
+    
+            .avatar {
+              background-color: #dfe1e6;
+              width: 45px;
+              height: 45px;
+              border-radius: 50%;
+            }
+          }
+        }  
       }
     }
   }
@@ -91,17 +147,56 @@ export default class RoomExam extends Component {
     return list.map((item, index) => {
       return (
         <div className="student-information" key={index}>
-          <div className="student-exam">
-            <h5> {item.studentId.name} </h5>
-            <CheckCircleTwoTone twoToneColor="#52c41a" />
+          <div className="student-information-join">
+            <div className="student-exam">
+              <h5 style={{ marginRight: 50 }}> {item.studentId.name} </h5>
+              <CheckCircleTwoTone style={{ margin: 2 }} twoToneColor="#2ed34c" />
+            </div>
+            <div className="button-exam" >
+              <span style={{ marginTop: 10 }}> IP: 111012 </span>
+              <img
+                className="avatar"
+                src="./../resources/images/avt.jpg"
+                alt=""
+              />
+            </div>
+            <div>
+              <span> City: Quảng Nam </span>
+            </div>
+            <div style={{ marginTop: 12 }}>
+              <span> State: Quảng Nam </span>
+            </div>
+            <div style={{ marginTop: 12, marginBottom: 15 }}> 
+              <span> Tham gia: 20p trước </span>
+            </div>
+            <Progress percent={60} successPercent={30} status="active" />
+        </div>
+        
+          <div className="student-information-success">
+              <div className="student-exam">
+                <h5 style={{ marginRight: 50 }}> {item.studentId.name} </h5>
+                <CloseCircleTwoTone  style={{ margin: 2 }} twoToneColor="#ff0000" />
+              </div>
+              <div className="button-exam" >
+                <span style={{ marginTop: 10 }}> IP: 111012 </span>
+                <img
+                  className="avatar"
+                  src="./../resources/images/avt.jpg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <span> City: Quảng Nam </span>
+              </div>
+              <div style={{ marginTop: 12 }}>
+                <span> State: Quảng Nam </span>
+              </div>
+              <div style={{ marginTop: 12, marginBottom: 15 }}> 
+                <span> Đã hoàn thành </span>
+              </div>
+              <Progress percent={100} status="active" />
           </div>
-          <div className="button-exam" >
-            <span> IP: 111012 </span>
-            <Button type="primary" size="small"> Follow</Button>
-          </div>
-          <span> City: Quảng Nam <br /></span>
-          <span> State: Quảng Nam <br /></span>
-          <span> Tham gia: 20p trước</span>
+        
         </div>
       )
     })
@@ -116,22 +211,36 @@ export default class RoomExam extends Component {
       <Container className="not-found">
         <Content>
           <div>
-            <h1> Phòng thi </h1>
+            <h1 style={{ marginLeft: 30 }}> Phòng thi </h1>
           </div>
-
-          <div>
-            <h3> Tên kỳ thi: Code 2020</h3>
-            <div className="time-exam">
-              <span> Thời gian bắt đầu: 2h20p </span>
-              <span> Thời gian kết thúc: 2h20p </span>
-              <span> Thời gian còn lại: 2h20p </span>
+          <div className="room-exam">
+            <div>
+              <h3 style={{ marginTop: 20, marginLeft: 125 }} ><FileDoneOutlined /> Tên kỳ thi: Code 2020</h3>
             </div>
-          </div>
-
-          <div className="student-information-all">
-            {
-              this._showStudentItem(studentsInExam)
-            }
+            <div>
+              <div className="time-exam">
+                <div>
+                  <ClockCircleOutlined />
+                  <span> Thời gian bắt đầu: 2h20p </span>
+                </div>
+                <div>
+                  <FieldTimeOutlined />
+                  <span> Thời gian kết thúc: 2h20p </span>
+                </div>
+                <div>
+                  <DashboardOutlined />
+                  <span> Thời gian còn lại: 2h20p </span>
+                </div>  
+              </div>
+              <div className="student-information-all">
+                {
+                  this._showStudentItem(studentsInExam)
+                }
+              </div>
+              <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
+                CANCEL
+              </Button>
+            </div>
           </div>
         </Content>
       </Container>
