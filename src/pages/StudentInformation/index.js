@@ -121,27 +121,57 @@ const Content = styled.div`
                 }
 
                 .avatar-information {
-                  background-color: #dfe1e6;
                   width: 100px;
                   height: 100px;
                   border-radius: 50%;
+                }
 
-                // .button-change {
-                //   background: linear-gradient(0deg,rgba(0,0,0,.5) 50%,transparent 0);
-                //   border-radius: 0;
-                //   border: none;
-                //   color: #fff;
-                //   font-size: 16px;
-                //   font-weight: 400;
-                //   height: 100%;
-                //   line-height: 2.5em;
-                //   margin: 0;
-                //   padding-bottom: 8px;
-                //   padding-top: 50%;
-                //   position: absolute;
-                //   text-decoration: underline;
-                //   top: 0;
-                //   width: 100%;
+                .input-none {
+                  display: none;
+                }
+
+                .avatar-change {
+                    font-weight: 400;
+                    height: 100%;
+                    line-height: 2.5em;
+                    padding-bottom: 8px;
+                    padding-top: 50%;
+                    position: absolute;
+                    top: 0;
+                    opacity: 0;
+                    
+                  .avatar-change-img {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    min-width: 100%;
+                    min-height: 100%;
+                    font-size: 100px;
+                    text-align: right;
+                    opacity: 0;
+                    outline: none;   
+                    cursor: inherit;
+                    display: block;
+                  }
+
+                  &:hover {
+                    background: linear-gradient(0deg,rgba(0,0,0,.5) 50%,transparent 0);
+                    border-radius: 0;
+                    border: none;
+                    color: #fff;
+                    font-size: 16px;
+                    font-weight: 400;
+                    height: 100%;
+                    line-height: 2.5em;
+                    margin: 0;
+                    padding-bottom: 8px;
+                    padding-top: 50%;
+                    position: absolute;
+                    text-decoration: underline;
+                    top: 0;
+                    opacity: 1;
+                    
+                  }
                 }
               }
             }
@@ -286,7 +316,12 @@ class ThongTinCaNhan extends Component {
                               />
                             </span>
                           </div>
+                          <span className="avatar-change">
+                            Thay đổi ảnh đại diện <input type="file" className="avatar-change-img" ></input>
+                          </span>
+                          
                         </div>
+                        
                       </div>
                       
                       <form className="form-table">
@@ -294,7 +329,7 @@ class ThongTinCaNhan extends Component {
                           <span className="form-name">Tên học viên</span>
                         </div>
                         <div className="input-text">
-                          <Input placeholder="Basic usage" />
+                          <Input />
                         </div>
                         <div className="form-text">
                           <span className="form-name">Ngày sinh</span>
@@ -322,25 +357,25 @@ class ThongTinCaNhan extends Component {
                           <span className="form-name">Chỗ ở hiện tại</span>
                         </div>
                         <div className="input-text">
-                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                          <Input />
                         </div>
                         <div className="form-text">
                           <span className="form-name">Số điện thoại</span>
                         </div>
                         <div className="input-text">
-                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                          <Input />
                         </div>
                         <div className="form-text">
                           <span className="form-name">CMND</span>
                         </div>
                         <div className="input-text">
-                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                          <Input />
                         </div>
                         <div className="form-text">
                           <span className="form-name">Email</span>
                         </div>
                         <div className="input-text">
-                          <input className="input-name" name="full-name" autocomplete="name"></input>
+                          <Input />
                         </div>
                         <div className="button-save">
                           <Button type="primary" block> Lưu </Button>
