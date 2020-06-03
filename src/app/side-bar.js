@@ -111,7 +111,7 @@ class SideBar extends Component {
           >
             <Menu.Item icon={<HomeOutlined />} onClick={() => { historyPush('/') }}  >{translate('sidebar.homePage')}</Menu.Item>
             <Menu.Item icon={<ScheduleOutlined />} onClick={() => { historyPush('/exam-schedule') }} >{translate('sidebar.studentTestSchedule')} </Menu.Item>
-            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
+            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/personal-information') }}>
               {translate('sidebar.personalInformation')}
             </Menu.Item>
             <Menu.Item icon={<HistoryOutlined />} onClick={() => { historyPush('/history-exam') }}>
@@ -129,7 +129,7 @@ class SideBar extends Component {
             <Menu.Item icon={<FileProtectOutlined />} onClick={() => { historyPush('/test-manage') }}>
               {translate('sidebar.managesExam')}
             </Menu.Item>
-            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
+            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/personal-information') }}>
               {translate('sidebar.personalInformation')}
             </Menu.Item>
 
@@ -166,7 +166,7 @@ class SideBar extends Component {
             <Menu.Item icon={<HddOutlined />} onClick={() => { historyPush('/history-room') }}>
               Lịch sử kỳ thi
             </Menu.Item>
-            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/student-information') }}>
+            <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/personal-information') }}>
               {translate('sidebar.personalInformation')}
             </Menu.Item>
 

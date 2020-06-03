@@ -135,8 +135,8 @@ class ExamSchedule extends Component {
       if (moment(item.timeStart) < moment() && moment(item.timeEnd) > moment() && !item.submit)
         dataSourceOngoingExam.push({
           examName: item.title,
-          startDay: moment(item.timeStart).format('L'),
-          endDay: moment(item.timeEnd).format('L'),
+          startDay: moment(item.timeStart).format('LLL'),
+          endDay: moment(item.timeEnd).format('LLL'),
           status: 'Đang diễn ra',
           join: <div>
             <Button onClick={() => this.props.history.push(`exam/${item._id}/${item.testId}`)} > Vào thi</Button>
@@ -153,8 +153,8 @@ class ExamSchedule extends Component {
       if (moment(item.timeStart) > moment())
         dataSourceUpcomingExam.push({
           ExamName: item.title,
-          startDay: moment(item.timeStart).format('L'),
-          endDay: moment(item.timeEnd).format('L')
+          startDay: moment(item.timeStart).format('LLL'),
+          endDay: moment(item.timeEnd).format('LLL')
         })
     })
 

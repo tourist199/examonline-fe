@@ -12,8 +12,9 @@ function TimeLeft({ timeEnd, cb }) {
         if (timeEnd && moment(timeEnd) < moment() && cb)
             cb()
 
-
         const timeInterval = setInterval(() => {
+            console.log(timeEnd);
+            
             let timeLeft = moment.duration(moment(timeEnd).diff(moment()))
             if (!timeEnd)
                 setTimeString('')

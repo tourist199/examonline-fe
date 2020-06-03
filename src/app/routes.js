@@ -13,7 +13,7 @@ const Intro = lazy(() => import('@/pages/Intro'))
 const Login = lazy(() => import('@/pages/account/login'))
 const Home = lazy(() => import('@/pages/home'))
 const Settings = lazy(() => import('@/pages/settings'))
-const StudentInformation = lazy(() => import('@/pages/StudentInformation'))
+const PersonalInfo = lazy(() => import('@/pages/PersonalInfo'))
 const ExamSchedule = lazy(() => import('@/pages/ExamSchedule'))
 const ManageRoomExam = lazy(() => import('@/pages/ManageRoomExam'))
 const HistoryExam = lazy(() => import('@/pages/HistoryExamStudent'))
@@ -66,7 +66,7 @@ class Routes extends Component {
           <Switch>
             <Route exact path="/" component={this._renderLazyComponent(Home)} />
             <Route exact path="/settings" component={this._renderLazyComponent(Settings)} />
-            <Route exact path="/student-information" component={this._renderLazyComponent(StudentInformation)} />
+            <Route exact path="/personal-information" component={this._renderLazyComponent(PersonalInfo)} />
             <Route exact path="/exam-schedule" component={this._renderLazyComponent(ExamSchedule)} />
             <Route exact path="/manage-room" component={this._renderLazyComponent(ManageRoomExam)} />
             <Route exact path="/history-exam" component={this._renderLazyComponent(HistoryExam)} />

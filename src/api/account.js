@@ -8,6 +8,10 @@ export function register(payload) {
   return MainApi.post('/users/register', payload)
 }
 
+export function changeInfoUser(payload) {
+  return MainApi.post('/users/change-user-info', payload)
+}
+
 export function getUsers(payload) {
   const { page } = payload
   return MainApi.get(`/users/get-users?page=${page}`)
@@ -15,6 +19,10 @@ export function getUsers(payload) {
 
 export function getStudents() {
   return MainApi.get('/users/get-student')
+}
+
+export function getInfo() {
+  return MainApi.get('/users/get-info')
 }
 
 export function deleteUser(payload) {

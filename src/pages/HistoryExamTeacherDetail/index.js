@@ -83,15 +83,17 @@ const columns = [
   examStore: state.exam
 }), {
   getStudentsInExam: actions.getStudentsInExam,
+  getExamById: actions.getExamById
 })
 class HistoryExamTeacher extends Component {
 
   componentDidMount() {
     this.props.getStudentsInExam(this.props.match.params.idExam)
+    this.props.getExamById(this.props.match.params.idExam)
   }
 
   render() {
-    console.log(this.props.examStore.studentsInExam);
+    console.log(this.props.examStore);
 
     dataSource = []
     this.props.examStore.studentsInExam.forEach((item => {
@@ -112,8 +114,12 @@ class HistoryExamTeacher extends Component {
           <Content>
             <div className="field-group">
               <h1> Chi tiết kỳ thi </h1>
-              <p>Tên kỳ thi: </p>
-              <p>Thời gian thi: x -> y </p>
+              <p>Tên kỳ thi: {this.props.examStore.editExam.exam && this.props.examStore.editExam.exam.title}</p>
+              <p>
+                Thời gian thi: 
+                {this.props.examStore.editExam.exam && moment(this.props.examStore.editExam.exam.timeStart).format('LLLL')} ->
+                {this.props.examStore.editExam.exam && moment(this.props.examStore.editExam.exam.timeEnd).format('LLLL')}
+              </p>
             </div>
             <div className="table-box">
               <Table

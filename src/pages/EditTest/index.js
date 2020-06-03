@@ -10,8 +10,14 @@ import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
 import { PlusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Divider, Descriptions, Tooltip } from 'antd';
+import { Divider, Descriptions, Tooltip, Select } from 'antd';
 import Notification from '@/components/notification'
+
+import callAPI from "@/utils/apiCaller";
+import Config from '@/configs'
+
+const { Option } = Select;
+
 
 const Content = styled.div`
   display: flex;
@@ -67,6 +73,11 @@ const Content = styled.div`
   .list-question{
     margin-bottom: 20px;
   }
+  .image-question {
+    width: 100%;
+    max-height: 350px;
+    width: auto;
+  }
 `
 
 @connect((state) => ({
@@ -82,7 +93,8 @@ class EditTest extends Component {
     title: '',
     description: '',
     listQuestion: [],
-    questionIndex: 0
+    questionIndex: 0,
+    type: ''
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -91,7 +103,9 @@ class EditTest extends Component {
         _id: nextProps.testIndex.test._id || '',
         title: nextProps.testIndex.test.title || '',
         description: nextProps.testIndex.test.description || '',
+        image: nextProps.testIndex.test.image || '',
         listQuestion: nextProps.testIndex.listQuestion || [],
+        type: nextProps.testIndex.test.type || ''
       };
     }
     else return null;
@@ -101,6 +115,24 @@ class EditTest extends Component {
     this.props.getTestById(this.props.match.params.idTest);
   }
 
+  _handleChange = (event) => {
+    var formData = new FormData();
+    formData.append('image', event.target.files[0]);
+    callAPI('questions/update/' + this.state.listQuestion[this.state.questionIndex]._id, 'POST', formData)
+      .then(res => {
+        if (res.data.success) {
+          let listQuestion = this.state.listQuestion
+          listQuestion[this.state.questionIndex].image = res.data.result.pathCurrent
+          this.setState({ listQuestion })
+        }
+        else {
+          console.log('Loi up anh roi ban e')
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
 
   _showQuestionBtn = () => {
@@ -140,7 +172,7 @@ class EditTest extends Component {
             />
           </div>
           <Descriptions />
-          <div>
+          {/* <div>
             <span className='description'>Mo ta:</span>
             <Input
               className="question-input"
@@ -152,13 +184,30 @@ class EditTest extends Component {
                 this.setState({ listQuestion })
               }}
             />
-          </div><Divider >Answer</Divider>
+          </div> */}
+          <div>
+            <span className='description'>Image:</span>
+            {
+              this.state.listQuestion[this.state.questionIndex].image ?
+                (
+                  <img
+                    className="image-question"
+                    src={this.state.listQuestion[this.state.questionIndex].image ? `${Config.API_URL}/${this.state.listQuestion[this.state.questionIndex].image}` : "./../resources/images/avt.jpg"}
+                    alt=""
+                  />
+                )
+                :
+                null
+            }
+            <input type='file' name='image' onChange={this._handleChange} />
+          </div>
+          <Divider >Answer</Divider>
           <div className='answer-box'>
             {
               questionItem.answers.map((item, index) => (
                 <div key={index} className='answer-item'>
                   <Button
-                    type={index === this.state.listQuestion[this.state.questionIndex].result ? 'primary' : ''}
+                    type={+index === +this.state.listQuestion[this.state.questionIndex].result ? 'primary' : ''}
                     shape="circle"
                     icon={<CheckOutlined />}
                     onClick={() => {
@@ -227,6 +276,7 @@ class EditTest extends Component {
       status: 'DRAFT',
       createdBy: Storage.get('ID'),
       listQuestion: this.state.listQuestion,
+      type: this.state.type,
       totalQuestion: this.state.listQuestion.length
     }
     this.props.updateTest({ data: { ...data }, idTest: this.props.match.params.idTest }, (success, data) => {
@@ -246,15 +296,20 @@ class EditTest extends Component {
         alert("Delete Success")
         this.props.history.goBack()
       }
-        
+
     })
-    
+
+  }
+
+  _onChangeType = (type) => {
+    this.setState({ type })
   }
 
   _onSubmitTest = () => {
     let data = {
       title: this.state.title,
       description: this.state.description,
+      type: this.state.type,
       createAt: moment(),
       status: 'WAITTING',
       createdBy: Storage.get('ID'),
@@ -278,7 +333,7 @@ class EditTest extends Component {
         <Container>
           <Content>
             <div >
-              <h1 style={{ marginBottom: '20px' }}> Chỉnh sửa đề thi </h1>
+              <h1 style={{ marginBottom: '20px' }} > Chỉnh sửa đề thi </h1>
               <div className="abc">
                 <span className='title'>Tên bộ đề thi</span>
                 <Input className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
@@ -287,6 +342,13 @@ class EditTest extends Component {
                 <span className='desc'>Mô tả đề thi</span>
                 <Input className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
               </div>
+              <div>
+                <span className='desc'>Loại </span>
+                <Select style={{ width: 120 }} value={this.state.type} onChange={this._onChangeType} >
+                  <Option value="IT">Tin học</Option>
+                  <Option value="ENGLISH">Tiếng Anh</Option>
+                </Select>
+              </div>
               <div className="groupbutton">
                 <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
                   CANCEL
@@ -294,7 +356,7 @@ class EditTest extends Component {
                 <Button onClick={this._onSaveTest} type="primary" className="item-button" shape='round' ghost icon={<PlusCircleOutlined />}>
                   Lưu nháp
                 </Button>
-                <Button  danger onClick={this._deleteThisTest} type="primary" className="item-button" shape='round'  icon={<DeleteOutlined />}>
+                <Button danger onClick={this._deleteThisTest} type="primary" className="item-button" shape='round' icon={<DeleteOutlined />}>
                   Xóa
                 </Button>
                 <Button onClick={this._onSubmitTest} type="primary" shape='round' className="item-button" icon={<CheckOutlined />}>

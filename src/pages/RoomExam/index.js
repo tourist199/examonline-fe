@@ -138,34 +138,14 @@ export default class RoomExam extends Component {
 
   _showStudentItem = (list) => {
 
+    console.log(this.props.examStore);
+    
+
+    if (!this.props.examStore.editExam.exam) 
+       return;
     return list.map((item, index) => {
       let totalQuestion = this.props.examStore.editExam.exam.testId.totalQuestion
       return (
-        // <div className="student-information">
-        //   <div className="student-information-join" key={index}>
-        //     <div className="student-exam">
-        //       <h5 style={{ marginRight: 50 }}> {item.studentId.name} </h5>
-        //       {item.status === 'ONLINE' ? <CheckCircleTwoTone style={{ margin: 2 }} twoToneColor="#2ed34c" /> : <CheckCircleTwoTone style={{ margin: 2 }} twoToneColor="red" />}
-        //     </div>
-        //     <div className="button-exam" >
-        //       {item.ip ? <span style={{ marginTop: 10 }}> IP: {item.ip} </span> : null}
-        //       <img
-        //         className="avatar"
-        //         src="./../resources/images/avt.jpg"
-        //         alt=""
-        //       />
-        //     </div>
-        //     {item.city ? <p> City: {item.city}<br /> </p> : null}
-        //     {item.state ? <p> State: {item.state}<br /> </p> : null}
-        //     {item.numQuestionDidCorrect || item.numQuestionDidCorrect === 0 ? <p> Đúng: {item.numQuestionDidCorrect}<br /> </p> : null}
-        //     {item.numQuestionDid || item.numQuestionDid === 0 ? <p> Làm: {item.numQuestionDid}<br /> </p> : null}
-        //     <p> Tham gia: 20p trước</p>
-        //     <Progress percent={60} successPercent={30} status="active" />
-        //   </div>
-
-
-        // </div>
-
         <div className="student-information" key={index}>
           <div className={item.submit ? "student-information-success" : "student-information-join"}>
             <div className="student-exam">

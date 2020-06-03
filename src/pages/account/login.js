@@ -85,6 +85,7 @@ class Login extends Component {
         Storage.set('TYPE', data.type)
         Storage.set('NAME', data.name)
         Storage.set('ID', data._id)
+        Storage.set('AVATAR', data.avatar)
         Request.setAccessToken(data.token)
         history.push('/')
       }
@@ -97,7 +98,7 @@ class Login extends Component {
     addTranslationForLanguage(accountEN, 'en')
     addTranslationForLanguage(accountVI, 'vi')
   }
-  
+
 
   _renderForm = ({ handleSubmit, ...form }) => {
     const { accountStore } = this.props

@@ -7,6 +7,7 @@ import ui from './ui'
 import account from './account'
 import test from './test'
 import exam from './exam'
+import historyExam from './history'
 
 const appReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -14,7 +15,8 @@ const appReducer = (history) => combineReducers({
   ui,
   account,
   test,
-  exam
+  exam,
+  history: historyExam
 })
 
 export default (history) => (state, action) => {

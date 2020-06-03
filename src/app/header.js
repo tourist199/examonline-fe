@@ -145,7 +145,7 @@ class Header extends Component {
   render() {
     const { languages, setActiveLanguage, toggleSideBar } = this.props
     const { translate } = this.props
-    const name = Storage.get('NAME','Name')
+    const name = Storage.get('NAME', 'Name')
     return (
       <HeaderContainer>
         <div className="content">
@@ -166,7 +166,7 @@ class Header extends Component {
               <div className="user-box">
                 <img
                   className="avatar"
-                  src="./../resources/images/avt.jpg"
+                  src={Storage.get('AVATAR', "./../resources/images/people.png")}
                   alt=""
                 />
                 <p className="name">{name}</p>

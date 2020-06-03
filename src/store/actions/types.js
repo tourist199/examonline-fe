@@ -7,6 +7,8 @@ export default [
   'REGISTER',
   'GET_USERS',
   'DELETE_USER',
+  'GET_INFO',
+  'CHANGE_INFO_USER',
 
   'INSERT_TEST',
   'GET_TESTS_BY_TEACHER',
@@ -33,6 +35,9 @@ export default [
   'STUDENT_SUBMIT_EXAM',
 
   'GET_INFO_EXAM_BY_STUDENT',
+
+  //History
+  'GET_HISTORY_STUDENT',
 
   // Store
   'CLEAR_STORE'

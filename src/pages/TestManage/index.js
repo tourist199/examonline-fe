@@ -125,7 +125,6 @@ class TestManage extends Component {
 
   render() {
     let lsTestWaiting = this.props.testStore.listTestWaiting;
-    console.log(lsTestWaiting);
     
     dataSource = []
     lsTestWaiting.forEach(item => {

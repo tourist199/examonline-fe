@@ -5,13 +5,18 @@ import Storage from '@/utils/storage'
 import { connect } from 'react-redux'
 import Notification from '@/components/notification'
 
+import callAPI from "@/utils/apiCaller";
+import Config from '@/configs'
+
 import Input from '@/components/input'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
-import { PlusOutlined, MinusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined,DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, MinusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
 import { actions } from '@/store/actions'
-import { Divider,Descriptions,Tooltip  } from 'antd';
+import { Divider, Descriptions, Tooltip, Select } from 'antd';
+
+const { Option } = Select;
 
 const Content = styled.div`
   display: flex;
@@ -67,6 +72,11 @@ const Content = styled.div`
   .list-question{
     margin-bottom: 20px;
   }
+  .image-question {
+    width: 100%;
+    max-height: 350px;
+    width: auto;
+  }
 `
 
 @connect(null, {
@@ -81,6 +91,7 @@ class NewTest extends Component {
       {
         title: '',
         answers: ['', ''],
+        image: '',
         description: '',
         result: null
       }
@@ -103,6 +114,25 @@ class NewTest extends Component {
     })
   }
 
+  _handleChange = (event) => {
+    var formData = new FormData();
+    formData.append('image', event.target.files[0]);
+    callAPI('questions/update/' + this.state.listQuestion[this.state.questionIndex]._id, 'POST', formData)
+      .then(res => {
+        if (res.data.success) {
+          let listQuestion = this.state.listQuestion
+          listQuestion[this.state.questionIndex].image = res.data.result.pathCurrent
+          this.setState({ listQuestion })
+        }
+        else {
+          console.log('Loi up anh roi ban e')
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   _showQuestionItem = () => {
     let questionItem = this.state.listQuestion[this.state.questionIndex]
     return (
@@ -123,10 +153,10 @@ class NewTest extends Component {
             />
           </div>
           <Descriptions />
-          <div>
+          {/* <div>
             <span className='description'>Mo ta:</span>
             <Input
-            className="question-input"
+              className="question-input"
               name='description'
               value={questionItem.description}
               onChange={(e) => {
@@ -135,7 +165,25 @@ class NewTest extends Component {
                 this.setState({ listQuestion })
               }}
             />
-          </div><Divider >Answer</Divider>
+          </div> */}
+          <div>
+            <span className='description'>Image:</span>
+            {
+              this.state.listQuestion[this.state.questionIndex].image ?
+                (
+                  <img
+                    className="image-question"
+                    src={this.state.listQuestion[this.state.questionIndex].image ? `${Config.API_URL}/${this.state.listQuestion[this.state.questionIndex].image}` : "./../resources/images/avt.jpg"}
+                    alt=""
+                  />
+                )
+                :
+                null
+            }
+
+            <input type='file' name='image' onChange={this._handleChange} />
+          </div>
+          <Divider >Answer</Divider>
           <div className='answer-box'>
             {
               questionItem.answers.map((item, index) => (
@@ -156,22 +204,22 @@ class NewTest extends Component {
                     suffix={
                       <Tooltip title="Delete">
                         <Button
-                    shape="circle"
-                    icon={<DeleteOutlined />}
-                    onClick={() => {
-                      let listQuestion = this.state.listQuestion
-                      listQuestion[this.state.questionIndex].answers.splice(index, 1)
-                      if (listQuestion[this.state.questionIndex].result > index) {
-                        listQuestion[this.state.questionIndex].result = listQuestion[this.state.questionIndex].result - 1
-                      }
-                      else if (listQuestion[this.state.questionIndex].result == index) {
-                        listQuestion[this.state.questionIndex].result = null
-                      }
+                          shape="circle"
+                          icon={<DeleteOutlined />}
+                          onClick={() => {
+                            let listQuestion = this.state.listQuestion
+                            listQuestion[this.state.questionIndex].answers.splice(index, 1)
+                            if (listQuestion[this.state.questionIndex].result > index) {
+                              listQuestion[this.state.questionIndex].result = listQuestion[this.state.questionIndex].result - 1
+                            }
+                            else if (listQuestion[this.state.questionIndex].result == index) {
+                              listQuestion[this.state.questionIndex].result = null
+                            }
 
-                      this.setState({ listQuestion })
+                            this.setState({ listQuestion })
 
-                    }}
-                  />
+                          }}
+                        />
                       </Tooltip>
                     }
                     value={item}
@@ -179,13 +227,12 @@ class NewTest extends Component {
                       let listQuestion = this.state.listQuestion
                       listQuestion[this.state.questionIndex].answers[index] = e.target.value
                       this.setState({ listQuestion })
-                    }} /> 
+                    }} />
                 </div>
               ))
             }
             <div className="answer-button">
               <Button
-                
                 icon={<PlusCircleOutlined />}
                 onClick={() => {
                   let listQuestion = this.state.listQuestion
@@ -194,7 +241,7 @@ class NewTest extends Component {
                 }}
               >
                 Add answer
-          </Button>
+              </Button>
             </div>
           </div>
         </div>
@@ -208,17 +255,20 @@ class NewTest extends Component {
       description: this.state.description,
       createAt: moment(),
       status: 'DRAFT',
+      type: this.state.type,
       createdBy: Storage.get('ID'),
       listQuestion: this.state.listQuestion
     }
     this.props.insertTest(data, (success, rs) => {
-      console.log(success);
-      
-      if(success){
+      if (success) {
         Notification.success('Insert test success')
         this.props.history.goBack()
       }
     })
+  }
+
+  _onChangeType = (type) => {
+    this.setState({ type })
   }
 
   _onSubmitTest = () => {
@@ -226,14 +276,15 @@ class NewTest extends Component {
       title: this.state.title,
       description: this.state.description,
       createAt: moment(),
-      status: 'DRAFT',
+      status: 'WAITTING',
+      type: this.state.type,
       createdBy: Storage.get('ID'),
       listQuestion: this.state.listQuestion
     }
     this.props.insertTest(data, (success, rs) => {
       console.log(success);
-      
-      if(success){
+
+      if (success) {
         Notification.success('Insert test success')
         this.props.history.goBack()
       }
@@ -254,6 +305,13 @@ class NewTest extends Component {
               <div>
                 <span className='desc'>Mô tả đề thi</span>
                 <Input className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
+              </div>
+              <div>
+                <span className='desc'>Loại </span>
+                <Select style={{ width: 120 }} value={this.state.type} onChange={this._onChangeType} >
+                  <Option value="IT">Tin học</Option>
+                  <Option value="ENGLISH">Tiếng Anh</Option>
+                </Select>
               </div>
               <div className="groupbutton">
                 <Button type="primary" shape='round' danger className="item-button" icon={<CloseCircleOutlined />}>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import lodash from 'lodash'
 import { connect } from 'react-redux'
 import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'
@@ -35,9 +34,9 @@ const Content = styled.div`
 
 
 @connect((state) => ({
-  examStore: state.exam
+  historyStore: state.history
 }), {
-  getStudentsInExam: actions.getStudentsInExam,
+  getHistoryStudent: actions.getHistoryStudent
 })
 class HistoryExamStudent extends Component {
 
@@ -129,9 +128,9 @@ class HistoryExamStudent extends Component {
           name: "Tin học",
           data: [
 
-            { x: "2019-05-13 09:00:01", y: "92" },
-            { x: "2019-05-19 13:00:03", y: "73" },
-            { x: "2019-05-20 13:00:03", y: "33" },
+            // { x: "2019-05-13 09:00:01", y: "92" },
+            // { x: "2019-05-19 13:00:03", y: "73" },
+            // { x: "2019-05-20 13:00:03", y: "33" },
           ]
         }
       ]
@@ -139,10 +138,42 @@ class HistoryExamStudent extends Component {
   }
 
   componentDidMount() {
-
+    this.props.getHistoryStudent()
   }
 
   render() {
+    let historiesStudent = this.props.historyStore.historiesStudent
+
+    let series = historiesStudent ? [
+      {
+        name: "Tiếng anh",
+        data: [
+          ...historiesStudent.filter(x => x.examId.testId.type == 'IT').map(item => {
+            return {
+              x: moment(item.examId.timeStart).format('YYYY-MM-dd hh:mm:ss'),
+              y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
+                (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100+'' : 0
+            }
+          })
+        ]
+      },
+      {
+        name: "Tin học",
+        data: [
+          ...historiesStudent.filter(x => x.examId.testId.type != 'IT').map(item => {
+            return {
+              x: moment(item.examId.timeStart).format('YYYY-MM-DD hh:mm:ss'),
+              y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
+                (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100+'' : 0
+            }
+          })
+        ]
+      }
+    ] : []
+
+    console.log(series, this.state.series);
+
+
 
     return (
       <Page>
@@ -153,7 +184,7 @@ class HistoryExamStudent extends Component {
               <div className="mixed-chart">
                 <Chart
                   options={this.state.options}
-                  series={this.state.series}
+                  series={series}
                   type="area"
                   width="800"
                 />

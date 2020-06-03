@@ -16,7 +16,6 @@ import openSocket from "socket.io-client"
 const API_URL = `${Configs.API_URL}`
 const socket = openSocket(API_URL)
 
-
 const Content = styled.div`
   .test-exam {
     display: flex;
@@ -85,6 +84,11 @@ const Content = styled.div`
   .active-answer{
 
   }
+  .image-question {
+    width: 100%;
+    max-height: 350px;
+    width: auto;
+  }
 `
 
 @connect((state) => ({
@@ -106,7 +110,8 @@ export default class Exam extends Component {
     listAnswer: [],
     questionIndex: 0,
     timeLeft: '',
-    timeOut: false
+    timeOut: false,
+    timeEnd: ''
   }
 
   _emitJoinExam = () => {
@@ -139,6 +144,8 @@ export default class Exam extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps);
+    
     if (nextProps.examIndex && nextProps.examIndex.timeEnd && nextProps.examIndex.timeEnd !== prevState.timeEnd) {
       return {
         timeEnd: nextProps.examIndex.timeEnd
@@ -301,7 +308,20 @@ export default class Exam extends Component {
                         <div className="border-margin-exam">
                           <div className="exam-margin ">
                             <p className="question-exam"> Câu {`${this.state.questionIndex + 1} : ${this.state.listQuestion[this.state.questionIndex] && this.state.listQuestion[this.state.questionIndex].title || ''}`} </p>
-                            <div className="img-exam"><img src="https://thuthuat.taimienphi.vn/cf/Images/gl/2019/8/8/duong-dan-file-trong-html-.jpg"></img></div>
+                            <div className="img-exam">
+                              {
+                                this.state.listQuestion[this.state.questionIndex] && this.state.listQuestion[this.state.questionIndex].image ?
+                                  (
+                                    <img
+                                      className="image-question"
+                                      src={this.state.listQuestion[this.state.questionIndex].image ? `${Configs.API_URL}/${this.state.listQuestion[this.state.questionIndex].image}` : "./../resources/images/avt.jpg"}
+                                      alt=""
+                                    />
+                                  )
+                                  :
+                                  null
+                              }
+                            </div>
                             <div className="button-answer">
 
                               {this._showAnswers()}

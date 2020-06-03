@@ -13,6 +13,10 @@ import { actions } from '@/store/actions'
 import { Divider, Descriptions, Tooltip } from 'antd';
 import Notification from '@/components/notification'
 
+import callAPI from "@/utils/apiCaller";
+import Config from '@/configs'
+
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -66,6 +70,12 @@ const Content = styled.div`
   }
   .list-question{
     margin-bottom: 20px;
+  }
+
+  .image-question {
+    width: 100%;
+    max-height: 350px;
+    width: auto;
   }
 `
 
@@ -124,6 +134,7 @@ class WatchTest extends Component {
     if (!this.state.listQuestion || this.state.listQuestion.length === 0)
       return null
     let questionItem = this.state.listQuestion[this.state.questionIndex]
+
     return (
       <div className="question-box-border">
         <div className='question-box bc'>
@@ -134,15 +145,11 @@ class WatchTest extends Component {
               className="question-input"
               name='title'
               value={questionItem.title}
-              onChange={(e) => {
-                let listQuestion = this.state.listQuestion
-                listQuestion[this.state.questionIndex].title = e.target.value
-                this.setState({ listQuestion })
-              }}
             />
           </div>
           <Descriptions />
-          <div>
+
+          {/* <div>
             <span className='description'>Mo ta:</span>
             <Input
               className="question-input"
@@ -154,66 +161,45 @@ class WatchTest extends Component {
                 this.setState({ listQuestion })
               }}
             />
-          </div><Divider >Answer</Divider>
+          </div> */}
+
+          <div>
+            <span className='description'>Image:</span>
+            {
+              this.state.listQuestion[this.state.questionIndex].image ?
+                (
+                  <img
+                    className="image-question"
+                    src={this.state.listQuestion[this.state.questionIndex].image ? `${Config.API_URL}/${this.state.listQuestion[this.state.questionIndex].image}` : "./../resources/images/avt.jpg"}
+                    alt=""
+                  />
+                )
+                :
+                null
+            }
+          </div>
+
+          <Divider >Answer</Divider>
           <div className='answer-box'>
             {
               questionItem.answers.map((item, index) => (
                 <div key={index} className='answer-item'>
                   <Button
-                    type={index === this.state.listQuestion[this.state.questionIndex].result ? 'primary' : ''}
+                    type={+index === +this.state.listQuestion[this.state.questionIndex].result ? 'primary' : ''}
                     shape="circle"
                     icon={<CheckOutlined />}
-                    onClick={() => {
-                      let listQuestion = this.state.listQuestion
-                      listQuestion[this.state.questionIndex].result = index
-                      this.setState({ listQuestion })
-                    }} />
+                  />
                   {/* <Button shape="circle" disabled >{String.fromCharCode(65 + index)}</Button> */}
                   <Input
                     className="input-answer"
                     name=''
                     prefix={String.fromCharCode(65 + index)}
-                    suffix={
-                      <Tooltip title="Delete">
-                        <Button
-                          shape="circle"
-                          icon={<DeleteOutlined />}
-                          onClick={() => {
-                            let listQuestion = this.state.listQuestion
-                            listQuestion[this.state.questionIndex].answers.splice(index, 1)
-                            if (listQuestion[this.state.questionIndex].result > index) {
-                              listQuestion[this.state.questionIndex].result = listQuestion[this.state.questionIndex].result - 1
-                            }
-                            else if (listQuestion[this.state.questionIndex].result == index) {
-                              listQuestion[this.state.questionIndex].result = null
-                            }
-                            this.setState({ listQuestion })
-                          }}
-                        />
-                      </Tooltip>
-                    }
+
                     value={item}
-                    onChange={(e) => {
-                      let listQuestion = this.state.listQuestion
-                      listQuestion[this.state.questionIndex].answers[index] = e.target.value
-                      this.setState({ listQuestion })
-                    }} />
+                  />
                 </div>
               ))
             }
-            <div className="answer-button">
-              <Button
-
-                icon={<PlusCircleOutlined />}
-                onClick={() => {
-                  let listQuestion = this.state.listQuestion
-                  listQuestion[this.state.questionIndex].answers.push('')
-                  this.setState({ listQuestion })
-                }}
-              >
-                Add answer
-          </Button>
-            </div>
           </div>
         </div>
       </div>
@@ -233,11 +219,11 @@ class WatchTest extends Component {
               <h1 style={{ marginBottom: '20px' }}> Xem đề thi </h1>
               <div className="abc">
                 <span className='title'>Tên bộ đề thi</span>
-                <Input className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
+                <Input className="question-input" name='title' value={this.state.title} />
               </div>
               <div>
                 <span className='desc'>Mô tả đề thi</span>
-                <Input className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
+                <Input className="question-input" name='description' value={this.state.description} />
               </div>
               <div className="groupbutton">
                 <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
@@ -255,7 +241,7 @@ class WatchTest extends Component {
                 <Button
                   onClick={() => {
                     console.log(this.props.match.params.id);
-                    
+
                     this.props.changeStatusDone(this.props.match.params.id)
                   }}
                   type="primary" shape='round' className="item-button" icon={<CheckOutlined />}>
@@ -266,18 +252,6 @@ class WatchTest extends Component {
                 <p>Tất cả câu hỏi</p>
                 <div className="list-question">
                   {this._showQuestionBtn()}
-                  <Button
-                    shape="circle"
-                    icon={<PlusOutlined />}
-                    onClick={() => {
-                      let listQuestion = this.state.listQuestion
-                      listQuestion.push({
-                        title: '',
-                        answers: ['', ''],
-                        result: null
-                      })
-                      this.setState({ listQuestion })
-                    }} />
                 </div>
               </div>
               {this._showQuestionItem()}
