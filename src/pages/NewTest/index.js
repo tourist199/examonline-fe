@@ -12,7 +12,7 @@ import Input from '@/components/input'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
-import { PlusOutlined, MinusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, MinusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined,FileImageOutlined,PictureOutlined } from '@ant-design/icons'
 import { actions } from '@/store/actions'
 import { Divider, Descriptions, Tooltip, Select } from 'antd';
 
@@ -37,7 +37,7 @@ const Content = styled.div`
     margin:10px 0 5px 10px;
   }
   .ant-input{
-    background: #f3f5f7;
+    // background: #f3f5f7;
   }
   .question-box-border{
     border-radius: 5px;
@@ -73,6 +73,7 @@ const Content = styled.div`
     margin-bottom: 20px;
   }
   .image-question {
+    
     width: 100%;
     max-height: 350px;
     width: auto;
@@ -145,6 +146,16 @@ class NewTest extends Component {
               className="question-input"
               name='title'
               value={questionItem.title}
+              suffix={
+                <Tooltip title="Upload Image">
+                    <Button
+                    icon={<PictureOutlined />}
+                    onClick={() => {
+                      document.getElementById("image-upload").click();
+                    }}
+                    />
+                </Tooltip>
+              }
               onChange={(e) => {
                 let listQuestion = this.state.listQuestion
                 listQuestion[this.state.questionIndex].title = e.target.value
@@ -166,12 +177,12 @@ class NewTest extends Component {
               }}
             />
           </div> */}
-          <div>
-            <span className='description'>Image:</span>
+          <div style={{textAlign:"center"}}>
+            {/* <span className='description'>Image:</span> */}
             {
               this.state.listQuestion[this.state.questionIndex].image ?
                 (
-                  <img
+                  <img 
                     className="image-question"
                     src={this.state.listQuestion[this.state.questionIndex].image ? `${Config.API_URL}/${this.state.listQuestion[this.state.questionIndex].image}` : "./../resources/images/avt.jpg"}
                     alt=""
@@ -181,7 +192,7 @@ class NewTest extends Component {
                 null
             }
 
-            <input type='file' name='image' onChange={this._handleChange} />
+            <input type='file' id="image-upload" name='image' onChange={this._handleChange} style={{display: "none"}} />
           </div>
           <Divider >Answer</Divider>
           <div className='answer-box'>
@@ -308,7 +319,7 @@ class NewTest extends Component {
               </div>
               <div>
                 <span className='desc'>Loại </span>
-                <Select style={{ width: 120 }} value={this.state.type} onChange={this._onChangeType} >
+                <Select className="question-input" style={{ width: "100%" }} value={this.state.type} onChange={this._onChangeType} >
                   <Option value="IT">Tin học</Option>
                   <Option value="ENGLISH">Tiếng Anh</Option>
                 </Select>
