@@ -93,7 +93,7 @@ class ListExam extends Component {
 
     dataSource = []
     this.props.examStore.listExam.forEach((item => {
-      if (moment(item.timeStart) > moment())
+      if (moment(item.timeEnd) > moment())
         dataSource.push({
           titleExam: item.title,
           titleTest: item.testId && item.testId.title,

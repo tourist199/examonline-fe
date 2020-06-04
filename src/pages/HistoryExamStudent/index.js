@@ -128,9 +128,9 @@ class HistoryExamStudent extends Component {
           name: "Tin học",
           data: [
 
-            // { x: "2019-05-13 09:00:01", y: "92" },
-            // { x: "2019-05-19 13:00:03", y: "73" },
-            // { x: "2019-05-20 13:00:03", y: "33" },
+            { x: "2019-05-13 09:00:01", y: "92" },
+            { x: "2019-05-19 13:00:03", y: "73" },
+            { x: "2019-05-20 13:00:03", y: "33" },
           ]
         }
       ]
@@ -148,23 +148,27 @@ class HistoryExamStudent extends Component {
       {
         name: "Tiếng anh",
         data: [
-          ...historiesStudent.filter(x => x.examId.testId.type == 'IT').map(item => {
-            return {
-              x: moment(item.examId.timeStart).format('YYYY-MM-dd hh:mm:ss'),
-              y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
-                (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100+'' : 0
-            }
-          })
+          ...historiesStudent.filter(x => x.examId.testId.type != 'IT')
+            .sort((a, b) => moment(b.timeStart).valueOf() - moment(a.timeStart).valueOf())
+            .map(item => {
+              return {
+                x: moment(item.examId.timeStart).format('YYYY-MM-dd hh:mm:ss'),
+                y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
+                  (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : 0
+              }
+            })
         ]
       },
       {
         name: "Tin học",
         data: [
-          ...historiesStudent.filter(x => x.examId.testId.type != 'IT').map(item => {
+          ...historiesStudent.filter(x => x.examId.testId.type == 'IT')
+          .sort((a, b) => moment(b.timeStart).valueOf() - moment(a.timeStart).valueOf())
+          .map(item => {
             return {
-              x: moment(item.examId.timeStart).format('YYYY-MM-DD hh:mm:ss'),
+              x: moment(item.examId.timeStart).format('YYYY-MM-dd hh:mm:ss'),
               y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
-                (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100+'' : 0
+                (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : '0'
             }
           })
         ]

@@ -145,7 +145,7 @@ export default class Exam extends Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     console.log(nextProps);
-    
+
     if (nextProps.examIndex && nextProps.examIndex.timeEnd && nextProps.examIndex.timeEnd !== prevState.timeEnd) {
       return {
         timeEnd: nextProps.examIndex.timeEnd
@@ -244,6 +244,7 @@ export default class Exam extends Component {
                   numQuestionDidCorrect
                 })
 
+
               }}
             >
               {`${String.fromCharCode(65 + index)}. ${contentAns} `}
@@ -263,8 +264,13 @@ export default class Exam extends Component {
         examId: this.props.match.params.idExam
       },
       (success, data) => {
-        if (success)
+        if (success) {
           alert("Submit Exam Success")
+          socket.emit('submit_exam', {
+            examId: this.props.match.params.idExam
+          })
+        }
+
       }
     )
   }
@@ -277,7 +283,6 @@ export default class Exam extends Component {
   }
 
   render() {
-    console.log(this.state.timeEnd, 'lsques');
 
     return (
       <Page>

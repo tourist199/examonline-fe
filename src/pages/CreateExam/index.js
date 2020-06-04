@@ -232,8 +232,6 @@ class CreateExam extends Component {
     let listStudent = this.props.accountStore.listStudent
     let listTest = this.props.testStore.listTestDone
 
-    console.log(this.state.listStudent);
-    
     tests = []
     listTest.forEach((item, index) => {
       tests.push(<Option key={index} value={item._id}>{item.title}</Option>)

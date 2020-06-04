@@ -138,11 +138,8 @@ export default class RoomExam extends Component {
 
   _showStudentItem = (list) => {
 
-    console.log(this.props.examStore);
-    
-
-    if (!this.props.examStore.editExam.exam) 
-       return;
+    if (!this.props.examStore.editExam.exam)
+      return;
     return list.map((item, index) => {
       let totalQuestion = this.props.examStore.editExam.exam.testId.totalQuestion
       return (
@@ -158,17 +155,23 @@ export default class RoomExam extends Component {
             </div>
             <div className="button-exam" >
               {item.ip ? <span style={{ marginTop: 10 }}> IP: {item.ip} </span> : <span style={{ marginTop: 10 }}> IP:  </span>}
-              <img
+
+              {item.avatar ? <img
                 className="avatar"
-                src="./../resources/images/avt.jpg"
-                alt=""
-              />
+                src={Configs.API_URL + '/' + item.avatar}
+                alt="avt"
+              /> : <img
+                  className="avatar"
+                  src="./../resources/images/people.png"
+                  alt="avt"
+                />}
+
             </div>
             <div>
-              <span> City: Quảng Nam </span>
+              {item.city ? <span > City: {item.city} </span> : <span > City:  </span>}
             </div>
             <div style={{ marginTop: 12 }}>
-              <span> State: Quảng Nam </span>
+            {item.state ? <span > State: {item.state} </span> : <span > State:  </span>}
             </div>
             <div style={{ marginTop: 12, marginBottom: 15 }}>
               <span> Tham gia: 20p trước </span>
@@ -190,7 +193,7 @@ export default class RoomExam extends Component {
 
   render() {
     let { studentsInExam, editExam } = this.props.examStore
-    console.log(studentsInExam, editExam);
+    // console.log(studentsInExam, editExam);
 
     return (
       <Container>

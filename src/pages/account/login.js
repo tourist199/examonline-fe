@@ -81,6 +81,8 @@ class Login extends Component {
     const { login, history } = this.props
     login(values, (success, data) => {
       if (success) {
+        console.log(data);
+        
         Storage.set('ACCESS_TOKEN', data.token)
         Storage.set('TYPE', data.type)
         Storage.set('NAME', data.name)

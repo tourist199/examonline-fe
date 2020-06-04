@@ -6,6 +6,7 @@ import { push } from 'connected-react-router'
 import { withLocalize } from 'react-localize-redux'
 import styled from 'styled-components'
 
+import Config from '@/configs'
 import Storage from '@/utils/storage'
 import { actions } from '@/store/actions'
 import { Images } from '@/theme'
@@ -166,8 +167,8 @@ class Header extends Component {
               <div className="user-box">
                 <img
                   className="avatar"
-                  src={Storage.get('AVATAR', "./../resources/images/people.png")}
-                  alt=""
+                  src={Storage.get('AVATAR', "") === "" ? "./../resources/images/people.png" : Config.API_URL + '/' + Storage.get('AVATAR', "")}
+                  alt="avatar"
                 />
                 <p className="name">{name}</p>
                 <DownOutlined />

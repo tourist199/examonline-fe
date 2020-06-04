@@ -326,6 +326,7 @@ class PersonalInfo extends Component {
       .then(res => {
         if (res.data.success) {
           this.setState({ avatar: res.data.result.pathCurrent })
+          Storage.set('AVATAR', res.data.result.pathCurrent)
         }
       })
       .catch(err => {
@@ -364,7 +365,7 @@ class PersonalInfo extends Component {
                   <div>
                     <img
                       className="avatar"
-                      src={this.state.avatar ? `${Config.API_URL}/${this.state.avatar}` : "./../resources/images/avt.jpg"}
+                      src={this.state.avatar ? `${Config.API_URL}/${this.state.avatar}` : "./../resources/images/people.png"}
                       alt=""
                     />
                   </div>
@@ -394,7 +395,7 @@ class PersonalInfo extends Component {
                               <span>
                                 <img
                                   className="avatar-information"
-                                  src={this.state.avatar ? `${Config.API_URL}/${this.state.avatar}` : "./../resources/images/avt.jpg"}
+                                  src={this.state.avatar ? `${Config.API_URL}/${this.state.avatar}` : "./../resources/images/people.png"}
                                   alt=""
                                 />
                               </span>
