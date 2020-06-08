@@ -130,6 +130,21 @@ class WatchTest extends Component {
     })
   }
 
+  _approveTest = (ok) => {
+    if (ok) {
+      this.props.changeStatusDone(this.props.match.params.id, (success, data) => {
+        Notification.success('Thác tác thành công')
+        this.props.history.goBack()
+      })
+    }
+    else {
+      this.props.changeStatusDone(this.props.match.params.id, (success, data) => {
+        Notification.success('Thác tác thành công')
+        this.props.history.goBack()
+      })
+    }
+  } 
+
   _showQuestionItem = () => {
     if (!this.state.listQuestion || this.state.listQuestion.length === 0)
       return null
@@ -232,18 +247,14 @@ class WatchTest extends Component {
 
                 <Button
                   onClick={() => {
-                    this.props.changeStatusDraft(this.props.match.params.id)
+                    
                   }}
                   type="primary" shape='round' className="item-button" icon={<CheckOutlined />}>
                   KHONG DUYET
                 </Button>
 
                 <Button
-                  onClick={() => {
-                    console.log(this.props.match.params.id);
-
-                    this.props.changeStatusDone(this.props.match.params.id)
-                  }}
+                  onClick={() => this._approveTest(true)}
                   type="primary" shape='round' className="item-button" icon={<CheckOutlined />}>
                   DUYET
                 </Button>

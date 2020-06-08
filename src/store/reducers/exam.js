@@ -79,10 +79,13 @@ export default (state = INIT_STATE, action) => {
         submitting: action.type
       }
     case TYPES.GET_INFO_EXAM_BY_STUDENT_SUCCESS:
+      console.log(action);
+      
       return {
         ...state,
         submitting: null,
-        listAnswerOfStudent: action.data.listAnswer ? action.data.listAnswer : []
+        listAnswerOfStudent: action.data.listAnswer ? action.data.listAnswer : [],
+        examIndex: action.data.examId
       }
     case TYPES.GET_INFO_EXAM_BY_STUDENT_FAILURE:
       return {

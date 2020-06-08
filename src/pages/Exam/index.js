@@ -9,6 +9,7 @@ import Page from '@/components/page'
 import Container from '@/components/container'
 import { Button, Badge, Row, Col } from 'antd';
 import TimeLeft from '@/components/base/TimeLeft'
+import Notification from '@/components/notification'
 
 import Configs from '@/configs'
 import openSocket from "socket.io-client"
@@ -98,7 +99,8 @@ const Content = styled.div`
 }), {
   getTestById: actions.getTestById,
   getInfoExamByStudent: actions.getInfoExamByStudent,
-  studentSubmitExam: actions.studentSubmitExam
+  studentSubmitExam: actions.studentSubmitExam,
+  getExamById: actions.getExamById
 })
 
 export default class Exam extends Component {
@@ -183,6 +185,11 @@ export default class Exam extends Component {
      */
     this._emitJoinExam()
 
+    /**
+     * get info exam
+     */
+    this.props.getExamById(this.props.match.params.idExam)
+
   }
 
   _showBtnQuestion = () => {
@@ -265,12 +272,14 @@ export default class Exam extends Component {
       },
       (success, data) => {
         if (success) {
-          alert("Submit Exam Success")
+          Notification.success("Submit Exam Success")
           socket.emit('submit_exam', {
             examId: this.props.match.params.idExam
           })
+          setTimeout(() => {
+          this.props.history.goBack()
+          }, 1000);
         }
-
       }
     )
   }
@@ -283,7 +292,8 @@ export default class Exam extends Component {
   }
 
   render() {
-
+    console.log(this.state.timeEnd);
+    
     return (
       <Page>
         <Container>

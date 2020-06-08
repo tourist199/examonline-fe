@@ -143,16 +143,18 @@ class HistoryExamStudent extends Component {
 
   render() {
     let historiesStudent = this.props.historyStore.historiesStudent
+    console.log(historiesStudent);
+    
 
     let series = historiesStudent ? [
       {
-        name: "Tiếng anh",
+        name: "Tin học",
         data: [
-          ...historiesStudent.filter(x => x.examId.testId.type != 'IT')
-            .sort((a, b) => moment(b.timeStart).valueOf() - moment(a.timeStart).valueOf())
+          ...historiesStudent.filter(x => ((!x.examId.testId || x.examId.testId.type != 'ENGLISH')&& (moment()> moment(x.examId.timeEnd))))
+            .sort((a, b) => moment(a.timeStart).valueOf() - moment(b.timeStart).valueOf())
             .map(item => {
               return {
-                x: moment(item.examId.timeStart).format('YYYY-MM-dd hh:mm:ss'),
+                x: moment(item.examId.timeStart).valueOf(),
                 y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
                   (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : 0
               }
@@ -160,13 +162,13 @@ class HistoryExamStudent extends Component {
         ]
       },
       {
-        name: "Tin học",
+        name: "Tiếng anh",
         data: [
-          ...historiesStudent.filter(x => x.examId.testId.type == 'IT')
-          .sort((a, b) => moment(b.timeStart).valueOf() - moment(a.timeStart).valueOf())
+          ...historiesStudent.filter(x => x.examId.testId && x.examId.testId.type == 'ENGLISH')
+          .sort((a, b) => moment(a.timeStart).valueOf() - moment(b.timeStart).valueOf())
           .map(item => {
             return {
-              x: moment(item.examId.timeStart).format('YYYY-MM-dd hh:mm:ss'),
+              x: moment(item.examId.timeStart).valueOf(),
               y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
                 (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : '0'
             }
@@ -177,8 +179,6 @@ class HistoryExamStudent extends Component {
 
     console.log(series, this.state.series);
 
-
-
     return (
       <Page>
         <Container>
@@ -188,7 +188,7 @@ class HistoryExamStudent extends Component {
               <div className="mixed-chart">
                 <Chart
                   options={this.state.options}
-                  series={series}
+                  series={this.state.series}
                   type="area"
                   width="800"
                 />
