@@ -208,6 +208,21 @@ class CreateExam extends Component {
             style={{ marginLeft: 60, width: 500 }}
           />
         </div>
+        <div className="combobox-exam">
+          <h3>Chọn nhóm</h3>
+          <Select
+            showSearch
+            style={{ width: 500, marginLeft: 65 }}
+            placeholder="Chọn nhóm"
+            optionFilterProp="children"
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            value={'CNTT - K40A'}
+          >
+            {tests}
+          </Select>
+        </div>
         <div className="combobox-student">
           <h3>Sinh viên</h3>
           <Select

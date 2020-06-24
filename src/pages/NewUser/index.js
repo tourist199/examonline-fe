@@ -10,13 +10,13 @@ import Input from '@/components/input'
 import Field from '@/components/field'
 import Button from '@/components/button'
 import Page from '@/components/page'
-import { DatePicker,Descriptions,Divider } from 'antd';
+import { DatePicker, Descriptions, Divider } from 'antd';
 import { Select } from 'antd';
 import Notification from '@/components/notification'
 //upload
 import { Row, Col } from 'antd';
 import { Upload, message } from 'antd';
-import { LoadingOutlined,UploadOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, UploadOutlined, PlusOutlined } from '@ant-design/icons';
 //
 
 import Container from '@/components/container'
@@ -35,6 +35,9 @@ const Content = styled.div`
   }
   .ant-upload{
     border-radius: 50%;
+  }
+  .box-new-user {
+    margin: 0 auto
   }
 `
 //upload
@@ -92,14 +95,14 @@ class Avatar extends React.Component {
 
   render() {
     const uploadButton = (
-      <div> 
+      <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
         <div className="ant-upload-text">Upload</div>
       </div>
     );
     const { imageUrl } = this.state;
     return (
-      <Upload 
+      <Upload
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
@@ -108,7 +111,7 @@ class Avatar extends React.Component {
         beforeUpload={beforeUpload}
         onChange={this.handleChange}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100px',height:"104px",borderRadius:"50%"}} /> : uploadButton}
+        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100px', height: "104px", borderRadius: "50%" }} /> : uploadButton}
       </Upload>
     );
   }
@@ -139,106 +142,113 @@ class CreateNewUser extends Component {
     })
   }
   _renderForm = ({ handleSubmit, ...form }) => (
-    <Form className="form" style={{marginTop:"-40px"}}>
+    <Form className="form" style={{ marginTop: "0px" }}>
       <div className="field-group">
-        <h1 style={{textAlign: "center"}}> Tạo người dùng mới </h1>
-        <Divider style={{borderColor:"#808080"}} />
-        <div className="new-user">
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="email"
-            label="Email"
-            component={Input}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="password"
-            label="Password"
-            type="password"
-            component={Input}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="name"
-            label="Tên học viên"
-            component={Input}
-          /> 
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            label="Giới tính"
-            component={() => (
-              <Select value={this.state.gender} onChange={(gender) => this.setState({ gender })} style={{ width: 330 }}>
-                <Option value="male">Nam</Option>
-                <Option value="female">Nữ</Option>
-              </Select>
-            )}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="birthday"
-            label="Ngày sinh"
-            component={() => <DatePicker value={this.state.birthday} style={{ width: 330 }} format={dateFormatList} onChange={(birthday => this.setState({ birthday }))} />}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="address"
-            label="Địa chỉ"
-            component={Input}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="phoneNumber"
-            label="Số điện thoại"
-            component={Input}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="cardId"
-            label="CMND"
-            component={Input}
-          />
-          <Field
-            style={{ width: '330px' }}
-            form={form}
-            inline
-            name="type"
-            label="Loại người dùng"
-            component={() => (
-              <Select value={this.state.type} onChange={(type) => this.setState({ type })} style={{ width: 330 }}>
-                <Option value="STUDENT">Học viên</Option>
-                <Option value="TEACHER">Giáo viên</Option>
-                <Option value="ADMIN">Admin</Option>
-              </Select>
-            )}
-          />
+        <h1 style={{ textAlign: "center" }}> Tạo người dùng mới </h1>
+        <Divider style={{ borderColor: "#808080" }} />
+        <Row>
+          <Col span={14} offset={1} className="new-user">
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="email"
+              label="Email"
+              component={Input}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="password"
+              label="Password"
+              type="password"
+              component={Input}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="name"
+              label="Tên học viên"
+              component={Input}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              label="Giới tính"
+              component={() => (
+                <Select value={this.state.gender} onChange={(gender) => this.setState({ gender })} style={{ width: 330 }}>
+                  <Option value="male">Nam</Option>
+                  <Option value="female">Nữ</Option>
+                </Select>
+              )}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="birthday"
+              label="Ngày sinh"
+              component={() => <DatePicker value={this.state.birthday} style={{ width: 330 }} format={dateFormatList} onChange={(birthday => this.setState({ birthday }))} />}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="address"
+              label="Địa chỉ"
+              component={Input}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="phoneNumber"
+              label="Số điện thoại"
+              component={Input}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="cardId"
+              label="CMND"
+              component={Input}
+            />
+            <Field
+              style={{ width: '330px' }}
+              form={form}
+              inline
+              name="type"
+              label="Loại người dùng"
+              component={() => (
+                <Select value={this.state.type} onChange={(type) => this.setState({ type })} style={{ width: 330 }}>
+                  <Option value="STUDENT">Học viên</Option>
+                  <Option value="TEACHER">Giáo viên</Option>
+                  <Option value="ADMIN">Admin</Option>
+                </Select>
+              )}
+            />
+          </Col>
+          <Col span={3} offset={5}>
+            <div style={{ marginTop: "30px" }}>
+              <Avatar />
+            </div>
+          </Col>
+        </Row>
 
-
-        </div>
-      </div><Divider style={{borderColor:"#808080"}} />
+      </div>
+      <Divider style={{ borderColor: "#808080" }} />
       <div className="table-box">
-        <div className="capnhat" style={{paddingBottom:"20px"}}>
+        <div className="capnhat" style={{ paddingBottom: "20px", paddingRight: '200px' }}>
           <Button
             type="primary"
             htmlType="submit"
             onClick={handleSubmit}
           >
-            Create
+            Tạo mới
           </Button>
         </div>
       </div>
@@ -260,21 +270,18 @@ class CreateNewUser extends Component {
       <Page>
         <Container>
           <Content>
-          <Row>
-              <Col span={15}><Formik className="form-tt"
-              validateOnChange={false}
-              validateOnBlur={false}
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={this._onSubmit}
-              component={this._renderForm}
-            /></Col>
-             <Col span={6} offset={3}>
-                <div style={{marginTop: "60px"}}>
-              <Avatar />
-              <p >Upload Avatar here....!</p>
-            </div></Col>
-          </Row>
+            <Row>
+              <Col class="box-new-user" style ={{margin: '0 auto', width: 800}} span={15}>
+                <Formik className="form-tt"
+                  validateOnChange={false}
+                  validateOnBlur={false}
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={this._onSubmit}
+                  component={this._renderForm}
+                />
+              </Col>
+            </Row>
           </Content>
         </Container>
       </Page>

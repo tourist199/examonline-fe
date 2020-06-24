@@ -12,7 +12,7 @@ import Input from '@/components/input'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
-import { PlusOutlined, MinusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined,FileImageOutlined,PictureOutlined } from '@ant-design/icons'
+import { PlusOutlined, DeleteTwoTone, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined, FileImageOutlined, PictureOutlined } from '@ant-design/icons'
 import { actions } from '@/store/actions'
 import { Divider, Descriptions, Tooltip, Select } from 'antd';
 
@@ -22,13 +22,14 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 500px;
+  padding-right: 50px;
 
   .answer-item {
     display: flex;
     padding: 10px
   }
   .answer-box {
-    margin-top: 30px
+    margin-top: 10px
   }
   .groupbutton{
     text-align: right;
@@ -36,31 +37,38 @@ const Content = styled.div`
   .item-button{
     margin:10px 0 5px 10px;
   }
-  .ant-input{
-    // background: #f3f5f7;
-  }
+
   .question-box-border{
     border-radius: 5px;
     background: white;
-    margin: 10px 0;
+    margin: 0 auto;
     box-shadow: -1px 2px 5px 1px rgba(163,163,163,1);
-    
+    max-width: 750px;
+    margin-bottom: 30px
   }
   .question-box{
     padding:20px;
     font-size:14px;
     font-weight: bold;
+    padding-top: 0;
   }
   .title-head{
     text-align:center;
     font-size:16px;
     font-weight: bold;
+    margin-left : -20px;
+    margin-right: -20px;
+    background: #f6f4f5;
+    padding: 7px;
   }
   .question-box-border .question-box .ant-input{
     background: none;
   }
   .question-input{
     margin:10px 0;
+  }
+  .question-input-1 {
+    margin : 0
   }
   .input-answer{
     margin-left: 10px;
@@ -77,6 +85,9 @@ const Content = styled.div`
     width: 100%;
     max-height: 350px;
     width: auto;
+  }
+  .box-test-head {
+    width: 70%
   }
 `
 
@@ -139,21 +150,23 @@ class NewTest extends Component {
     return (
       <div className="question-box-border">
         <div className='question-box bc'>
-          <p className="title-head">Câu hỏi {this.state.questionIndex + 1}</p>
+          <p className="title-head">Câu hỏi {this.state.questionIndex + 1} {<DeleteTwoTone twoToneColor="#eb2f96" style={{ float: 'right', padding: '6px' }} />}</p>
           <div>
-            <span className='title'>Câu hỏi:</span>
+            {/* <span className='title'>Câu hỏi:</span> */}
             <Input
-              className="question-input"
+              className="question-input-1"
+              addonBefore="Câu hỏi"
               name='title'
               value={questionItem.title}
               suffix={
                 <Tooltip title="Upload Image">
-                    <Button
+                  <Button
                     icon={<PictureOutlined />}
                     onClick={() => {
                       document.getElementById("image-upload").click();
                     }}
-                    />
+                    size="small"
+                  />
                 </Tooltip>
               }
               onChange={(e) => {
@@ -164,25 +177,12 @@ class NewTest extends Component {
             />
           </div>
           <Descriptions />
-          {/* <div>
-            <span className='description'>Mo ta:</span>
-            <Input
-              className="question-input"
-              name='description'
-              value={questionItem.description}
-              onChange={(e) => {
-                let listQuestion = this.state.listQuestion
-                listQuestion[this.state.questionIndex].description = e.target.value
-                this.setState({ listQuestion })
-              }}
-            />
-          </div> */}
-          <div style={{textAlign:"center"}}>
+          <div style={{ textAlign: "center" }}>
             {/* <span className='description'>Image:</span> */}
             {
               this.state.listQuestion[this.state.questionIndex].image ?
                 (
-                  <img 
+                  <img
                     className="image-question"
                     src={this.state.listQuestion[this.state.questionIndex].image ? `${Config.API_URL}/${this.state.listQuestion[this.state.questionIndex].image}` : "./../resources/images/avt.jpg"}
                     alt=""
@@ -192,7 +192,7 @@ class NewTest extends Component {
                 null
             }
 
-            <input type='file' id="image-upload" name='image' onChange={this._handleChange} style={{display: "none"}} />
+            <input type='file' id="image-upload" name='image' onChange={this._handleChange} style={{ display: "none" }} />
           </div>
           <Divider >Answer</Divider>
           <div className='answer-box'>
@@ -200,6 +200,8 @@ class NewTest extends Component {
               questionItem.answers.map((item, index) => (
                 <div key={index} className='answer-item'>
                   <Button
+                    size="small"
+                    style={{ marginTop: '3px' }}
                     type={index === this.state.listQuestion[this.state.questionIndex].result ? 'primary' : ''}
                     shape="circle"
                     icon={<CheckOutlined />}
@@ -216,6 +218,7 @@ class NewTest extends Component {
                       <Tooltip title="Delete">
                         <Button
                           shape="circle"
+                          size="small"
                           icon={<DeleteOutlined />}
                           onClick={() => {
                             let listQuestion = this.state.listQuestion
@@ -309,21 +312,26 @@ class NewTest extends Component {
           <Content>
             <div >
               <h1 style={{ marginBottom: '20px' }}> Tạo mới đề thi </h1>
-              <div className="abc">
-                <span className='title'>Tên bộ đề thi</span>
-                <Input className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
+
+              <div class="box-test-head">
+                <div className="abc">
+                  {/* <span className='title'>Tên bộ đề thi</span> */}
+                  <Input addonBefore="Tên bộ đề" className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
+                </div>
+                <div>
+                  {/* <span className='desc'>Mô tả đề thi</span> */}
+                  <Input addonBefore="Mô tả đề" className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
+                </div>
+                <div>
+                  <span className='desc'>Loại </span>
+                  <Select addonBefore="Tên bộ đề" className="question-input" style={{ width: "40%" }} value={this.state.type} onChange={this._onChangeType} >
+                    <Option value="IT">Tin học</Option>
+                    <Option value="ENGLISH">Tiếng Anh</Option>
+                  </Select>
+                </div>
+
               </div>
-              <div>
-                <span className='desc'>Mô tả đề thi</span>
-                <Input className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
-              </div>
-              <div>
-                <span className='desc'>Loại </span>
-                <Select className="question-input" style={{ width: "100%" }} value={this.state.type} onChange={this._onChangeType} >
-                  <Option value="IT">Tin học</Option>
-                  <Option value="ENGLISH">Tiếng Anh</Option>
-                </Select>
-              </div>
+
               <div className="groupbutton">
                 <Button type="primary" shape='round' danger className="item-button" icon={<CloseCircleOutlined />}>
                   CANCEL

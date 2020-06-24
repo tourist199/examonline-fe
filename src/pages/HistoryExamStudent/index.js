@@ -32,6 +32,8 @@ const Content = styled.div`
   }
 `
 
+let tinhoc = []
+let tienganh = []
 
 @connect((state) => ({
   historyStore: state.history
@@ -44,6 +46,12 @@ class HistoryExamStudent extends Component {
     super(props);
     this.state = {
       options: {
+        markers: {
+          onClick: function(e) {
+            console.log(e);
+            
+          }
+        },
         chart: {
           height: 400,
           width: "100%",
@@ -53,6 +61,17 @@ class HistoryExamStudent extends Component {
           animations: {
             initialAnimation: {
               enabled: false
+            }
+          },
+          events: {
+            markerClick: function(event, chartContext, { seriesIndex, dataPointIndex, config}) {
+              if (seriesIndex == 0) {
+                console.log(tinhoc[dataPointIndex]);
+              }
+              else {
+                console.log(tienganh[dataPointIndex]);
+              }
+              
             }
           }
         },
@@ -116,23 +135,23 @@ class HistoryExamStudent extends Component {
         title: { text: "Lịch sử thi ", align: "left" }
       },
       series: [
-        {
-          name: "Tiếng anh",
-          data: [
+        // {
+        //   name: "Tiếng anh",
+        //   data: [
 
-            { x: "2019-05-10 09:00:01", y: "22" },
-            { x: "2019-05-18 13:00:03", y: "72" },
-          ]
-        },
-        {
-          name: "Tin học",
-          data: [
+        //     { x: "2019-05-10 09:00:01", y: "22" },
+        //     { x: "2019-05-18 13:00:03", y: "72" },
+        //   ]
+        // },
+        // {
+        //   name: "Tin học",
+        //   data: [
 
-            { x: "2019-05-13 09:00:01", y: "92" },
-            { x: "2019-05-19 13:00:03", y: "73" },
-            { x: "2019-05-20 13:00:03", y: "33" },
-          ]
-        }
+        //     { x: "2019-05-13 09:00:01", y: "92" },
+        //     { x: "2019-05-19 13:00:03", y: "73" },
+        //     { x: "2019-05-20 13:00:03", y: "33" },
+        //   ]
+        // }
       ]
     }
   }
@@ -143,41 +162,47 @@ class HistoryExamStudent extends Component {
 
   render() {
     let historiesStudent = this.props.historyStore.historiesStudent
-    console.log(historiesStudent);
-    
+
+    tinhoc = historiesStudent.filter(x => ((!x.examId.testId || x.examId.testId.type != 'ENGLISH') && (moment() > moment(x.examId.timeEnd))))
+      .sort((a, b) => moment(a.examId.timeStart).valueOf() - moment(b.examId.timeStart).valueOf())
+      .map(item => {
+        return {
+          _id: item._id,
+          x: moment(item.examId.timeStart).valueOf(),
+          y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
+            (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : 0
+        }
+      })
+
+    tienganh = historiesStudent.filter(x => x.examId.testId && x.examId.testId.type == 'ENGLISH')
+      .sort((a, b) => moment(a.examId.timeStart).valueOf() - moment(b.examId.timeStart).valueOf())
+      .map(item => {
+        return {
+          _id: item._id,
+          x: moment(item.examId.timeStart).valueOf(),
+          y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
+            (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : '0'
+        }
+      })
 
     let series = historiesStudent ? [
       {
         name: "Tin học",
         data: [
-          ...historiesStudent.filter(x => ((!x.examId.testId || x.examId.testId.type != 'ENGLISH')&& (moment()> moment(x.examId.timeEnd))))
-            .sort((a, b) => moment(a.timeStart).valueOf() - moment(b.timeStart).valueOf())
-            .map(item => {
-              return {
-                x: moment(item.examId.timeStart).valueOf(),
-                y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
-                  (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : 0
-              }
-            })
+          ...tinhoc
         ]
       },
       {
         name: "Tiếng anh",
         data: [
-          ...historiesStudent.filter(x => x.examId.testId && x.examId.testId.type == 'ENGLISH')
-          .sort((a, b) => moment(a.timeStart).valueOf() - moment(b.timeStart).valueOf())
-          .map(item => {
-            return {
-              x: moment(item.examId.timeStart).valueOf(),
-              y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
-                (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : '0'
-            }
-          })
+          ...tienganh
+
         ]
       }
     ] : []
 
-    console.log(series, this.state.series);
+    console.log(historiesStudent);
+    
 
     return (
       <Page>
@@ -188,7 +213,7 @@ class HistoryExamStudent extends Component {
               <div className="mixed-chart">
                 <Chart
                   options={this.state.options}
-                  series={this.state.series}
+                  series={series}
                   type="area"
                   width="800"
                 />

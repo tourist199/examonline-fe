@@ -11,7 +11,7 @@
     "createTestExam": "Create exam",
     "listTestExam": "List exam",
     "roomExam": "Room Exam",
-    "managesExam": "Manages test",
+    "manageExam": "Manages test",
     "managementUser": "Management user",
     "createUser": "Create user",
     "listUser": "List user"

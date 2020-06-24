@@ -107,7 +107,7 @@ class TestManage extends Component {
   _renderForm = ({ handleSubmit, ...form }) => (
     <Form className="form">
       <div className="field-group">
-        <h1> Quản lý đề thi </h1>
+        <h1> Quản lý duyệt đề thi </h1>
       </div>
       <div className="table-box">
         <Table

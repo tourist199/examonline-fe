@@ -45,6 +45,7 @@ const columns = [
     title: '#',
     dataIndex: '#',
     render: (text, record, index) => <span>{index + 1}</span>,
+    width: 80
   },
   {
     title: 'Tên đề thi',

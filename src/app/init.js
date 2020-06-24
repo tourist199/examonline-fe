@@ -26,13 +26,16 @@ class Init extends Component {
     const { initialize, addTranslationForLanguage: add } = this.props
 
     initialize({
-      languages: [{
-        name: 'English',
-        code: 'en'
-      }, {
-        name: 'Tiếng việt',
-        code: 'vi'
-      }],
+      languages: [
+        {
+          name: 'Tiếng việt',
+          code: 'vi'
+        },
+        {
+          name: 'English',
+          code: 'en'
+        }
+      ],
       options: {
         renderToStaticMarkup
       }

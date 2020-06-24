@@ -127,7 +127,7 @@ class SideBar extends Component {
             inlineCollapsed={uiStore.isSideBarOpen}
           >
             <Menu.Item icon={<FileProtectOutlined />} onClick={() => { historyPush('/test-manage') }}>
-              {translate('sidebar.managesExam')}
+              {translate('sidebar.manageTest')}
             </Menu.Item>
             <Menu.Item icon={<UserOutlined />} onClick={() => { historyPush('/personal-information') }}>
               {translate('sidebar.personalInformation')}

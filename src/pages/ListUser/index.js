@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import lodash from 'lodash'
-import { Formik, Form } from 'formik'
-import { object, string } from 'yup'
+
 import { Pagination, Checkbox } from 'antd'
 import { connect } from 'react-redux'
 import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'
 
-import Input from '@/components/input'
-import Field from '@/components/field'
+import { Input } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Select from '@/components/select'
@@ -24,6 +23,14 @@ const Content = styled.div`
   flex-direction: column;
   height: 500px;
 
+  .search-box {
+    margin-left: 20px;
+    width: 300px
+  }
+
+  .title-page {
+    text-align: center
+  }
     
   .table-box {
     height: 200px;
@@ -59,16 +66,20 @@ const columns = [
     title: '#',
     dataIndex: 'STT',
     render: (text, record, index) => <span>{index + 1}</span>,
+    width: 60,
+    fixed: 'left'
+  },
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    fixed: 'left',
+    width: 150
   },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email'
-  },
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name'
   },
   {
     title: 'CMND',
@@ -108,7 +119,8 @@ const columns = [
   {
     title: 'Action',
     dataIndex: 'action',
-    key: 'action'
+    key: 'action',
+    fixed: 'right'
   }
 ]
 
@@ -127,9 +139,9 @@ class ListUser extends Component {
   render() {
     const { listUser, total } = this.props.accountStore
     const { deleteUser, getUsers } = this.props
-    
+
     console.log(this.props.accountStore);
-    
+
     dataSource = []
     listUser.forEach(item => {
       dataSource.push({
@@ -146,7 +158,7 @@ class ListUser extends Component {
           deleteUser(item._id, (success, data) => {
             if (success)
               getUsers()
-              Notification.success('Deleted user')
+            Notification.success('Deleted user')
           })
         }}> Xóa </Button>
       })
@@ -157,20 +169,28 @@ class ListUser extends Component {
       <Page>
         <Container>
           <Content>
-            <div className="field-group">
-              <h1> Danh sách sinh viên </h1>
+            <div className="field-group title-page">
+              <h1> Danh sách người dùng </h1>
+            </div>
+            <div className="search-box">
+              <Input.Group compact>
+                <Input.Search placeholder="Nhập tên người dùng cần tìm.." prefix={<UserOutlined />} />
+                {/* <Input style={{ width: '30%' }} defaultValue="26888888" /> */}
+              </Input.Group>
+
             </div>
             <div className="table-box">
               <Table
                 rowKey={(row, index) => index}
                 dataSource={dataSource}
+                scroll={{ x: 1300 }}
                 columns={columns}
-                scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px )` }}
+                // scroll={{ y: `calc(100vh - ${Dimensions.HEADER_HEIGHT}px - 54px - 200px )` }}
                 loading={this.props.accountStore.submitting === TYPES.GET_USERS_REQUEST}
 
               />
               <div className="pagination-box">
-                <Pagination 
+                <Pagination
                   defaultCurrent={1} pageSize={5} total={total} onChange={(page) => getUsers({ page })} />
               </div>
             </div>

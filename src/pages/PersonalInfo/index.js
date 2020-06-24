@@ -285,7 +285,7 @@ class PersonalInfo extends Component {
     _id: '',
     address: '',
     avatar: '',
-    birthday: '',
+    birthday: null,
     cardId: '',
     email: '',
     gender: '',

@@ -51,7 +51,8 @@ const columns = [
     title: '#',
     dataIndex: 'STT',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: '#'
+    key: '#',
+    width: 80
   },
   {
     title: 'Tên Kỳ Thi',
@@ -87,7 +88,8 @@ const columns_1 = [
     title: '#',
     dataIndex: 'STT',
     render: (text, record, index) => <span>{index + 1}</span>,
-    key: '#'
+    key: '#',
+    width: 80
   },
   {
     title: 'Tên Kỳ Thi',

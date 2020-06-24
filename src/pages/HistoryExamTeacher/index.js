@@ -42,9 +42,10 @@ const columns = [
     title: '#',
     dataIndex: '#',
     render: (text, record, index) => <span>{index + 1}</span>,
+    width: 80
   },
   {
-    title: 'Tên đề thi',
+    title: 'Tên kỳ thi',
     dataIndex: 'titleExam',
     key: 'titleExam'
   },
@@ -102,7 +103,7 @@ class HistoryExamTeacher extends Component {
           timeEnd: moment(item.timeEnd).format('LLL'),
           status: 'Đã diễn ra',
           Action: <div>
-            <Button onClick={() => this.props.history.push('history-room-detail/' + item._id)}> More Info </Button>
+            <Button onClick={() => this.props.history.push('history-room-detail/' + item._id)}> Xem thêm </Button>
           </div>
         })
     }))
@@ -112,7 +113,7 @@ class HistoryExamTeacher extends Component {
         <Container>
           <Content>
             <div className="field-group">
-              <h1> Danh sách kỳ thi </h1>
+              <h1> Lịch sử kỳ thi </h1>
             </div>
             <div className="table-box">
               <Table
