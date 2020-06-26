@@ -24,6 +24,11 @@ const Content = styled.div`
   height: 500px;
   padding-right: 50px;
 
+  .box-all-layout {
+    max-width:900px;
+    margin: 0 auto;
+  }
+
   .answer-item {
     display: flex;
     padding: 10px
@@ -60,6 +65,8 @@ const Content = styled.div`
     margin-right: -20px;
     background: #f6f4f5;
     padding: 7px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
   .question-box-border .question-box .ant-input{
     background: none;
@@ -87,7 +94,7 @@ const Content = styled.div`
     width: auto;
   }
   .box-test-head {
-    width: 70%
+    width: 90%
   }
 `
 
@@ -310,10 +317,10 @@ class NewTest extends Component {
       <Page>
         <Container>
           <Content>
-            <div >
+            <div className="box-all-layout" >
               <h1 style={{ marginBottom: '20px' }}> Tạo mới đề thi </h1>
 
-              <div class="box-test-head">
+              <div className="box-test-head">
                 <div className="abc">
                   {/* <span className='title'>Tên bộ đề thi</span> */}
                   <Input addonBefore="Tên bộ đề" className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
@@ -329,7 +336,6 @@ class NewTest extends Component {
                     <Option value="ENGLISH">Tiếng Anh</Option>
                   </Select>
                 </div>
-
               </div>
 
               <div className="groupbutton">
@@ -362,7 +368,6 @@ class NewTest extends Component {
                 </div>
               </div>
               {this._showQuestionItem()}
-
             </div>
           </Content>
         </Container>

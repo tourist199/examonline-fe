@@ -47,12 +47,12 @@ export default class Page extends Component {
                         <div className="carousel-item" >
                             <div className="carousel-container">
                                 <div className="carousel-content">
-                                    <div class="carousel-content">
-                                        <h2 class="animated fadeInDown"><span>bannerr </span>1</h2>
-                                        <p class="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                                    <div className="carousel-content">
+                                        <h2 className="animated fadeInDown"><span>bannerr </span>1</h2>
+                                        <p className="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
                                         <div>
-                                        <a href="#menu" class="btn-menu animated fadeIn">Đăng Nhập</a>
-                                            <a href="#book-a-table" class="btn-book animated fadeIn">Gì đó</a>
+                                            <a href="#menu" className="btn-menu animated fadeIn">Đăng Nhập</a>
+                                            <a href="#book-a-table" className="btn-book animated fadeIn">Gì đó</a>
                                         </div>
                                     </div>
                                 </div>
@@ -61,12 +61,12 @@ export default class Page extends Component {
                         <div className="carousel-item" >
                             <div className="carousel-container">
                                 <div className="carousel-content">
-                                    <div class="carousel-content">
-                                        <h2 class="animated fadeInDown"><span>bannerr</span> 2</h2>
-                                        <p class="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                                    <div className="carousel-content">
+                                        <h2 className="animated fadeInDown"><span>bannerr</span> 2</h2>
+                                        <p className="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
                                         <div>
-                                        <a href="#menu" class="btn-menu animated fadeIn">Đăng Nhập</a>
-                                            <a href="#book-a-table" class="btn-book animated fadeIn">Gì đó</a>
+                                            <a href="#menu" className="btn-menu animated fadeIn">Đăng Nhập</a>
+                                            <a href="#book-a-table" className="btn-book animated fadeIn">Gì đó</a>
                                         </div>
                                     </div>
                                 </div>
@@ -75,12 +75,12 @@ export default class Page extends Component {
                         <div className="carousel-item" >
                             <div className="carousel-container">
                                 <div className="carousel-content">
-                                    <div class="carousel-content">
-                                        <h2 class="animated fadeInDown"><span>bannerr</span> 3</h2>
-                                        <p class="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
+                                    <div className="carousel-content">
+                                        <h2 className="animated fadeInDown"><span>bannerr</span> 3</h2>
+                                        <p className="animated fadeInUp">Ut velit est quam dolor ad a aliquid qui aliquid. Sequi ea ut et est quaerat sequi nihil ut aliquam. Occaecati alias dolorem mollitia ut. Similique ea voluptatem. Esse doloremque accusamus repellendus deleniti vel. Minus et tempore modi architecto.</p>
                                         <div>
-                                            <a href="#menu" class="btn-menu animated fadeIn">Đăng Nhập</a>
-                                            <a href="#book-a-table" class="btn-book animated fadeIn">Gì đó</a>
+                                            <a href="#menu" className="btn-menu animated fadeIn">Đăng Nhập</a>
+                                            <a href="#book-a-table" className="btn-book animated fadeIn">Gì đó</a>
                                         </div>
                                     </div>
                                 </div>

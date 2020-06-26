@@ -38,6 +38,7 @@ export default [
 
   //History
   'GET_HISTORY_STUDENT',
+  'GET_EXAM_STUDENT_BY_ID',
 
   // Store
   'CLEAR_STORE'

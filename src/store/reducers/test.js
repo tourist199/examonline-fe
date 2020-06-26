@@ -7,6 +7,7 @@ const INIT_STATE = {
   listTest: [],
   total: 0,
   editTest: {},
+  testIndex: {},
   listTestWaiting: [],
   listTestDone: []
 }
@@ -77,7 +78,8 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         submitting: null,
-        editTest: action.data
+        editTest: action.data,
+        testIndex: action.data
       }
     case TYPES.GET_TEST_BY_ID_FAILURE:
       return {

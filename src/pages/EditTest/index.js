@@ -56,6 +56,8 @@ const Content = styled.div`
     text-align:center;
     font-size:16px;
     font-weight: bold;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
   .question-box-border .question-box .ant-input{
     background: none;

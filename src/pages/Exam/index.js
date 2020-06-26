@@ -277,7 +277,7 @@ export default class Exam extends Component {
             examId: this.props.match.params.idExam
           })
           setTimeout(() => {
-          this.props.history.goBack()
+            this.props.history.goBack()
           }, 1000);
         }
       }
@@ -293,7 +293,7 @@ export default class Exam extends Component {
 
   render() {
     console.log(this.state.timeEnd);
-    
+
     return (
       <Page>
         <Container>
@@ -354,7 +354,7 @@ export default class Exam extends Component {
                                   }}
                                 >
                                   Previous
-                            </Button>
+                                </Button>
                                 <Button
                                   className="btn-btn-changhe"
                                   type="primary"
@@ -367,7 +367,7 @@ export default class Exam extends Component {
                                   }}
                                 >
                                   Next
-                            </Button>
+                                </Button>
                               </div>
                             </div>
                           </div>

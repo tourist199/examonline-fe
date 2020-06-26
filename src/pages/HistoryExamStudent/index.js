@@ -4,9 +4,8 @@ import { connect } from 'react-redux'
 import { actions, TYPES } from '@/store/actions'
 import moment from 'moment'
 import Chart from "react-apexcharts";
+import Configs from '@/configs'
 
-import { Pagination } from 'antd'
-import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
 import { Dimensions } from '@/theme'
@@ -46,12 +45,6 @@ class HistoryExamStudent extends Component {
     super(props);
     this.state = {
       options: {
-        markers: {
-          onClick: function(e) {
-            console.log(e);
-            
-          }
-        },
         chart: {
           height: 400,
           width: "100%",
@@ -64,14 +57,15 @@ class HistoryExamStudent extends Component {
             }
           },
           events: {
-            markerClick: function(event, chartContext, { seriesIndex, dataPointIndex, config}) {
+            markerClick: (event, chartContext, { seriesIndex, dataPointIndex, config }) => {
               if (seriesIndex == 0) {
-                console.log(tinhoc[dataPointIndex]);
+                this.props.history.push('/history-detail/' + tinhoc[dataPointIndex]._id + '/' + tinhoc[dataPointIndex].testId)
+                console.log('/history-detail/' + tinhoc[dataPointIndex]._id + '/' + tinhoc[dataPointIndex].testId);
               }
               else {
                 console.log(tienganh[dataPointIndex]);
+                this.props.history.push('/history-detail/' + tinhoc[dataPointIndex]._id + '/' + tinhoc[dataPointIndex].testId)
               }
-              
             }
           }
         },
@@ -98,7 +92,6 @@ class HistoryExamStudent extends Component {
             floating: false,
             min: 0,
             max: 100,
-            // seriesName: 'abc',
             labels: {
               show: true,
               minWidth: 0,
@@ -156,8 +149,11 @@ class HistoryExamStudent extends Component {
     }
   }
 
+
   componentDidMount() {
     this.props.getHistoryStudent()
+    console.log(this.props);
+    
   }
 
   render() {
@@ -168,6 +164,7 @@ class HistoryExamStudent extends Component {
       .map(item => {
         return {
           _id: item._id,
+          testId: item.examId.testId && item.examId.testId._id,
           x: moment(item.examId.timeStart).valueOf(),
           y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
             (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : 0
@@ -179,6 +176,7 @@ class HistoryExamStudent extends Component {
       .map(item => {
         return {
           _id: item._id,
+          testId: item.examId.testId && item.examId.testId._id,
           x: moment(item.examId.timeStart).valueOf(),
           y: item.numQuestionDidCorrect || item.numQuestionDidCorrect == 0 ?
             (item.numQuestionDidCorrect / item.examId.testId.totalQuestion) * 100 + '' : '0'
@@ -202,7 +200,7 @@ class HistoryExamStudent extends Component {
     ] : []
 
     console.log(historiesStudent);
-    
+
 
     return (
       <Page>

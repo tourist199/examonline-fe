@@ -271,7 +271,7 @@ class CreateNewUser extends Component {
         <Container>
           <Content>
             <Row>
-              <Col class="box-new-user" style ={{margin: '0 auto', width: 800}} span={15}>
+              <Col className="box-new-user" style ={{margin: '0 auto', width: 800}} span={15}>
                 <Formik className="form-tt"
                   validateOnChange={false}
                   validateOnBlur={false}

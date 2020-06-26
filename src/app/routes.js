@@ -32,6 +32,7 @@ const ListExam = lazy(() => import('@/pages/ListExam'))
 const EditExam = lazy(() => import('@/pages/EditExam'))
 const RoomExam = lazy(() => import('@/pages/RoomExam'))
 const CheckExam = lazy(() => import('@/pages/CheckExam'))
+const HistoryDetail = lazy(() => import('@/pages/HistoryDetail'))
 const NotFound = lazy(() => import('@/pages/not-found'))
 
 const VerticalBox = styled.div`
@@ -74,6 +75,7 @@ class Routes extends Component {
             <Route exact path="/history-room-detail/:idExam" component={this._renderLazyComponent(HistoryExamTeacherDetail)} />
             <Route exact path="/test-manage" component={this._renderLazyComponent(TestManage)} />
             <Route exact path="/new-user" component={this._renderLazyComponent(NewUser)} />
+            <Route exact path="/history-detail/:idExamStudent/:idTest" component={this._renderLazyComponent(HistoryDetail)} />
             <Route exact path="/list-user" component={this._renderLazyComponent(ListUser)} />
             <Route exact path="/list-test" component={this._renderLazyComponent(ListTest)} />
             <Route exact path="/new-test" component={this._renderLazyComponent(NewTest)} />
