@@ -9,7 +9,7 @@ import Input from '@/components/input'
 import Button from '@/components/button'
 import Page from '@/components/page'
 import Container from '@/components/container'
-import { PlusOutlined, CheckOutlined, PlusCircleOutlined, CloseCircleOutlined, DeleteOutlined } from '@ant-design/icons'
+import { PlusOutlined, CheckOutlined, PlusCircleOutlined, PictureOutlined, CloseCircleOutlined, DeleteOutlined, DeleteTwoTone } from '@ant-design/icons'
 import { Divider, Descriptions, Tooltip, Select } from 'antd';
 import Notification from '@/components/notification'
 
@@ -20,66 +20,83 @@ const { Option } = Select;
 
 
 const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 500px;
+display: flex;
+flex-direction: column;
+height: 500px;
+padding-right: 50px;
 
-  .answer-item {
-    display: flex;
-    padding: 10px
-  }
-  .answer-box {
-    margin-top: 30px
-  }
-  .groupbutton{
-    text-align: right;
-  }
-  .item-button{
-    margin:10px 0 5px 10px;
-  }
-  .ant-input{
-    background: #f3f5f7;
-  }
-  .question-box-border{
-    border-radius: 5px;
-    background: white;
-    margin: 10px 0;
-    box-shadow: -1px 2px 5px 1px rgba(163,163,163,1);
-    
-  }
-  .question-box{
-    padding:20px;
-    font-size:14px;
-    font-weight: bold;
-  }
-  .title-head{
-    text-align:center;
-    font-size:16px;
-    font-weight: bold;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-  .question-box-border .question-box .ant-input{
-    background: none;
-  }
-  .question-input{
-    margin:10px 0;
-  }
-  .input-answer{
-    margin-left: 10px;
-  }
-  .answer-button{
-    text-align: center;
-    margin: 10px 20px;
-  }
-  .list-question{
-    margin-bottom: 20px;
-  }
-  .image-question {
-    width: 100%;
-    max-height: 350px;
-    width: auto;
-  }
+.box-all-layout {
+  max-width:900px;
+  margin: 0 auto;
+}
+
+.answer-item {
+  display: flex;
+  padding: 10px
+}
+.answer-box {
+  margin-top: 10px
+}
+.groupbutton{
+  text-align: right;
+}
+.item-button{
+  margin:10px 0 5px 10px;
+}
+
+.question-box-border{
+  border-radius: 5px;
+  background: white;
+  margin: 0 auto;
+  box-shadow: -1px 2px 5px 1px rgba(163,163,163,1);
+  max-width: 750px;
+  margin-bottom: 30px
+}
+.question-box{
+  padding:20px;
+  font-size:14px;
+  font-weight: bold;
+  padding-top: 0;
+}
+.title-head{
+  text-align:center;
+  font-size:16px;
+  font-weight: bold;
+  margin-left : -20px;
+  margin-right: -20px;
+  background: #f6f4f5;
+  padding: 7px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.question-box-border .question-box .ant-input{
+  background: none;
+}
+.question-input{
+  margin:10px 0;
+}
+.question-input-1 {
+  margin : 0
+}
+.input-answer{
+  margin-left: 10px;
+}
+.answer-button{
+  text-align: center;
+  margin: 10px 20px;
+}
+.list-question{
+  margin-bottom: 20px;
+}
+.image-question {
+  
+  width: 100%;
+  max-height: 350px;
+  width: auto;
+}
+.box-test-head {
+  width: 90%
+}
 `
 
 @connect((state) => ({
@@ -159,13 +176,24 @@ class EditTest extends Component {
     return (
       <div className="question-box-border">
         <div className='question-box bc'>
-          <p className="title-head">Câu hỏi {this.state.questionIndex + 1}</p>
+          <p className="title-head">Câu hỏi {this.state.questionIndex + 1} {<DeleteTwoTone twoToneColor="#eb2f96" style={{ float: 'right', padding: '6px' }} />}</p>
           <div>
-            <span className='title'>Câu hỏi:</span>
+            {/* <span className='title'>Câu hỏi:</span> */}
             <Input
               className="question-input"
               name='title'
               value={questionItem.title}
+              suffix={
+                <Tooltip title="Upload Image">
+                  <Button
+                    icon={<PictureOutlined />}
+                    onClick={() => {
+                      document.getElementById("image-upload").click();
+                    }}
+                    size="small"
+                  />
+                </Tooltip>
+              }
               onChange={(e) => {
                 let listQuestion = this.state.listQuestion
                 listQuestion[this.state.questionIndex].title = e.target.value
@@ -174,6 +202,7 @@ class EditTest extends Component {
             />
           </div>
           <Descriptions />
+          <div style={{ textAlign: "center" }}></div>
           {/* <div>
             <span className='description'>Mo ta:</span>
             <Input
@@ -188,7 +217,7 @@ class EditTest extends Component {
             />
           </div> */}
           <div>
-            <span className='description'>Image:</span>
+            {/* <span className='description'>Image:</span>  */}
             {
               this.state.listQuestion[this.state.questionIndex].image ?
                 (
@@ -201,7 +230,7 @@ class EditTest extends Component {
                 :
                 null
             }
-            <input type='file' name='image' onChange={this._handleChange} />
+            <input type='file' name='image' onChange={this._handleChange} style={{ display: "none" }} />
           </div>
           <Divider >Answer</Divider>
           <div className='answer-box'>
@@ -334,15 +363,16 @@ class EditTest extends Component {
       <Page>
         <Container>
           <Content>
+            <div className="box-all-layout">
             <div >
               <h1 style={{ marginBottom: '20px' }} > Chỉnh sửa đề thi </h1>
               <div className="abc">
-                <span className='title'>Tên bộ đề thi</span>
-                <Input className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
+                {/* <span className='title'>Tên bộ đề thi</span> */}
+                <Input addonBefore="Tên bộ đề" className="question-input" name='title' value={this.state.title} onChange={(e) => this.setState({ title: e.target.value })} />
               </div>
               <div>
-                <span className='desc'>Mô tả đề thi</span>
-                <Input className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
+                {/* <span className='desc'>Mô tả đề thi</span> */}
+                <Input addonBefore="Mô tả đề" className="question-input" name='description' value={this.state.description} onChange={(e) => this.setState({ description: e.target.value })} />
               </div>
               <div>
                 <span className='desc'>Loại </span>
@@ -386,7 +416,11 @@ class EditTest extends Component {
               {this._showQuestionItem()}
 
             </div>
-          </Content>
+
+            </div>
+
+           
+           </Content>
         </Container>
       </Page>
     )

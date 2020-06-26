@@ -107,6 +107,10 @@ const Content = styled.div`
 })
 export default class RoomExam extends Component {
 
+  state = {
+    timeOut : false
+  }
+
   _listenChangeStatusStudent = () => {
     socket.on("change_status_student", () => {
 
@@ -210,7 +214,8 @@ export default class RoomExam extends Component {
 
                 <div>
                   <DashboardOutlined />
-                  <span> Thời gian còn lại: <TimeLeft timeEnd={editExam.exam && editExam.exam.timeEnd} /> </span>
+                  {this.state.timeOut ? <h3>Hết thời gian làm bài</h3> :<span> Thời gian còn lại: <TimeLeft timeEnd={editExam.exam && editExam.exam.timeEnd} cb = {()=>this.setState({timeOut:true})} /> </span> }
+                  
                 </div>
               </div>
               <div className="student-information-all">
@@ -219,7 +224,7 @@ export default class RoomExam extends Component {
                 }
               </div>
               <Button type="primary" shape='round' onClick={this.props.history.goBack} ghost className="item-button" icon={<CloseCircleOutlined />}>
-                CANCEL
+                Thoát ra
             </Button>
             </div>
           </div>

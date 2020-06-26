@@ -108,7 +108,7 @@ class ListTest extends Component {
           nameExam: item.title,
           date: moment(item.createAt).format('llll'),
           status: item.status,
-          Action: <Button disabled={item.status === 'DONE'} onClick={() => this.props.history.push('/edit-test/' + item._id)} > EDIT </Button>
+          Action: <Button onClick={() => this.props.history.push('/edit-test/' + item._id)} > EDIT </Button>
         })
       })
     }

@@ -40,6 +40,7 @@ const columns = [
   {
     title: '#',
     dataIndex: '#',
+    width: 50,
     render: (text, record, index) => <span>{index + 1}</span>,
   },
   {
@@ -114,10 +115,10 @@ class HistoryExamTeacher extends Component {
           <Content>
             <div className="field-group">
               <h1> Chi tiết kỳ thi </h1>
-              <p>Tên kỳ thi: {this.props.examStore.editExam.exam && this.props.examStore.editExam.exam.title}</p>
-              <p>
-                Thời gian thi: 
-                {this.props.examStore.editExam.exam && moment(this.props.examStore.editExam.exam.timeStart).format('LLLL')} ->
+              <p style={{ fontSize: "large" }}>Tên kỳ thi: {this.props.examStore.editExam.exam && this.props.examStore.editExam.exam.title }</p>
+              <p style={{ fontSize: "large" }}>
+                Thời gian thi:  
+                 {this.props.examStore.editExam.exam && moment(this.props.examStore.editExam.exam.timeStart).format('LLLL')} ->
                 {this.props.examStore.editExam.exam && moment(this.props.examStore.editExam.exam.timeEnd).format('LLLL')}
               </p>
             </div>
