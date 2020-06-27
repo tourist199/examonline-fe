@@ -190,6 +190,14 @@ export default class Exam extends Component {
      */
     this.props.getExamById(this.props.match.params.idExam)
 
+    socket.on(`update_test_student`, () => {
+      console.log('chay dc');
+      
+      this.props.getTestById(this.props.match.params.idTest)
+      this.props.getInfoExamByStudent(this.props.match.params.idExam)
+      this.props.getExamById(this.props.match.params.idExam)
+    });
+
   }
 
   _showBtnQuestion = () => {
@@ -300,7 +308,7 @@ export default class Exam extends Component {
           <Content>
             {
               this.state.timeOut ?
-                (<div>Da het thoi gian lam bai</div>)
+                (<div>Đã hết thời gian làm bài !!!</div>)
                 :
                 (
                   <React.Fragment>

@@ -220,7 +220,7 @@ class CreateExam extends Component {
             }
             value={'CNTT - K40A'}
           >
-            {tests}
+            {['CNTT - 1', 'cntt 2']}
           </Select>
         </div>
         <div className="combobox-student">

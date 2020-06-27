@@ -177,9 +177,9 @@ export default class RoomExam extends Component {
             <div style={{ marginTop: 12 }}>
             {item.state ? <span > State: {item.state} </span> : <span > State:  </span>}
             </div>
-            <div style={{ marginTop: 12, marginBottom: 15 }}>
+            {/* <div style={{ marginTop: 12, marginBottom: 15 }}>
               <span> Tham gia: 20p trước </span>
-            </div>
+            </div> */}
             <Progress
               percent={item.numQuestionDid ? (item.numQuestionDid / totalQuestion) * 100 : 0}
               successPercent={item.numQuestionDid ? (item.numQuestionDidCorrect / totalQuestion) * 100 : 0} status="active"

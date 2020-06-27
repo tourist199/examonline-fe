@@ -15,6 +15,12 @@ import Container from '@/components/container'
 import Table from '@/components/table'
 import { Dimensions } from '@/theme'
 
+import Configs from '@/configs'
+import openSocket from "socket.io-client"
+
+const API_URL = `${Configs.API_URL}`
+const socket = openSocket(API_URL)
+
 
 const Content = styled.div`
   display: flex;
@@ -145,7 +151,11 @@ class EditExam extends Component {
     this.props.updateExam({ _id, title, description, testId, timeStart, timeEnd, listStudent, createdBy: Storage.get('ID') }, (success, data) => {
       if (success)
         Notification.success('Update Exam Success')
+        socket.emit("update_test");
+        console.log('cahy dc');
+        
     })
+    
   }
 
   render() {
